@@ -3,23 +3,31 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>me.splines</groupId>
-    <artifactId>dominion</artifactId>
+    <artifactId>dominion-cli</artifactId>
     <version>0.0</version>
     <name>Dominion CLI</name>
     <description>Dominion Card Game CLI</description>
 
+    <packaging>pom</packaging>
+    <modules>
+        <module>3-dominion-domain</module>
+        <module>2-dominion-application</module>
+        <module>1-dominion-adapters</module>
+        <module>0-dominion-plugin-database</module>
+    </modules>
+
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     </properties>
 
     <dependencies>
         <dependency>
-            <scope>test</scope>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
             <version>5.8.2</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -33,14 +41,15 @@
     <build>
         <plugins>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.10.0</version>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>2.22.2</version>
             </plugin>
         </plugins>
     </build>
-
 </project>
