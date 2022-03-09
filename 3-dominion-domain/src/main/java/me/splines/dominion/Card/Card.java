@@ -6,11 +6,11 @@ public abstract class Card {
     private final CardType type;
     private final int cost;
 
-    public Card(String name, CardType type, int cost)
-            throws IllegalArgumentException {
+    public Card(String name, CardType type, int cost) {
         this.name = name;
         this.type = type;
 
+        // Cost
         if (cost < 0) {
             throw new IllegalArgumentException(
                     "Card cost must be greater than or equal to 0");
