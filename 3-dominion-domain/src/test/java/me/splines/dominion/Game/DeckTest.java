@@ -24,13 +24,13 @@ class DeckTest {
     };
 
     @Test
-    void putCardDrawSameCard() {
+    void putDrawSameCard() {
         Deck deck = new Deck();
         Card mockCard = mockCards[0];
 
         // Put and draw one card
-        deck.putCard(mockCard);
-        Card drawedCard = deck.drawCard();
+        deck.put(mockCard);
+        Card drawedCard = deck.draw();
 
         assertThat(drawedCard)
                 .isSameAs(mockCard)
@@ -42,35 +42,35 @@ class DeckTest {
         Deck deck = new Deck();
 
         // Put two cards
-        deck.putCard(mockCards[0]);
-        deck.putCard(mockCards[1]);
+        deck.put(mockCards[0]);
+        deck.put(mockCards[1]);
 
         // Draw one card
-        Card drawedCard = deck.drawCard();
+        Card drawedCard = deck.draw();
         assertThat(drawedCard).isSameAs(mockCards[1]);
 
         // Draw another card
-        drawedCard = deck.drawCard();
+        drawedCard = deck.draw();
         assertThat(drawedCard).isSameAs(mockCards[0]);
 
         // Empty
-        Throwable thrown = catchThrowable(() -> deck.drawCard());
+        Throwable thrown = catchThrowable(() -> deck.draw());
         assertThat(thrown).isInstanceOf(EmptyDeckException.class);
 
         // Put one card, immediately draw it
-        deck.putCard(mockCards[2]);
-        drawedCard = deck.drawCard();
+        deck.put(mockCards[2]);
+        drawedCard = deck.draw();
         assertThat(drawedCard).isSameAs(mockCards[2]);
 
         // Empty
-        thrown = catchThrowable(() -> deck.drawCard());
+        thrown = catchThrowable(() -> deck.draw());
         assertThat(thrown).isInstanceOf(EmptyDeckException.class);
     }
 
     @Test
     void drawFromEmptydeck() {
         Deck deck = new Deck();
-        Throwable thrown = catchThrowable(() -> deck.drawCard());
+        Throwable thrown = catchThrowable(() -> deck.draw());
         assertThat(thrown)
                 .isInstanceOf(EmptyDeckException.class)
                 .hasMessageContaining("empty")
@@ -85,18 +85,18 @@ class DeckTest {
         // Construct deck, shuffle it and save new order of cards
         for (int i = 0; i < 6; i++) {
             Deck deck = new Deck();
-            deck.putCard(this.mockCards[0]);
-            deck.putCard(this.mockCards[2]);
-            deck.putCard(this.mockCards[1]);
-            deck.putCard(this.mockCards[1]);
-            deck.putCard(this.mockCards[2]);
-            deck.putCard(this.mockCards[0]);
+            deck.put(this.mockCards[0]);
+            deck.put(this.mockCards[2]);
+            deck.put(this.mockCards[1]);
+            deck.put(this.mockCards[1]);
+            deck.put(this.mockCards[2]);
+            deck.put(this.mockCards[0]);
 
             deck.shuffle();
 
             List<Integer> indices = new ArrayList<>();
             for (int j = 0; j < this.mockCards.length; j++) {
-                Card drawnCard = deck.drawCard();
+                Card drawnCard = deck.draw();
                 int index = mockCards.indexOf(drawnCard);
                 indices.add(index);
             }
