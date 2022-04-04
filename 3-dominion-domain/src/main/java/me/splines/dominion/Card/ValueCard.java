@@ -1,5 +1,7 @@
 package me.splines.dominion.Card;
 
+import java.util.List;
+
 public final class ValueCard extends Card {
 
     private final int value;
@@ -8,9 +10,11 @@ public final class ValueCard extends Card {
         super(name, type, cost);
 
         // CardType
-        if (type != CardType.MONEY
-                && type != CardType.POINTS
-                && type != CardType.CURSE) {
+        List<CardType> validTypes = List.of(
+                CardType.MONEY,
+                CardType.POINTS,
+                CardType.CURSE);
+        if (!validTypes.contains(type)) {
             throw new IllegalArgumentException(
                     String.format("Invalid type %s for value card", type));
         }

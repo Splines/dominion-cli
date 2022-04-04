@@ -1,5 +1,6 @@
 package me.splines.dominion.Card;
 
+import java.util.List;
 import java.util.Objects;
 
 import me.splines.dominion.Instruction.Action;
@@ -12,10 +13,13 @@ public class ActionCard extends Card {
         super(name, type, cost);
 
         // Card Type
-        if (type != CardType.ACTION
-                && type != CardType.ACTION_ATTACK
-                && type != CardType.ACTION_REACTION) {
-            throw new IllegalArgumentException(String.format("Invalid type %s for action card", type));
+        List<CardType> validTypes = List.of(
+                CardType.ACTION,
+                CardType.ACTION_ATTACK,
+                CardType.ACTION_REACTION);
+        if (!validTypes.contains(type)) {
+            throw new IllegalArgumentException(
+                    String.format("Invalid type %s for action card", type));
         }
 
         // Action
