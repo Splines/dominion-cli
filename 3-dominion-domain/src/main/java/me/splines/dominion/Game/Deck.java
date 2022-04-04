@@ -21,14 +21,14 @@ public class Deck {
 
     }
 
-    public Card drawCard() {
+    public Card draw() {
         if (cards.empty()) {
             throw new EmptyDeckException();
         }
         return cards.pop();
     }
 
-    public void putCard(Card card) {
+    public void put(Card card) {
         cards.push(card);
     }
 

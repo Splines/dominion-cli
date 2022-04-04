@@ -12,8 +12,7 @@ public abstract class Card {
 
         // Cost
         if (cost < 0) {
-            throw new IllegalArgumentException(
-                    "Card cost must be greater than or equal to 0");
+            throw new IllegalArgumentException("Card must cost at least 0 'money'");
         }
         this.cost = cost;
     }
