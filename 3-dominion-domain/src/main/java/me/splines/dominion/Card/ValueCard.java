@@ -8,7 +8,8 @@ public final class ValueCard extends Card {
         super(name, type, cost);
 
         // CardType
-        if (type != CardType.MONEY && type != CardType.POINTS
+        if (type != CardType.MONEY
+                && type != CardType.POINTS
                 && type != CardType.CURSE) {
             throw new IllegalArgumentException(
                     String.format("Invalid type %s for value card", type));
