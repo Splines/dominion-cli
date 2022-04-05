@@ -10,16 +10,17 @@ import java.util.List;
 import org.junit.jupiter.api.Test;
 
 import me.splines.dominion.Card.Card;
-import me.splines.dominion.Card.CardType;
-import me.splines.dominion.Card.ValueCard;
+import me.splines.dominion.Card.CurseCard;
+import me.splines.dominion.Card.MoneyCard;
+import me.splines.dominion.Card.PointCard;
 import me.splines.dominion.Game.Deck.EmptyDeckException;
 
 class DeckTest {
 
     Card[] mockCards = {
-            new ValueCard("Value Card Name1", CardType.POINTS, 42, 43),
-            new ValueCard("Value Card Name2", CardType.MONEY, 2, 3),
-            new ValueCard("Value Card Name3", CardType.CURSE, 5, -50)
+            new PointCard("Point Card", 42, 43),
+            new MoneyCard("Money Card", 2, 3),
+            new CurseCard("Curse Card", 5, -50)
             // TODO add more mock cards, e.g. Action cards later
     };
 

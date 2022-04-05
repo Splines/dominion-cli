@@ -2,7 +2,7 @@ package me.splines.dominion.Card;
 
 import java.util.List;
 
-public final class ValueCard extends Card {
+public abstract class ValueCard extends Card {
 
     private final int value;
 
