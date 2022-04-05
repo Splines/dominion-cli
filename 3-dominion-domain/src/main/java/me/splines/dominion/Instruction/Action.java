@@ -10,7 +10,7 @@ public final class Action {
         this.instructions = List.of(instructions);
     }
 
-    public List<Instruction> getInstruction() {
+    public List<Instruction> getInstructions() {
         return this.instructions;
     }
 
