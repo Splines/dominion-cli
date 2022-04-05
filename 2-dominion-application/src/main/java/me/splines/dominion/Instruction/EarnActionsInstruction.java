@@ -2,7 +2,15 @@ package me.splines.dominion.Instruction;
 
 import me.splines.dominion.Game.Move;
 import me.splines.dominion.Game.PlayerAbstract;
+import me.splines.dominion.Game.PlayerDecision;
+import me.splines.dominion.Game.Stock;
 
+/**
+ * Instruction:
+ * Increase the number of playable actions in this move.
+ *
+ * Cards using this instruction include "Dorf" and "Wilddiebin".
+ */
 public final class EarnActionsInstruction implements Instruction {
 
     private final int earnActionsCount;
@@ -12,7 +20,7 @@ public final class EarnActionsInstruction implements Instruction {
     }
 
     @Override
-    public void execute(PlayerAbstract player, Move move) {
+    public void execute(PlayerAbstract player, Move move, PlayerDecision decision, Stock stock) {
         move.earnActions(this.earnActionsCount);
     }
 
