@@ -34,7 +34,7 @@ public class DisposeHandCardTakeMoneyCardInstruction implements Instruction {
 
         // Choose a money card to take
         int maxCost = cardToDispose.get().getCost() + 3;
-        List<MoneyCard> moneyCardsToChoose = stock.listMoneyCards()
+        List<MoneyCard> moneyCardsToChoose = stock.getAvailableMoneyCards()
                 .stream()
                 .filter((card) -> card.getCost() <= maxCost)
                 .collect(Collectors.toList());

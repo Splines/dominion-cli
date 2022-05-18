@@ -6,6 +6,6 @@ import me.splines.dominion.Card.MoneyCard;
 
 public interface Stock {
 
-    public List<MoneyCard> listMoneyCards();
+    public List<MoneyCard> getAvailableMoneyCards();
 
 }

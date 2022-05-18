@@ -2,6 +2,7 @@ package me.splines.dominion.Game;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import me.splines.dominion.Card.ActionCard;
@@ -13,10 +14,12 @@ import me.splines.dominion.Instruction.Instruction;
 public final class Player extends PlayerAbstract {
 
     private final PlayerDecision playerDecision;
+    private final GameState state;
 
-    public Player(String name, PlayerDecision playerDecision) {
+    public Player(String name, PlayerDecision playerDecision, GameState state) {
         super(name);
         this.playerDecision = playerDecision;
+        this.state = state;
     }
 
     public PlayerDecision getDecisionHandle() {
@@ -59,23 +62,20 @@ public final class Player extends PlayerAbstract {
     public void makeMove() {
         Move move = new Move();
 
-        // TODO: Is this really code for a "Player" class?
         // 1st PHASE - Action phase
-        // player MAY play an action card
-        ActionCard actionCard = playerDecision.chooseActionCard(List.copyOf(hand));
-        if (actionCard != null) {
-            List<Instruction> instructions = actionCard.getAction().getInstructions();
-
-            // TODO: Execute instruction
-            // instructions.forEach((instruction) -> instruction.execute(player, move,
-            // decision, stock));
+        // player MAY play as many action card
+        while (true) {
+            // Choose action card to play
+            Optional<ActionCard> actionCard = playerDecision.chooseOptionalActionCard(hand);
+            if (actionCard.isEmpty()) {
+                // Player does not want to play another action card
+                break;
+            }
+            // Execute all instructions of action card
+            List<Instruction> instructions = actionCard.get().getAction().getInstructions();
+            instructions.forEach(
+                    (instruction) -> instruction.execute(this, move, this.playerDecision, this.state.getStock()));
         }
-        // check that card played is action card (!)
-        // move card from hand to table
-        // perform instructions on that card from top to bottom
-        // instructions might be "MUST" or "MAY DO" -> player must be able to decide
-        // (maybe observer pattern here?)
-        // instruction might recursively lead to another card being played and so on
 
         // 2nd PHASE - Buy phase
         // player MAY buy cards according to money available

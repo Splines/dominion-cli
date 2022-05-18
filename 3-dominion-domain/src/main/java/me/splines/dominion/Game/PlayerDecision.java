@@ -11,7 +11,7 @@ public interface PlayerDecision {
 
     List<Card> chooseCards(List<Card> cards);
 
-    ActionCard chooseActionCard(List<Card> cards);
+    Optional<ActionCard> chooseOptionalActionCard(List<Card> cards);
 
     MoneyCard chooseMoneyCard(List<MoneyCard> cards);
 
