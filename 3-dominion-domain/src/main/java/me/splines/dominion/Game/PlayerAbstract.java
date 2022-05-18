@@ -11,7 +11,7 @@ public abstract class PlayerAbstract {
     protected final String name;
     protected final Deck drawDeck = new Deck();
     protected final Deck discardDeck = new Deck();
-    protected final List<Card> hand = new ArrayList<>();
+    protected List<Card> hand = new ArrayList<>();
 
     public PlayerAbstract(String name) {
         this.name = name;

@@ -35,6 +35,10 @@ public final class Move {
         this.actionsCount += actionsCount;
     }
 
+    public void looseAction() {
+        this.actionsCount--;
+    }
+
     public int getBuyingsCount() {
         return this.buyingsCount;
     }
@@ -43,12 +47,20 @@ public final class Move {
         this.buyingsCount += buyingsCount;
     }
 
+    public void looseBuying() {
+        this.buyingsCount--;
+    }
+
     public int getMoney() {
         return this.money;
     }
 
     public void earnMoney(int money) {
         this.money += money;
+    }
+
+    public void looseMoney(int money) {
+        this.money -= money;
     }
 
     public void playCard(Card card) {

@@ -2,7 +2,6 @@ package me.splines.dominion.Game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import me.splines.dominion.Card.ActionCard;
@@ -14,12 +13,10 @@ import me.splines.dominion.Instruction.Instruction;
 public final class Player extends PlayerAbstract {
 
     private final PlayerDecision playerDecision;
-    private final GameState state;
 
-    public Player(String name, PlayerDecision playerDecision, GameState state) {
+    public Player(String name, PlayerDecision playerDecision) {
         super(name);
         this.playerDecision = playerDecision;
-        this.state = state;
     }
 
     public PlayerDecision getDecisionHandle() {
@@ -64,26 +61,45 @@ public final class Player extends PlayerAbstract {
 
         // 1st PHASE - Action phase
         // player MAY play as many action card
-        while (true) {
+        while (move.getActionsCount() > 0 && playerDecision.checkWantToPlayActionCard()) {
+            move.looseAction();
             // Choose action card to play
-            Optional<ActionCard> actionCard = playerDecision.chooseOptionalActionCard(hand);
-            if (actionCard.isEmpty()) {
-                // Player does not want to play another action card
-                break;
-            }
+            ActionCard actionCard = playerDecision.chooseActionCard(hand);
             // Execute all instructions of action card
-            List<Instruction> instructions = actionCard.get().getAction().getInstructions();
-            instructions.forEach(
-                    (instruction) -> instruction.execute(this, move, this.playerDecision, this.state.getStock()));
+            List<Instruction> instructions = actionCard.getAction().getInstructions();
+            instructions.forEach((i) -> i.execute(this, move, this.playerDecision, GameState.stock));
+
         }
 
         // 2nd PHASE - Buy phase
         // player MAY buy cards according to money available
+        // TODO: check whether there are cards that can be bought for just 1 "money"
+        List<Card> buyableCards = GameState.stock.getAvailableCardsWithMaxCosts(move.getMoney());
+        if (!buyableCards.isEmpty()) {
+            while (!buyableCards.isEmpty() && move.getMoney() >= 1 &&
+                    playerDecision.checkWantToBuy()) {
+                List<Card> boughtCards = new ArrayList<>();
+                playerDecision.informAboutBuyableCards(buyableCards);
+                Card boughtCard = playerDecision.chooseCard(buyableCards);
+                boughtCards.add(boughtCard);
+
+                move.looseBuying();
+                move.looseMoney(boughtCard.getCost());
+
+                buyableCards = GameState.stock.getAvailableCardsWithMaxCosts(move.getMoney());
+            }
+        }
 
         // 3rd PHASE - "Clean up" phase
-        // player MUST put all hand & table cards to the discard deck ("discard" these
-        // cards)
+        // player MUST put all hand & table cards to the discard deck
+        hand.forEach(h -> discardDeck.put(h));
+        hand = new ArrayList<>();
+
         // player MUST draw 5 new cards for the next move
+        for (int i = 0; i < 5; i++) {
+            Card card = drawDeck.draw();
+            hand.add(card);
+        }
     }
 
     @Override

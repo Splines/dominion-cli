@@ -3,7 +3,7 @@ package me.splines.dominion.Instruction;
 import me.splines.dominion.Game.Move;
 import me.splines.dominion.Game.PlayerAbstract;
 import me.splines.dominion.Game.PlayerDecision;
-import me.splines.dominion.Game.Stock;
+import me.splines.dominion.Game.StockAbstract;
 
 /**
  * Instruction:
@@ -20,7 +20,7 @@ public final class EarnBuyingsInstruction implements Instruction {
     }
 
     @Override
-    public void execute(PlayerAbstract player, Move move, PlayerDecision decision, Stock stock) {
+    public void execute(PlayerAbstract player, Move move, PlayerDecision decision, StockAbstract stock) {
         move.earnBuyings(this.earnBuyingsCount);
     }
 
