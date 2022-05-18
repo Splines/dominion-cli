@@ -17,6 +17,14 @@ public abstract class PlayerAbstract {
         this.name = name;
     }
 
+    public class HandDoesNotHaveCard extends RuntimeException {
+
+        public HandDoesNotHaveCard(Card card) {
+            super(String.format("Card %s is not present in hand", card));
+        }
+
+    }
+
     public String getName() {
         return this.name;
     }

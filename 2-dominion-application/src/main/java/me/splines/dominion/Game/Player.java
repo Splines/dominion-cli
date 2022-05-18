@@ -12,14 +12,6 @@ import me.splines.dominion.Instruction.Instruction;
 
 public final class Player extends PlayerAbstract {
 
-    public class HandDoesNotHaveCard extends RuntimeException {
-
-        public HandDoesNotHaveCard(Card card) {
-            super(String.format("Card %s is not present in hand", card));
-        }
-
-    }
-
     private final PlayerDecision playerDecision;
 
     public Player(String name, PlayerDecision playerDecision) {
@@ -33,17 +25,34 @@ public final class Player extends PlayerAbstract {
 
     @Override
     public Card draw() {
-        // TODO: add handling for empty drawDeck
-        // -> shuffle discardDeck, this will become the new drawDeck
         try {
             Card card = drawDeck.draw();
             hand.add(card);
             return card;
         } catch (EmptyDeckException e) {
-
+            makeDrawDeckFromDiscardDeck();
+            draw();
         }
-
         return null;
+    }
+
+    /**
+     * Make a new draw deck from the discard deck
+     * by shuffling the cards and putting them on the draw deck.
+     *
+     * Afterwards the discardDeck is empty and the drawDeck has all the cards
+     * from the drawDeck.
+     */
+    private void makeDrawDeckFromDiscardDeck() {
+        discardDeck.shuffle();
+        while (true) {
+            try {
+                Card card = discardDeck.draw();
+                drawDeck.put(card);
+            } catch (EmptyDeckException e) {
+                break;
+            }
+        }
     }
 
     @Override
@@ -75,10 +84,6 @@ public final class Player extends PlayerAbstract {
         // player MUST put all hand & table cards to the discard deck ("discard" these
         // cards)
         // player MUST draw 5 new cards for the next move
-    }
-
-    private void makeDrawDeckFromDiscardDeck() {
-        // TODO
     }
 
     @Override
