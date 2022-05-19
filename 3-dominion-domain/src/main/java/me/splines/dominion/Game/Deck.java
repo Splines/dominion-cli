@@ -32,6 +32,12 @@ public class Deck {
         cards.push(card);
     }
 
+    public void putMultiple(Card card, int count) {
+        for (int i = 0; i < count; i++) {
+            this.put(card);
+        }
+    }
+
     public void shuffle() {
         Collections.shuffle(cards);
     }

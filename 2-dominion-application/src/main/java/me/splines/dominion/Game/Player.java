@@ -14,8 +14,8 @@ public final class Player extends PlayerAbstract {
 
     private final PlayerDecision playerDecision;
 
-    public Player(String name, PlayerDecision playerDecision) {
-        super(name);
+    public Player(String name, PlayerDecision playerDecision, Deck drawDeck) {
+        super(name, drawDeck);
         this.playerDecision = playerDecision;
     }
 

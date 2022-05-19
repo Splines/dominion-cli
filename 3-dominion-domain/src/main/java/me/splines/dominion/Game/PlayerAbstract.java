@@ -9,12 +9,13 @@ import me.splines.dominion.Card.MoneyCard;
 public abstract class PlayerAbstract {
 
     protected final String name;
-    protected final Deck drawDeck = new Deck();
+    protected final Deck drawDeck;
     protected final Deck discardDeck = new Deck();
     protected List<Card> hand = new ArrayList<>();
 
-    public PlayerAbstract(String name) {
+    public PlayerAbstract(String name, Deck drawDeck) {
         this.name = name;
+        this.drawDeck = new Deck();
     }
 
     public class HandDoesNotHaveCard extends RuntimeException {
