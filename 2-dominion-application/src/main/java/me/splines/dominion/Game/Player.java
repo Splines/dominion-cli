@@ -58,9 +58,18 @@ public final class Player extends PlayerAbstract {
     @Override
     public void makeMove() {
         Move move = new Move();
+        doActionPhase(move);
+        doBuyPhase(move);
+        doCleanUpPhase(move);
+    }
 
-        // 1st PHASE - Action phase
-        // player MAY play as many action card
+    /**
+     * 1st PHASE - Action phase
+     * Player MAY play as many action card as he/she wants.
+     *
+     * @param move
+     */
+    private void doActionPhase(Move move) {
         while (move.getActionsCount() > 0 && playerDecision.checkWantToPlayActionCard()) {
             move.looseAction();
             // Choose action card to play
@@ -68,11 +77,16 @@ public final class Player extends PlayerAbstract {
             // Execute all instructions of action card
             List<Instruction> instructions = actionCard.getAction().getInstructions();
             instructions.forEach((i) -> i.execute(this, move, this.playerDecision, GameState.stock));
-
         }
+    }
 
-        // 2nd PHASE - Buy phase
-        // player MAY buy cards according to money available
+    /**
+     * 2nd PHASE - Buy phase
+     * Player MAY buy cards according to his/her available money.
+     *
+     * @param move
+     */
+    private void doBuyPhase(Move move) {
         // TODO: check whether there are cards that can be bought for just 1 "money"
         List<Card> buyableCards = GameState.stock.getAvailableCardsWithMaxCosts(move.getMoney());
         if (!buyableCards.isEmpty()) {
@@ -89,13 +103,19 @@ public final class Player extends PlayerAbstract {
                 buyableCards = GameState.stock.getAvailableCardsWithMaxCosts(move.getMoney());
             }
         }
+    }
 
-        // 3rd PHASE - "Clean up" phase
-        // player MUST put all hand & table cards to the discard deck
+    /**
+     * 3rd PHASE - "Clean up" phase
+     * Player MUST put all hand & table cards to the discard deck.
+     * Player MUST draw 5 new cards for the next move.
+     *
+     * @param move
+     */
+    private void doCleanUpPhase(Move move) {
         hand.forEach(h -> discardDeck.put(h));
         hand = new ArrayList<>();
 
-        // player MUST draw 5 new cards for the next move
         for (int i = 0; i < 5; i++) {
             Card card = drawDeck.draw();
             hand.add(card);
