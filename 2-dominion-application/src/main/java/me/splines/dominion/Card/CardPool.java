@@ -17,31 +17,42 @@ public final class CardPool {
 
 	public static final List<ActionCard> actionCards = List.of(
 
-			// TODO: Maybe simplify the construction of action cards with a factory
+			new ActionCardBuilder("Jahrmarkt", 5).with(
+					new Action(
+							new EarnActionsInstruction(2),
+							new EarnBuyingsInstruction(1),
+							new EarnMoneyInstruction(2)))
+					.build(),
 
-			new ActionCard("Jahrmarkt", CardType.ACTION, 5, new Action(
-					new EarnActionsInstruction(2),
-					new EarnBuyingsInstruction(1),
-					new EarnMoneyInstruction(2))),
+			new ActionCardBuilder("Markt", 2).with(
+					new Action(
+							new DrawCardsInstruction(1),
+							new EarnActionsInstruction(1),
+							new EarnBuyingsInstruction(1),
+							new EarnMoneyInstruction(1)))
+					.build(),
 
-			new ActionCard("Markt", CardType.ACTION, 2, new Action(
-					new DrawCardsInstruction(1),
-					new EarnActionsInstruction(1),
-					new EarnBuyingsInstruction(1),
-					new EarnMoneyInstruction(1))),
+			new ActionCardBuilder("Keller", 2).with(
+					new Action(
+							new EarnActionsInstruction(1),
+							new DiscardAndDrawCardsInstruction()))
+					.build(),
 
-			new ActionCard("Keller", CardType.ACTION, 2, new Action(
-					new EarnActionsInstruction(1),
-					new DiscardAndDrawCardsInstruction())),
+			new ActionCardBuilder("Schmiede", 4).with(
+					new Action(
+							new DrawCardsInstruction(3)))
+					.build(),
 
-			new ActionCard("Schmiede", CardType.ACTION, 4, new Action(new DrawCardsInstruction(3))),
+			new ActionCardBuilder("Laboratorium", 5).with(
+					new Action(
+							new DrawCardsInstruction(2),
+							new EarnActionsInstruction(1)))
+					.build(),
 
-			new ActionCard("Laboratorium", CardType.ACTION, 5, new Action(
-					new DrawCardsInstruction(2),
-					new EarnActionsInstruction(1))),
-
-			new ActionCard("Mine", CardType.ACTION, 5, new Action(
-					new DisposeHandCardTakeMoneyCardInstruction()))
+			new ActionCardBuilder("Mine", 5).with(
+					new Action(
+							new DisposeHandCardTakeMoneyCardInstruction()))
+					.build()
 
 	);
 
