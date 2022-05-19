@@ -18,7 +18,6 @@ public class Deck {
     private final Stack<Card> cards = new Stack<>();
 
     public Deck() {
-
     }
 
     public Card draw() {

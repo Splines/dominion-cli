@@ -15,7 +15,7 @@ public abstract class PlayerAbstract {
 
     public PlayerAbstract(String name, Deck drawDeck) {
         this.name = name;
-        this.drawDeck = new Deck();
+        this.drawDeck = drawDeck;
     }
 
     public class HandDoesNotHaveCard extends RuntimeException {

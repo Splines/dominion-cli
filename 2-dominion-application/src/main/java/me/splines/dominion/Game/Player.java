@@ -6,6 +6,7 @@ import java.util.stream.Collectors;
 
 import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
+import me.splines.dominion.Card.CardType;
 import me.splines.dominion.Card.MoneyCard;
 import me.splines.dominion.Game.Deck.EmptyDeckException;
 import me.splines.dominion.Instruction.Instruction;
@@ -31,9 +32,8 @@ public final class Player extends PlayerAbstract {
             return card;
         } catch (EmptyDeckException e) {
             makeDrawDeckFromDiscardDeck();
-            draw();
+            return draw();
         }
-        return null;
     }
 
     /**
@@ -47,6 +47,7 @@ public final class Player extends PlayerAbstract {
         discardDeck.shuffle();
         while (true) {
             try {
+                discardDeck.draw();
                 Card card = discardDeck.draw();
                 drawDeck.put(card);
             } catch (EmptyDeckException e) {
@@ -57,6 +58,7 @@ public final class Player extends PlayerAbstract {
 
     @Override
     public void makeMove() {
+        playerDecision.informYourTurn(this.name);
         Move move = new Move();
         doActionPhase(move);
         doBuyPhase(move);
@@ -73,7 +75,11 @@ public final class Player extends PlayerAbstract {
         while (move.getActionsCount() > 0 && playerDecision.checkWantToPlayActionCard()) {
             move.looseAction();
             // Choose action card to play
-            ActionCard actionCard = playerDecision.chooseActionCard(hand);
+            List<ActionCard> actionCardsInHand = hand.stream()
+                    .filter(card -> card.getType() == CardType.ACTION)
+                    .map(ActionCard.class::cast)
+                    .collect(Collectors.toList());
+            ActionCard actionCard = playerDecision.chooseActionCard(actionCardsInHand);
             // Execute all instructions of action card
             List<Instruction> instructions = actionCard.getAction().getInstructions();
             instructions.forEach((i) -> i.execute(this, move, this.playerDecision, GameState.stock));
@@ -117,7 +123,7 @@ public final class Player extends PlayerAbstract {
         hand = new ArrayList<>();
 
         for (int i = 0; i < 5; i++) {
-            Card card = drawDeck.draw();
+            Card card = this.draw();
             hand.add(card);
         }
     }

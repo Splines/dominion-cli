@@ -9,7 +9,7 @@ import me.splines.dominion.Card.MoneyCard;
 
 public interface PlayerDecision {
 
-    Card chooseCard(List<Card> card);
+    Card chooseCard(List<Card> cards);
 
     boolean checkWantToPlayActionCard();
 
@@ -17,9 +17,11 @@ public interface PlayerDecision {
 
     void informAboutBuyableCards(List<Card> cards);
 
+    void informYourTurn(String name);
+
     List<Card> chooseCards(List<Card> cards);
 
-    ActionCard chooseActionCard(List<Card> cards);
+    ActionCard chooseActionCard(List<ActionCard> cards);
 
     MoneyCard chooseMoneyCard(List<MoneyCard> cards);
 
