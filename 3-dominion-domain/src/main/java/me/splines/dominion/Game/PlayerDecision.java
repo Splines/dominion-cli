@@ -15,8 +15,6 @@ public interface PlayerDecision {
 
     boolean checkWantToBuy();
 
-    void informAboutBuyableCards(List<Card> cards);
-
     void informYourTurn(String name);
 
     List<Card> chooseCards(List<Card> cards);
@@ -24,6 +22,8 @@ public interface PlayerDecision {
     ActionCard chooseActionCard(List<ActionCard> cards);
 
     MoneyCard chooseMoneyCard(List<MoneyCard> cards);
+
+    List<Card> chooseCardsToBuy(List<Card> cards);
 
     Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards);
 

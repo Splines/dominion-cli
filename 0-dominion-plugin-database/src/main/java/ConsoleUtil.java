@@ -1,5 +1,6 @@
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.Scanner;
 import java.util.stream.Collectors;
 
@@ -13,6 +14,16 @@ public class ConsoleUtil {
                 return Integer.parseInt(sc.next());
             } catch (NumberFormatException e) {
                 System.out.println("That's not a whole number, try again...");
+            }
+        }
+    }
+
+    public static Optional<Integer> getOptionalIntFromUser() {
+        while (true) {
+            try {
+                return Optional.of(Integer.parseInt(sc.next()));
+            } catch (NumberFormatException e) {
+                return Optional.empty();
             }
         }
     }

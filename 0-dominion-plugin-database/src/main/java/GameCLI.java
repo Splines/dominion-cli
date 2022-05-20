@@ -30,6 +30,23 @@ public class GameCLI implements PlayerDecision {
         return cards.get(cardIndex);
     }
 
+    private Optional<Card> chooseOptionalCard(List<Card> cards) {
+        System.out.println("Choose one of these cards (optional)");
+        for (int i = 0; i < cards.size(); i++) {
+            Card card = cards.get(i);
+            System.out.print((i + 1) + ": " + card.getName());
+        }
+        System.out.println();
+
+        Optional<Integer> cardIndex;
+        cardIndex = ConsoleUtil.getOptionalIntFromUser();
+        if (cardIndex.isEmpty())
+            return Optional.empty();
+        if (cardIndex.get() >= 1 && cardIndex.get() <= cards.size())
+            return Optional.of(cards.get(cardIndex.get()));
+        return Optional.empty();
+    }
+
     @Override
     public boolean checkWantToPlayActionCard() {
         System.out.println("Do you want to play one of your action cards?");
@@ -39,14 +56,14 @@ public class GameCLI implements PlayerDecision {
 
     @Override
     public boolean checkWantToBuy() {
-        // TODO Auto-generated method stub
-        return false;
+        System.out.println("Do you want to buy a new card?");
+        boolean wantToBuy = ConsoleUtil.getBooleanFromUser();
+        return wantToBuy;
     }
 
     @Override
-    public void informAboutBuyableCards(List<Card> cards) {
-        // TODO Auto-generated method stub
-
+    public List<Card> chooseCardsToBuy(List<Card> cards) {
+        return this.chooseCards(cards);
     }
 
     @Override
@@ -77,14 +94,14 @@ public class GameCLI implements PlayerDecision {
 
     @Override
     public MoneyCard chooseMoneyCard(List<MoneyCard> cards) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Card> cardsGeneric = List.copyOf(cards);
+        return (MoneyCard) this.chooseCard(cardsGeneric);
     }
 
     @Override
     public Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards) {
-        // TODO Auto-generated method stub
-        return null;
+        List<Card> cardsGeneric = List.copyOf(cards);
+        return this.chooseOptionalCard(cardsGeneric).map(MoneyCard.class::cast);
     }
 
     @Override
@@ -94,8 +111,7 @@ public class GameCLI implements PlayerDecision {
 
     @Override
     public ActionCard chooseActionCard(List<ActionCard> cards) {
-        List<Card> cardsGeneric = new ArrayList<>();
-        cardsGeneric.addAll(cards);
+        List<Card> cardsGeneric = List.copyOf(cards);
         return (ActionCard) this.chooseCard(cardsGeneric);
     }
 
