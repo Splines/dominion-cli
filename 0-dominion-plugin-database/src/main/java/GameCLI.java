@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
@@ -23,7 +24,7 @@ public class GameCLI implements PlayerDecision {
             cardIndex = ConsoleUtil.getIntFromUser();
             if (cardIndex >= 1 && cardIndex <= cards.size())
                 break;
-            System.out.println("That's not a valid card");
+            System.out.println("That's not a valid card number");
         }
 
         return cards.get(cardIndex);
@@ -50,8 +51,28 @@ public class GameCLI implements PlayerDecision {
 
     @Override
     public List<Card> chooseCards(List<Card> cards) {
-        // TODO Auto-generated method stub
-        return null;
+        System.out.println("Choose any of these cards (separate by comma)");
+        for (int i = 0; i < cards.size(); i++) {
+            Card card = cards.get(i);
+            System.out.print((i + 1) + ": " + card.getName());
+        }
+        System.out.println();
+
+        List<Integer> cardIndices = new ArrayList<>();
+        outer: while (true) {
+            cardIndices = ConsoleUtil.getIntsFromUser();
+            for (Integer cardIndex : cardIndices) {
+                if (cardIndex < 1 || cardIndex > cards.size()) {
+                    System.out.println(cardIndex + " is not a valid card number");
+                    continue outer;
+                }
+            }
+            break;
+        }
+
+        return cardIndices.stream()
+                .map(i -> cards.get(i))
+                .collect(Collectors.toList());
     }
 
     @Override
