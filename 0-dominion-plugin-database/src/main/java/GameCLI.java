@@ -1,7 +1,6 @@
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Scanner;
 
 import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
@@ -9,29 +8,6 @@ import me.splines.dominion.Card.MoneyCard;
 import me.splines.dominion.Game.PlayerDecision;
 
 public class GameCLI implements PlayerDecision {
-
-    private Scanner sc = new Scanner(System.in);
-
-    private int getIntFromUser() {
-        while (true) {
-            try {
-                return Integer.parseInt(sc.next());
-            } catch (NumberFormatException e) {
-                System.out.println("That's not a whole number, try again...");
-            }
-        }
-    }
-
-    private boolean getBooleanFromUser() {
-        while (true) {
-            String line = sc.nextLine();
-            if (line.equalsIgnoreCase("yes"))
-                return true;
-            else if (line.equalsIgnoreCase("no"))
-                return false;
-            System.out.println("That's not a valid answer (yes/no), try again...");
-        }
-    }
 
     @Override
     public Card chooseCard(List<Card> cards) {
@@ -44,7 +20,7 @@ public class GameCLI implements PlayerDecision {
 
         int cardIndex = -1;
         while (true) {
-            cardIndex = getIntFromUser();
+            cardIndex = ConsoleUtil.getIntFromUser();
             if (cardIndex >= 1 && cardIndex <= cards.size())
                 break;
             System.out.println("That's not a valid card");
@@ -56,7 +32,7 @@ public class GameCLI implements PlayerDecision {
     @Override
     public boolean checkWantToPlayActionCard() {
         System.out.println("Do you want to play one of your action cards?");
-        boolean wantToPlay = getBooleanFromUser();
+        boolean wantToPlay = ConsoleUtil.getBooleanFromUser();
         return wantToPlay;
     }
 
