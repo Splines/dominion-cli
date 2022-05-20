@@ -19,8 +19,8 @@ public class Game {
 
     private Deck getInitialDrawDeck() {
         Deck initialDrawDeck = new Deck();
-        initialDrawDeck.putMultiple(CardPool.copperCard, 7);
-        initialDrawDeck.putMultiple(CardPool.estateCard, 3);
+        initialDrawDeck.putCardSeveralTimes(CardPool.copperCard, 7);
+        initialDrawDeck.putCardSeveralTimes(CardPool.estateCard, 3);
         initialDrawDeck.shuffle();
         return initialDrawDeck;
     }

@@ -31,15 +31,15 @@ class DeckTest {
 
         // Put and draw one card
         deck.put(mockCard);
-        Card drawedCard = deck.draw();
+        Card drawnCard = deck.draw();
 
-        assertThat(drawedCard)
+        assertThat(drawnCard)
                 .isSameAs(mockCard)
                 .isEqualTo(mockCard);
     }
 
     @Test
-    void putAndDrawMultipleCards() {
+    void putAndDrawSeveralCards() {
         Deck deck = new Deck();
 
         // Put two cards
@@ -47,12 +47,12 @@ class DeckTest {
         deck.put(mockCards[1]);
 
         // Draw one card
-        Card drawedCard = deck.draw();
-        assertThat(drawedCard).isSameAs(mockCards[1]);
+        Card drawnCard = deck.draw();
+        assertThat(drawnCard).isSameAs(mockCards[1]);
 
         // Draw another card
-        drawedCard = deck.draw();
-        assertThat(drawedCard).isSameAs(mockCards[0]);
+        drawnCard = deck.draw();
+        assertThat(drawnCard).isSameAs(mockCards[0]);
 
         // Empty
         Throwable thrown = catchThrowable(() -> deck.draw());
@@ -60,8 +60,8 @@ class DeckTest {
 
         // Put one card, immediately draw it
         deck.put(mockCards[2]);
-        drawedCard = deck.draw();
-        assertThat(drawedCard).isSameAs(mockCards[2]);
+        drawnCard = deck.draw();
+        assertThat(drawnCard).isSameAs(mockCards[2]);
 
         // Empty
         thrown = catchThrowable(() -> deck.draw());
@@ -71,11 +71,28 @@ class DeckTest {
     @Test
     void drawFromEmptyDeck() {
         Deck deck = new Deck();
+        testEmpty(deck);
+    }
+
+    private void testEmpty(Deck deck) {
         Throwable thrown = catchThrowable(() -> deck.draw());
         assertThat(thrown)
                 .isInstanceOf(EmptyDeckException.class)
                 .hasMessageContaining("empty")
                 .hasMessageContaining("Deck");
+    }
+
+    @Test
+    void putMultipleCardsOnDeck() {
+        Deck deck = new Deck();
+        Card card = this.mockCards[0];
+        int count = 10;
+        deck.putCardSeveralTimes(card, count);
+
+        for (int i = 0; i < count; i++) {
+            assertThat(deck.draw()).isEqualTo(card);
+        }
+        testEmpty(deck);
     }
 
     @Test
