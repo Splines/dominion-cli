@@ -3,7 +3,7 @@ package me.splines.dominion.Card;
 import java.util.List;
 import java.util.Objects;
 
-import me.splines.dominion.Instruction.Action;
+import me.splines.dominion.Action.Action;
 
 public class ActionCard extends Card {
 

@@ -1,6 +1,6 @@
 package me.splines.dominion.Card;
 
-import me.splines.dominion.Instruction.Action;
+import me.splines.dominion.Action.Action;
 
 public class ActionCardBuilder {
 

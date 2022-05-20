@@ -2,6 +2,7 @@ package me.splines.dominion.Instruction;
 
 import java.util.List;
 
+import me.splines.dominion.Action.Instruction;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Game.MoveState;
 import me.splines.dominion.Game.PlayerAbstract;

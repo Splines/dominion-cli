@@ -1,4 +1,4 @@
-package me.splines.dominion.Instruction;
+package me.splines.dominion.Action;
 
 import java.util.List;
 

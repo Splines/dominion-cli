@@ -5,11 +5,11 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 import org.junit.jupiter.api.Test;
 
+import me.splines.dominion.Action.Action;
+import me.splines.dominion.Action.Instruction;
 import me.splines.dominion.Game.MoveState;
 import me.splines.dominion.Game.PlayerAbstract;
 import me.splines.dominion.Game.StockAbstract;
-import me.splines.dominion.Instruction.Action;
-import me.splines.dominion.Instruction.Instruction;
 
 public class ActionCardBuilderTest {
 

@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import me.splines.dominion.Instruction.Action;
+import me.splines.dominion.Action.Action;
 import me.splines.dominion.Instruction.DiscardAndDrawCardsInstruction;
 import me.splines.dominion.Instruction.DisposeHandCardTakeMoneyCardInstruction;
 import me.splines.dominion.Instruction.DrawCardsInstruction;

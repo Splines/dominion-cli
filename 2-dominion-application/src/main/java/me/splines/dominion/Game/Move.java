@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import me.splines.dominion.Action.Instruction;
 import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.CardType;
 import me.splines.dominion.Card.MoneyCard;
-import me.splines.dominion.Instruction.Instruction;
 
 public class Move implements MoveInterface {
 

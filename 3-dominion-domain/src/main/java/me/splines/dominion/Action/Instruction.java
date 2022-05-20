@@ -1,4 +1,4 @@
-package me.splines.dominion.Instruction;
+package me.splines.dominion.Action;
 
 import me.splines.dominion.Game.MoveState;
 import me.splines.dominion.Game.PlayerAbstract;
