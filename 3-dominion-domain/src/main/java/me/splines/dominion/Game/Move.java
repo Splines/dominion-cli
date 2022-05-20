@@ -1,6 +1,6 @@
 package me.splines.dominion.Game;
 
-public interface MoveInterface {
+public interface Move {
 
     void doActionPhase(PlayerAbstract player);
 

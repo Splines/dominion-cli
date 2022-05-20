@@ -10,7 +10,7 @@ import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.CardType;
 import me.splines.dominion.Card.MoneyCard;
 
-public class Move implements MoveInterface {
+public class PlayerMove implements Move {
 
     private MoveState moveState = new MoveState();
 

@@ -50,7 +50,7 @@ public final class Player extends PlayerAbstract {
     @Override
     public void makeMove() {
         playerDecision.informYourTurn(this.name);
-        Move move = new Move();
+        PlayerMove move = new PlayerMove();
         move.doActionPhase(this);
         move.doBuyPhase(this);
         move.doCleanUpPhase(this);
