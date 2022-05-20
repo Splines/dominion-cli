@@ -5,9 +5,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import me.splines.dominion.Card.MoneyCard;
-import me.splines.dominion.Game.Move;
+import me.splines.dominion.Game.MoveState;
 import me.splines.dominion.Game.PlayerAbstract;
-import me.splines.dominion.Game.PlayerDecision;
 import me.splines.dominion.Game.StockAbstract;
 
 /**
@@ -20,14 +19,15 @@ import me.splines.dominion.Game.StockAbstract;
 public class DisposeHandCardTakeMoneyCardInstruction implements Instruction {
 
     @Override
-    public void execute(PlayerAbstract player, Move move, PlayerDecision decision, StockAbstract stock) {
+    public void execute(PlayerAbstract player, MoveState moveState, StockAbstract stock) {
         // Do we have money cards on the hand?
         List<MoneyCard> moneyCardsOnHand = player.getMoneyCardsOnHand();
         if (moneyCardsOnHand.isEmpty())
             return;
 
         // Dispose money cards from hand
-        Optional<MoneyCard> cardToDispose = decision.chooseOptionalMoneyCard(moneyCardsOnHand);
+        Optional<MoneyCard> cardToDispose = player.decision()
+                .chooseOptionalMoneyCard(moneyCardsOnHand);
         if (!cardToDispose.isPresent())
             return;
         player.dispose(cardToDispose.get());
@@ -41,7 +41,7 @@ public class DisposeHandCardTakeMoneyCardInstruction implements Instruction {
         if (moneyCardsToChoose.isEmpty())
             return;
 
-        MoneyCard cardToTake = decision.chooseMoneyCard(moneyCardsToChoose);
+        MoneyCard cardToTake = player.decision().chooseMoneyCard(moneyCardsToChoose);
         player.takeToHand(cardToTake);
     }
 

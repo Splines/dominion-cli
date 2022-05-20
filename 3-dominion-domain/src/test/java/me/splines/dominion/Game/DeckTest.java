@@ -69,7 +69,7 @@ class DeckTest {
     }
 
     @Test
-    void drawFromEmptydeck() {
+    void drawFromEmptyDeck() {
         Deck deck = new Deck();
         Throwable thrown = catchThrowable(() -> deck.draw());
         assertThat(thrown)

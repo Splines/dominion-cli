@@ -5,7 +5,7 @@ import java.util.List;
 
 import me.splines.dominion.Card.Card;
 
-public final class Move {
+public final class MoveState {
 
     private int cardsCount = 0;
     private int actionsCount = 1;
@@ -15,7 +15,7 @@ public final class Move {
     // Cards that are currently played in this move
     private final List<Card> playingCards = new ArrayList<>();
 
-    public Move() {
+    public MoveState() {
 
     }
 

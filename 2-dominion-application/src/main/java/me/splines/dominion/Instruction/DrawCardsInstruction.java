@@ -1,8 +1,7 @@
 package me.splines.dominion.Instruction;
 
-import me.splines.dominion.Game.Move;
+import me.splines.dominion.Game.MoveState;
 import me.splines.dominion.Game.PlayerAbstract;
-import me.splines.dominion.Game.PlayerDecision;
 import me.splines.dominion.Game.StockAbstract;
 
 /**
@@ -20,7 +19,7 @@ public final class DrawCardsInstruction implements Instruction {
     }
 
     @Override
-    public void execute(PlayerAbstract player, Move move, PlayerDecision decision, StockAbstract stock) {
+    public void execute(PlayerAbstract player, MoveState moveState, StockAbstract stock) {
         for (int i = 0; i < this.cardsToDrawCount; i++) {
             player.draw();
         }
