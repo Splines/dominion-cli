@@ -1,5 +1,6 @@
 # Maven
 target/
+jacoco.xml
 
 # Compiled class file
 *.class
