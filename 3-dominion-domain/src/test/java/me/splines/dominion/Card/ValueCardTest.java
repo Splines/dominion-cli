@@ -8,11 +8,9 @@ import org.junit.jupiter.api.Test;
 class ValueCardTest {
 
 	class TestableValueCard extends ValueCard {
-
 		public TestableValueCard(String name, CardType type, int cost, int value) {
 			super(name, type, cost, value);
 		}
-
 	}
 
 	@Test
@@ -27,16 +25,6 @@ class ValueCardTest {
 		assertThat(valueCard.getType()).isEqualTo(type);
 		assertThat(valueCard.getCost()).isEqualTo(cost);
 		assertThat(valueCard.getValue()).isEqualTo(value);
-	}
-
-	@Test
-	void cardInvalidCost() {
-		int cost = -1;
-		Throwable thrown = catchThrowable(
-				() -> new TestableValueCard("MyTestCard", CardType.MONEY, cost, 42));
-		assertThat(thrown)
-				.isInstanceOf(IllegalArgumentException.class)
-				.hasMessageContaining("cost");
 	}
 
 	@Test
@@ -56,6 +44,7 @@ class ValueCardTest {
 				() -> new TestableValueCard("MyTestCard", CardType.POINTS, 2, value));
 		assertThat(thrown)
 				.isInstanceOf(IllegalArgumentException.class)
+				.hasMessageContaining("value")
 				.hasMessageContaining("non-zero");
 	}
 
