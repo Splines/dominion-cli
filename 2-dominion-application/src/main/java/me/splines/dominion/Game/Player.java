@@ -99,7 +99,7 @@ public final class Player extends PlayerAbstract {
             while (!buyableCards.isEmpty() && move.getMoney() >= 1 &&
                     playerDecision.checkWantToBuy()) {
                 List<Card> boughtCards = new ArrayList<>();
-                playerDecision.informAboutBuyableCards(buyableCards);
+                playerDecision.chooseCardsToBuy(buyableCards);
                 Card boughtCard = playerDecision.chooseCard(buyableCards);
                 boughtCards.add(boughtCard);
 
