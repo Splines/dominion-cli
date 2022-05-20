@@ -8,7 +8,7 @@ import me.splines.dominion.Action.Instruction;
 import me.splines.dominion.Card.MoneyCard;
 import me.splines.dominion.Game.MoveState;
 import me.splines.dominion.Game.PlayerAbstract;
-import me.splines.dominion.Game.StockAbstract;
+import me.splines.dominion.Game.Stock;
 
 /**
  * Instruction:
@@ -20,7 +20,7 @@ import me.splines.dominion.Game.StockAbstract;
 public class DisposeHandCardTakeMoneyCardInstruction implements Instruction {
 
     @Override
-    public void execute(PlayerAbstract player, MoveState moveState, StockAbstract stock) {
+    public void execute(PlayerAbstract player, MoveState moveState, Stock stock) {
         // Do we have money cards on the hand?
         List<MoneyCard> moneyCardsOnHand = player.getMoneyCardsOnHand();
         if (moneyCardsOnHand.isEmpty())

@@ -11,7 +11,7 @@ import me.splines.dominion.Card.CardStock;
 import me.splines.dominion.Card.MoneyCard;
 import me.splines.dominion.Card.PointCard;
 
-public class Stock implements StockAbstract {
+public class GameStock implements Stock {
 
     // Money card stocks
     private final CardStock<MoneyCard> copperCardStock = new CardStock<>(CardPool.copperCard, 60);

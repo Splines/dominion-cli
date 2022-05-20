@@ -5,7 +5,7 @@ import java.util.List;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.MoneyCard;
 
-public interface StockAbstract {
+public interface Stock {
 
     public List<MoneyCard> getAvailableMoneyCards();
 

@@ -6,7 +6,7 @@ import me.splines.dominion.Action.Instruction;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Game.MoveState;
 import me.splines.dominion.Game.PlayerAbstract;
-import me.splines.dominion.Game.StockAbstract;
+import me.splines.dominion.Game.Stock;
 
 /**
  * Instruction:
@@ -17,7 +17,7 @@ import me.splines.dominion.Game.StockAbstract;
 public class DiscardAndDrawCardsInstruction implements Instruction {
 
     @Override
-    public void execute(PlayerAbstract player, MoveState moveState, StockAbstract stock) {
+    public void execute(PlayerAbstract player, MoveState moveState, Stock stock) {
         List<Card> cardsToDiscard = player.decision().chooseCards(player.getHand());
         cardsToDiscard.forEach((card) -> player.discard(card));
 
