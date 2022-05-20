@@ -17,6 +17,8 @@ public class GameCLI implements PlayerDecision {
         }
     }
 
+    //////////////////////// Choose cards (general) ////////////////////////////
+
     @Override
     public Card chooseCard(List<Card> cards) {
         System.out.println("Choose one of these cards");
@@ -49,25 +51,6 @@ public class GameCLI implements PlayerDecision {
     }
 
     @Override
-    public boolean checkWantToPlayActionCard() {
-        System.out.println("Do you want to play one of your action cards?");
-        boolean wantToPlay = ConsoleUtil.getBooleanFromUser();
-        return wantToPlay;
-    }
-
-    @Override
-    public boolean checkWantToBuy() {
-        System.out.println("Do you want to buy a new card?");
-        boolean wantToBuy = ConsoleUtil.getBooleanFromUser();
-        return wantToBuy;
-    }
-
-    @Override
-    public List<Card> chooseCardsToBuy(List<Card> cards) {
-        return this.chooseCards(cards);
-    }
-
-    @Override
     public List<Card> chooseCards(List<Card> cards) {
         System.out.println("Choose any of these cards (separate by comma)");
         printCardsWithNumbers(cards);
@@ -90,6 +73,19 @@ public class GameCLI implements PlayerDecision {
                 .collect(Collectors.toList());
     }
 
+    ////////////////////// Choose cards (specific) /////////////////////////////
+
+    @Override
+    public ActionCard chooseActionCard(List<ActionCard> cards) {
+        List<Card> cardsGeneric = List.copyOf(cards);
+        return (ActionCard) this.chooseCard(cardsGeneric);
+    }
+
+    @Override
+    public List<Card> chooseCardsToBuy(List<Card> cards) {
+        return this.chooseCards(cards);
+    }
+
     @Override
     public MoneyCard chooseMoneyCard(List<MoneyCard> cards) {
         List<Card> cardsGeneric = List.copyOf(cards);
@@ -102,15 +98,27 @@ public class GameCLI implements PlayerDecision {
         return this.chooseOptionalCard(cardsGeneric).map(MoneyCard.class::cast);
     }
 
+    ///////////////////// Check want to do something ///////////////////////////
+
     @Override
-    public void informYourTurn(String name) {
-        System.out.println("It's your turn, " + name);
+    public boolean checkWantToPlayActionCard() {
+        System.out.println("Do you want to play one of your action cards?");
+        boolean wantToPlay = ConsoleUtil.getBooleanFromUser();
+        return wantToPlay;
     }
 
     @Override
-    public ActionCard chooseActionCard(List<ActionCard> cards) {
-        List<Card> cardsGeneric = List.copyOf(cards);
-        return (ActionCard) this.chooseCard(cardsGeneric);
+    public boolean checkWantToBuy() {
+        System.out.println("Do you want to buy a new card?");
+        boolean wantToBuy = ConsoleUtil.getBooleanFromUser();
+        return wantToBuy;
+    }
+
+    /////////////////////////////// Other //////////////////////////////////////
+
+    @Override
+    public void informYourTurn(String name) {
+        System.out.println("It's your turn, " + name);
     }
 
 }
