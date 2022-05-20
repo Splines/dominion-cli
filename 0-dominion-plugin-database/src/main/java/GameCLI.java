@@ -10,13 +10,17 @@ import me.splines.dominion.Game.PlayerDecision;
 
 public class GameCLI implements PlayerDecision {
 
-    @Override
-    public Card chooseCard(List<Card> cards) {
-        System.out.println("Choose one of these cards");
+    private void printCardsWithNumbers(List<Card> cards) {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
             System.out.print((i + 1) + ": " + card.getName());
         }
+    }
+
+    @Override
+    public Card chooseCard(List<Card> cards) {
+        System.out.println("Choose one of these cards");
+        printCardsWithNumbers(cards);
         System.out.println();
 
         int cardIndex = -1;
@@ -32,10 +36,7 @@ public class GameCLI implements PlayerDecision {
 
     private Optional<Card> chooseOptionalCard(List<Card> cards) {
         System.out.println("Choose one of these cards (optional)");
-        for (int i = 0; i < cards.size(); i++) {
-            Card card = cards.get(i);
-            System.out.print((i + 1) + ": " + card.getName());
-        }
+        printCardsWithNumbers(cards);
         System.out.println();
 
         Optional<Integer> cardIndex;
@@ -69,10 +70,7 @@ public class GameCLI implements PlayerDecision {
     @Override
     public List<Card> chooseCards(List<Card> cards) {
         System.out.println("Choose any of these cards (separate by comma)");
-        for (int i = 0; i < cards.size(); i++) {
-            Card card = cards.get(i);
-            System.out.print((i + 1) + ": " + card.getName());
-        }
+        printCardsWithNumbers(cards);
         System.out.println();
 
         List<Integer> cardIndices = new ArrayList<>();
