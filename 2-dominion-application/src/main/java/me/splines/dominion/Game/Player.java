@@ -59,8 +59,7 @@ public final class Player extends PlayerAbstract {
     @Override
     public void drawNewHandCards() {
         for (int i = 0; i < 5; i++) {
-            Card card = this.draw();
-            hand.add(card);
+            this.draw();
         }
     }
 

@@ -54,4 +54,9 @@ public abstract class Card {
         return true;
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
+
 }
