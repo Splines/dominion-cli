@@ -18,6 +18,7 @@ public final class Player extends PlayerAbstract {
     public Player(String name, PlayerDecision playerDecision, Deck drawDeck) {
         super(name, drawDeck);
         this.playerDecision = playerDecision;
+        drawHandCards();
     }
 
     public PlayerDecision getDecisionHandle() {
@@ -93,7 +94,15 @@ public final class Player extends PlayerAbstract {
      * @param move
      */
     private void doBuyPhase(Move move) {
-        // TODO: check whether there are cards that can be bought for just 1 "money"
+        // Earn money from money cards
+        for (Card card : hand) {
+            if (card instanceof MoneyCard) {
+                int money = ((MoneyCard) card).getMoney();
+                move.earnMoney(money);
+            }
+        }
+
+        // Buy cards
         List<Card> buyableCards = GameState.stock.getAvailableCardsWithMaxCosts(move.getMoney());
         if (!buyableCards.isEmpty()) {
             while (!buyableCards.isEmpty() && move.getMoney() >= 1 &&
@@ -121,7 +130,10 @@ public final class Player extends PlayerAbstract {
     private void doCleanUpPhase(Move move) {
         hand.forEach(h -> discardDeck.put(h));
         hand = new ArrayList<>();
+        drawHandCards();
+    }
 
+    private void drawHandCards() {
         for (int i = 0; i < 5; i++) {
             Card card = this.draw();
             hand.add(card);
