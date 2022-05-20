@@ -15,6 +15,7 @@ public class GameCLI implements PlayerDecision {
             Card card = cards.get(i);
             System.out.print((i + 1) + ": " + card.getName());
         }
+        System.out.println();
     }
 
     //////////////////////// Choose cards (general) ////////////////////////////
@@ -23,7 +24,6 @@ public class GameCLI implements PlayerDecision {
     public Card chooseCard(List<Card> cards) {
         System.out.println("Choose one of these cards");
         printCardsWithNumbers(cards);
-        System.out.println();
 
         int cardIndex = -1;
         while (true) {
@@ -39,7 +39,6 @@ public class GameCLI implements PlayerDecision {
     private Optional<Card> chooseOptionalCard(List<Card> cards) {
         System.out.println("Choose one of these cards (optional)");
         printCardsWithNumbers(cards);
-        System.out.println();
 
         Optional<Integer> cardIndex;
         cardIndex = ConsoleUtil.getOptionalIntFromUser();
@@ -54,7 +53,6 @@ public class GameCLI implements PlayerDecision {
     public List<Card> chooseCards(List<Card> cards) {
         System.out.println("Choose any of these cards (separate by comma)");
         printCardsWithNumbers(cards);
-        System.out.println();
 
         List<Integer> cardIndices = new ArrayList<>();
         outer: while (true) {
