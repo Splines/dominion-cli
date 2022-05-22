@@ -80,6 +80,12 @@ public class GameCLI implements PlayerDecision {
     }
 
     @Override
+    public Optional<ActionCard> chooseOptionalActionCard(List<ActionCard> cards) {
+        List<Card> cardsGeneric = List.copyOf(cards);
+        return this.chooseOptionalCard(cardsGeneric).map(ActionCard.class::cast);
+    }
+
+    @Override
     public List<Card> chooseCardsToBuy(List<Card> cards) {
         return this.chooseCards(cards);
     }
@@ -99,13 +105,6 @@ public class GameCLI implements PlayerDecision {
     ///////////////////// Check want to do something ///////////////////////////
 
     @Override
-    public boolean checkWantToPlayActionCard() {
-        System.out.println("Do you want to play one of your action cards?");
-        boolean wantToPlay = ConsoleUtil.getBooleanFromUser();
-        return wantToPlay;
-    }
-
-    @Override
     public boolean checkWantToBuy() {
         System.out.println("Do you want to buy a new card?");
         boolean wantToBuy = ConsoleUtil.getBooleanFromUser();
@@ -117,6 +116,11 @@ public class GameCLI implements PlayerDecision {
     @Override
     public void informYourTurn(String name) {
         System.out.println("It's your turn, " + name);
+    }
+
+    @Override
+    public void informNoActionCardsPlayable() {
+        System.out.println("There are no action cards in your hand");
     }
 
 }

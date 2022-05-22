@@ -2,12 +2,10 @@ package me.splines.dominion.Game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
-import me.splines.dominion.Action.Instruction;
 import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
-import me.splines.dominion.Card.CardType;
 import me.splines.dominion.Card.MoneyCard;
 
 public class PlayerMove implements Move {
@@ -16,25 +14,34 @@ public class PlayerMove implements Move {
 
     /**
      * 1st PHASE - Action phase
-     * Player MAY play as many action card as he/she wants.
+     * Player MAY play as many action cards as he/she wants.
      *
      * @param move
      */
     @Override
     public void doActionPhase(PlayerAbstract player) {
+        List<ActionCard> actionCardsOnHand;
 
-        while (moveState.getActionsCount() > 0
-                && player.decision().checkWantToPlayActionCard()) {
+        int i = 0;
+        while (moveState.getActionsCount() > 0) {
+            actionCardsOnHand = player.getActionCardsOnHand();
+            if (actionCardsOnHand.isEmpty()) {
+                if (i == 0)
+                    player.decision().informNoActionCardsPlayable();
+                return;
+            }
+
+            Optional<ActionCard> actionCard = player.decision()
+                    .chooseOptionalActionCard(actionCardsOnHand);
+            if (actionCard.isEmpty())
+                return; // player chose not to play an action card
+
+            // Actual execution of action
             moveState.looseAction();
-            // Choose action card to play
-            List<ActionCard> actionCardsInHand = player.hand.stream()
-                    .filter(card -> card.getType() == CardType.ACTION)
-                    .map(ActionCard.class::cast)
-                    .collect(Collectors.toList());
-            ActionCard actionCard = player.decision().chooseActionCard(actionCardsInHand);
-            // Execute all instructions of action card
-            List<Instruction> instructions = actionCard.getAction().getInstructions();
-            instructions.forEach((i) -> i.execute(player, moveState, GameState.stock));
+            actionCard.get().getAction().getInstructions()
+                    .forEach(instr -> instr.execute(player, moveState, GameState.stock));
+
+            i++;
         }
     }
 

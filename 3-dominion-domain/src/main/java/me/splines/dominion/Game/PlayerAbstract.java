@@ -3,6 +3,7 @@ package me.splines.dominion.Game;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.MoneyCard;
 
@@ -51,6 +52,8 @@ public abstract class PlayerAbstract {
     public abstract void makeMove();
 
     public abstract List<Card> getHand();
+
+    public abstract List<ActionCard> getActionCardsOnHand();
 
     public abstract List<MoneyCard> getMoneyCardsOnHand();
 

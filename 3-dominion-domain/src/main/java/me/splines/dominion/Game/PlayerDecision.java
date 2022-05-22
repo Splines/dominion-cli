@@ -11,7 +11,7 @@ public interface PlayerDecision {
 
     Card chooseCard(List<Card> cards);
 
-    boolean checkWantToPlayActionCard();
+    void informNoActionCardsPlayable();
 
     boolean checkWantToBuy();
 
@@ -20,6 +20,8 @@ public interface PlayerDecision {
     List<Card> chooseCards(List<Card> cards);
 
     ActionCard chooseActionCard(List<ActionCard> cards);
+
+    Optional<ActionCard> chooseOptionalActionCard(List<ActionCard> cards);
 
     MoneyCard chooseMoneyCard(List<MoneyCard> cards);
 

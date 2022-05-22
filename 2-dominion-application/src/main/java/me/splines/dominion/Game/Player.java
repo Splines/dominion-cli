@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.MoneyCard;
 import me.splines.dominion.Game.Deck.EmptyDeckException;
 
-public final class Player extends PlayerAbstract {
+public class Player extends PlayerAbstract {
 
     public Player(String name, PlayerDecision playerDecision, Deck drawDeck) {
         super(name, playerDecision, drawDeck);
@@ -87,9 +88,16 @@ public final class Player extends PlayerAbstract {
     }
 
     @Override
+    public List<ActionCard> getActionCardsOnHand() {
+        return getHand().stream()
+                .filter(ActionCard.class::isInstance)
+                .map(ActionCard.class::cast)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<MoneyCard> getMoneyCardsOnHand() {
-        return getHand()
-                .stream()
+        return getHand().stream()
                 .filter(MoneyCard.class::isInstance)
                 .map(MoneyCard.class::cast)
                 .collect(Collectors.toList());
