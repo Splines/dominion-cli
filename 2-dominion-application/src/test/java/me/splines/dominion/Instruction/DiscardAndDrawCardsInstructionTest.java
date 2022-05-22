@@ -22,46 +22,46 @@ import me.splines.dominion.Game.PlayerDecision;
 
 public class DiscardAndDrawCardsInstructionTest {
 
-        private Instruction instruction;
-        private Deck drawDeck;
+    private Instruction instruction;
+    private Deck drawDeck;
 
-        @Mock
-        private PlayerDecision playerDecision;
+    @Mock
+    private PlayerDecision playerDecision;
 
-        private PlayerAbstract player;
+    private PlayerAbstract player;
 
-        @BeforeEach
-        void prepare() {
-                instruction = new DiscardAndDrawCardsInstruction();
+    @BeforeEach
+    void prepare() {
+        instruction = new DiscardAndDrawCardsInstruction();
 
-                drawDeck = new Deck();
-                drawDeck.put(CardPool.provinceCard);
-                drawDeck.put(CardPool.duchyCard); // ↑ other cards on bottom of deck
-                drawDeck.put(CardPool.goldCard); // 5 cards until here
-                drawDeck.put(CardPool.silverCard);
-                drawDeck.put(CardPool.copperCard);
-                drawDeck.put(CardPool.curseCard);
-                drawDeck.put(CardPool.estateCard);
+        drawDeck = new Deck();
+        drawDeck.put(CardPool.provinceCard);
+        drawDeck.put(CardPool.duchyCard); // ↑ other cards on bottom of deck
+        drawDeck.put(CardPool.goldCard); // 5 cards until here
+        drawDeck.put(CardPool.silverCard);
+        drawDeck.put(CardPool.copperCard);
+        drawDeck.put(CardPool.curseCard);
+        drawDeck.put(CardPool.estateCard);
 
-                MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this);
 
-                player = new Player("awesome player", playerDecision, drawDeck);
-        }
+        player = new Player("awesome player", playerDecision, drawDeck);
+    }
 
-        @Test
-        void discardAndDrawCardsInstruction() {
-                when(playerDecision.chooseCards(anyList())).thenReturn(List.of(
-                                CardPool.copperCard,
-                                CardPool.curseCard));
+    @Test
+    void discardAndDrawCardsInstruction() {
+        when(playerDecision.chooseCards(anyList())).thenReturn(List.of(
+                CardPool.copperCard,
+                CardPool.curseCard));
 
-                instruction.execute(player, new MoveState(), new GameStock());
+        instruction.execute(player, new MoveState(), new GameStock());
 
-                assertThat(player.getHand()).containsExactlyInAnyOrder(
-                                CardPool.estateCard,
-                                CardPool.silverCard,
-                                CardPool.goldCard,
-                                CardPool.duchyCard,
-                                CardPool.provinceCard);
-        }
+        assertThat(player.getHand()).containsExactlyInAnyOrder(
+                CardPool.estateCard,
+                CardPool.silverCard,
+                CardPool.goldCard,
+                CardPool.duchyCard,
+                CardPool.provinceCard);
+    }
 
 }

@@ -1,5 +1,7 @@
 {
-    "java.configuration.updateBuildConfiguration": "automatic",
-    "java.dependency.packagePresentation": "hierarchical",
-    "java.dependency.syncWithFolderExplorer": false
+  "java.configuration.updateBuildConfiguration": "automatic",
+  "java.dependency.packagePresentation": "hierarchical",
+  "java.dependency.syncWithFolderExplorer": false,
+  "editor.tabSize": 4,
+  "editor.detectIndentation": false
 }

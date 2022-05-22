@@ -32,118 +32,118 @@ import me.splines.dominion.Game.Stock;
 
 public class DisposeMoneyCardTakeMoneyCardTest {
 
-	private Instruction instruction;
-	private Deck drawDeck;
+    private Instruction instruction;
+    private Deck drawDeck;
 
-	@Mock
-	private PlayerDecision playerDecision;
+    @Mock
+    private PlayerDecision playerDecision;
 
-	@Captor
-	private ArgumentCaptor<List<MoneyCard>> moneyCardListCaptor;
+    @Captor
+    private ArgumentCaptor<List<MoneyCard>> moneyCardListCaptor;
 
-	private PlayerAbstract player;
+    private PlayerAbstract player;
 
-	@BeforeEach
-	void prepare() {
-		instruction = new DisposeMoneyCardTakeMoneyCardToHandInstruction();
+    @BeforeEach
+    void prepare() {
+        instruction = new DisposeMoneyCardTakeMoneyCardToHandInstruction();
 
-		drawDeck = new Deck();
-		drawDeck.put(CardPool.provinceCard);
-		drawDeck.put(CardPool.duchyCard); // ↑ other cards on bottom of draw deck
-		drawDeck.put(CardPool.goldCard); // 5 cards until here
-		drawDeck.put(CardPool.silverCard);
-		drawDeck.put(CardPool.copperCard);
-		drawDeck.put(CardPool.curseCard);
-		drawDeck.put(CardPool.estateCard);
+        drawDeck = new Deck();
+        drawDeck.put(CardPool.provinceCard);
+        drawDeck.put(CardPool.duchyCard); // ↑ other cards on bottom of draw deck
+        drawDeck.put(CardPool.goldCard); // 5 cards until here
+        drawDeck.put(CardPool.silverCard);
+        drawDeck.put(CardPool.copperCard);
+        drawDeck.put(CardPool.curseCard);
+        drawDeck.put(CardPool.estateCard);
 
-		MockitoAnnotations.openMocks(this);
+        MockitoAnnotations.openMocks(this);
 
-		player = new Player("awesome player", playerDecision, drawDeck);
-	}
+        player = new Player("awesome player", playerDecision, drawDeck);
+    }
 
-	private void expectNoChangesToHand(PlayerAbstract player) {
-		assertThat(player.getHand()).containsExactlyInAnyOrderElementsOf(
-				List.of( // no changes to hand
-						CardPool.estateCard,
-						CardPool.curseCard,
-						CardPool.copperCard,
-						CardPool.silverCard,
-						CardPool.goldCard));
-	}
+    private void expectNoChangesToHand(PlayerAbstract player) {
+        assertThat(player.getHand()).containsExactlyInAnyOrderElementsOf(
+                List.of( // no changes to hand
+                        CardPool.estateCard,
+                        CardPool.curseCard,
+                        CardPool.copperCard,
+                        CardPool.silverCard,
+                        CardPool.goldCard));
+    }
 
-	@Test
-	void mayChooseACardToDisposeNoMust() {
-		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
-				Optional.empty()); // dispose no card
+    @Test
+    void mayChooseACardToDisposeNoMust() {
+        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+                Optional.empty()); // dispose no card
 
-		instruction.execute(player, new MoveState(), new GameStock());
+        instruction.execute(player, new MoveState(), new GameStock());
 
-		expectNoChangesToHand(player);
-	}
+        expectNoChangesToHand(player);
+    }
 
-	@Test
-	void noMoneyCardsOnHand() {
-		PlayerAbstract playerMock = mock(PlayerAbstract.class);
-		when(playerMock.getMoneyCardsOnHand()).thenReturn(new ArrayList<>());
-		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
-				Optional.of(CardPool.silverCard)); // dispose this card
+    @Test
+    void noMoneyCardsOnHand() {
+        PlayerAbstract playerMock = mock(PlayerAbstract.class);
+        when(playerMock.getMoneyCardsOnHand()).thenReturn(new ArrayList<>());
+        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+                Optional.of(CardPool.silverCard)); // dispose this card
 
-		instruction.execute(playerMock, new MoveState(), new GameStock());
+        instruction.execute(playerMock, new MoveState(), new GameStock());
 
-		expectNoChangesToHand(player);
-	}
+        expectNoChangesToHand(player);
+    }
 
-	@Test
-	void newCardOnHandOldCardDisposed() {
-		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
-				Optional.of(CardPool.silverCard)); // dispose this card
-		when(playerDecision.chooseMoneyCard(anyList())).thenReturn(
-				CardPool.goldCard); // take this card
+    @Test
+    void newCardOnHandOldCardDisposed() {
+        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+                Optional.of(CardPool.silverCard)); // dispose this card
+        when(playerDecision.chooseMoneyCard(anyList())).thenReturn(
+                CardPool.goldCard); // take this card
 
-		instruction.execute(player, new MoveState(), new GameStock());
+        instruction.execute(player, new MoveState(), new GameStock());
 
-		assertThat(player.getHand())
-				.doesNotContain(CardPool.silverCard)
-				.contains(CardPool.goldCard);
-	}
+        assertThat(player.getHand())
+                .doesNotContain(CardPool.silverCard)
+                .contains(CardPool.goldCard);
+    }
 
-	@Test
-	void canOnlyTakeMoneyCards() {
-		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
-				Optional.of(CardPool.silverCard)); // dispose this card
+    @Test
+    void canOnlyTakeMoneyCards() {
+        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+                Optional.of(CardPool.silverCard)); // dispose this card
 
-		instruction.execute(player, new MoveState(), new GameStock());
+        instruction.execute(player, new MoveState(), new GameStock());
 
-		verify(playerDecision).chooseMoneyCard(moneyCardListCaptor.capture());
-		assertThat(moneyCardListCaptor.getValue())
-				.containsExactlyInAnyOrderElementsOf(CardPool.moneyCards);
+        verify(playerDecision).chooseMoneyCard(moneyCardListCaptor.capture());
+        assertThat(moneyCardListCaptor.getValue())
+                .containsExactlyInAnyOrderElementsOf(CardPool.moneyCards);
 
-	}
+    }
 
-	@Test
-	void canOnlyTakeMoneyCardsThatCostMaxThreeMore() {
-		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
-				Optional.of(CardPool.copperCard)); // dispose this card
+    @Test
+    void canOnlyTakeMoneyCardsThatCostMaxThreeMore() {
+        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+                Optional.of(CardPool.copperCard)); // dispose this card
 
-		instruction.execute(player, new MoveState(), new GameStock());
+        instruction.execute(player, new MoveState(), new GameStock());
 
-		verify(playerDecision).chooseMoneyCard(moneyCardListCaptor.capture());
-		// no gold card here (!)
-		assertThat(moneyCardListCaptor.getValue()).containsExactlyInAnyOrderElementsOf(
-				List.of(CardPool.copperCard, CardPool.silverCard));
-	}
+        verify(playerDecision).chooseMoneyCard(moneyCardListCaptor.capture());
+        // no gold card here (!)
+        assertThat(moneyCardListCaptor.getValue()).containsExactlyInAnyOrderElementsOf(
+                List.of(CardPool.copperCard, CardPool.silverCard));
+    }
 
-	@Test
-	void noMoneyCardsOnStock() {
-		Stock stock = mock(GameStock.class);
-		when(stock.getAvailableCardsWithMaxCosts(anyInt())).thenReturn(new ArrayList<>());
+    @Test
+    void noMoneyCardsOnStock() {
+        Stock stock = mock(GameStock.class);
+        when(stock.getAvailableCardsWithMaxCosts(anyInt())).thenReturn(new ArrayList<>());
 
-		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
-				Optional.of(CardPool.silverCard)); // dispose this card
+        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+                Optional.of(CardPool.silverCard)); // dispose this card
 
-		instruction.execute(player, new MoveState(), stock);
+        instruction.execute(player, new MoveState(), stock);
 
-		expectNoChangesToHand(player);
-	}
+        expectNoChangesToHand(player);
+    }
 
 }
