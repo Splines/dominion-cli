@@ -2,6 +2,7 @@ package me.splines.dominion.Instruction;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -27,6 +28,7 @@ import me.splines.dominion.Game.MoveState;
 import me.splines.dominion.Game.Player;
 import me.splines.dominion.Game.PlayerAbstract;
 import me.splines.dominion.Game.PlayerDecision;
+import me.splines.dominion.Game.Stock;
 
 public class DisposeMoneyCardTakeMoneyCardTest {
 
@@ -84,7 +86,7 @@ public class DisposeMoneyCardTakeMoneyCardTest {
 		PlayerAbstract playerMock = mock(PlayerAbstract.class);
 		when(playerMock.getMoneyCardsOnHand()).thenReturn(new ArrayList<>());
 		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
-				Optional.of(CardPool.silverCard)); // dispose no card
+				Optional.of(CardPool.silverCard)); // dispose this card
 
 		instruction.execute(playerMock, new MoveState(), new GameStock());
 
@@ -129,6 +131,19 @@ public class DisposeMoneyCardTakeMoneyCardTest {
 		// no gold card here (!)
 		assertThat(moneyCardListCaptor.getValue()).containsExactlyInAnyOrderElementsOf(
 				List.of(CardPool.copperCard, CardPool.silverCard));
+	}
+
+	@Test
+	void noMoneyCardsOnStock() {
+		Stock stock = mock(GameStock.class);
+		when(stock.getAvailableCardsWithMaxCosts(anyInt())).thenReturn(new ArrayList<>());
+
+		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+				Optional.of(CardPool.silverCard)); // dispose this card
+
+		instruction.execute(player, new MoveState(), stock);
+
+		expectNoChangesToHand(player);
 	}
 
 }

@@ -30,7 +30,6 @@ public class DisposeMoneyCardTakeMoneyCardToHandInstruction implements Instructi
                 .chooseOptionalMoneyCard(moneyCardsOnHand);
         if (!cardToDispose.isPresent())
             return;
-        player.dispose(cardToDispose.get());
 
         // Choose a money card to take
         int maxCost = cardToDispose.get().getCost() + 3;
@@ -38,6 +37,7 @@ public class DisposeMoneyCardTakeMoneyCardToHandInstruction implements Instructi
         if (moneyCardsToChoose.isEmpty())
             return;
 
+        player.dispose(cardToDispose.get());
         MoneyCard cardToTake = player.decision().chooseMoneyCard(moneyCardsToChoose);
         player.takeToHand(cardToTake);
     }
