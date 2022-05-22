@@ -16,6 +16,9 @@ public final class EarnMoneyInstruction implements Instruction {
     private final int earnMoney;
 
     public EarnMoneyInstruction(int earnMoney) {
+        if (earnMoney < 0) {
+            throw new IllegalArgumentException("Cannot earn a negative amount of money");
+        }
         this.earnMoney = earnMoney;
     }
 
