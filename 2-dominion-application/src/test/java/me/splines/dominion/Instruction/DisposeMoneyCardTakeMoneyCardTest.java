@@ -3,9 +3,11 @@ package me.splines.dominion.Instruction;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -57,6 +59,16 @@ public class DisposeMoneyCardTakeMoneyCardTest {
 		player = new Player("awesome player", playerDecision, drawDeck);
 	}
 
+	private void expectNoChangesToHand(PlayerAbstract player) {
+		assertThat(player.getHand()).containsExactlyInAnyOrderElementsOf(
+				List.of( // no changes to hand
+						CardPool.estateCard,
+						CardPool.curseCard,
+						CardPool.copperCard,
+						CardPool.silverCard,
+						CardPool.goldCard));
+	}
+
 	@Test
 	void mayChooseACardToDisposeNoMust() {
 		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
@@ -64,13 +76,19 @@ public class DisposeMoneyCardTakeMoneyCardTest {
 
 		instruction.execute(player, new MoveState(), new GameStock());
 
-		assertThat(player.getHand()).containsExactlyInAnyOrderElementsOf(
-				List.of(
-						CardPool.estateCard,
-						CardPool.curseCard,
-						CardPool.copperCard,
-						CardPool.silverCard,
-						CardPool.goldCard));
+		expectNoChangesToHand(player);
+	}
+
+	@Test
+	void noMoneyCardsOnHand() {
+		PlayerAbstract playerMock = mock(PlayerAbstract.class);
+		when(playerMock.getMoneyCardsOnHand()).thenReturn(new ArrayList<>());
+		when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+				Optional.of(CardPool.silverCard)); // dispose no card
+
+		instruction.execute(playerMock, new MoveState(), new GameStock());
+
+		expectNoChangesToHand(player);
 	}
 
 	@Test
