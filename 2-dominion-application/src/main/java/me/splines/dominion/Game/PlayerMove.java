@@ -36,7 +36,7 @@ public class PlayerMove implements Move {
             if (actionCard.isEmpty())
                 return; // player chose not to play an action card
 
-            // Actual execution of action
+            player.discard(actionCard.get());
             moveState.looseAction();
             actionCard.get().getAction().getInstructions()
                     .forEach(instr -> instr.execute(player, moveState, GameState.stock));
