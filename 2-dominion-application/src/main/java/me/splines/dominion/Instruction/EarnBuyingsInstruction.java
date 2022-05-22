@@ -15,8 +15,11 @@ public final class EarnBuyingsInstruction implements Instruction {
 
     private final int earnBuyingsCount;
 
-    public EarnBuyingsInstruction(int earnActionsCount) {
-        this.earnBuyingsCount = earnActionsCount;
+    public EarnBuyingsInstruction(int earnBuyingsCount) {
+        if (earnBuyingsCount < 0) {
+            throw new IllegalArgumentException("Cannot earn a negative amount of buyings");
+        }
+        this.earnBuyingsCount = earnBuyingsCount;
     }
 
     @Override
