@@ -49,12 +49,14 @@ public class EarnMoneyInstructionTest {
 
     @Test
     void earn42Money() {
-        Instruction instruction = new EarnMoneyInstruction(42);
+        int earnMoney = 42;
+        Instruction instruction = new EarnMoneyInstruction(earnMoney);
         MoveState moveState = new MoveState();
+        int moneyInitial = moveState.getMoney();
+
         instruction.execute(player, moveState, new GameStock());
 
-        // 0 initial + 42 money
-        assertThat(moveState.getMoney()).isEqualTo(42);
+        assertThat(moveState.getMoney()).isEqualTo(moneyInitial + earnMoney);
     }
 
     @Test
