@@ -7,7 +7,7 @@ import java.util.stream.Stream;
 
 import me.splines.dominion.Action.Action;
 import me.splines.dominion.Instruction.DiscardAndDrawCardsInstruction;
-import me.splines.dominion.Instruction.DisposeHandCardTakeMoneyCardInstruction;
+import me.splines.dominion.Instruction.DisposeMoneyCardTakeMoneyCardToHandInstruction;
 import me.splines.dominion.Instruction.DrawCardsInstruction;
 import me.splines.dominion.Instruction.EarnActionsInstruction;
 import me.splines.dominion.Instruction.EarnBuyingsInstruction;
@@ -51,7 +51,7 @@ public final class CardPool {
 
 			new ActionCardBuilder("Mine", 5).with(
 					new Action(
-							new DisposeHandCardTakeMoneyCardInstruction()))
+							new DisposeMoneyCardTakeMoneyCardToHandInstruction()))
 					.build()
 
 	);
@@ -60,6 +60,7 @@ public final class CardPool {
 	public static final MoneyCard copperCard = new MoneyCard("Kupfer", 0, 1);
 	public static final MoneyCard silverCard = new MoneyCard("Silber", 3, 2);
 	public static final MoneyCard goldCard = new MoneyCard("Gold", 6, 3);
+	public static final List<MoneyCard> moneyCards = List.of(copperCard, silverCard, goldCard);
 
 	// Point cards
 	public static final PointCard provinceCard = new PointCard("Provinz", 8, 6);

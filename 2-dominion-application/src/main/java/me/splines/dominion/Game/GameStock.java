@@ -62,19 +62,24 @@ public class GameStock implements Stock {
         return cards;
     }
 
-    private <T extends Card> List<Card> getAvailableCardsWithMaxCosts(
+    private <T extends Card> List<T> getAvailableCardsWithMaxCosts(
             List<CardStock<T>> cardStocks, int maxCost) {
-        List<Card> cards = new ArrayList<>();
+        List<T> cards = new ArrayList<>();
         for (CardStock<T> cardStock : cardStocks) {
             if (cardStock.isEmpty()) {
                 continue;
             }
-            Card card = cardStock.getCard();
+            T card = cardStock.getCard();
             if (card.getCost() <= maxCost) {
                 cards.add(card);
             }
         }
         return cards;
+    }
+
+    @Override
+    public List<MoneyCard> getAvailableMoneyCardsWithMaxCosts(int maxCosts) {
+        return getAvailableCardsWithMaxCosts(moneyCardStocks, maxCosts);
     }
 
 }

@@ -7,8 +7,10 @@ import me.splines.dominion.Card.MoneyCard;
 
 public interface Stock {
 
+    public <T extends Card> List<T> getAvailableCardsWithMaxCosts(int maxCosts);
+
     public List<MoneyCard> getAvailableMoneyCards();
 
-    public List<Card> getAvailableCardsWithMaxCosts(int maxCosts);
+    public List<MoneyCard> getAvailableMoneyCardsWithMaxCosts(int maxCosts);
 
 }

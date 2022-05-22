@@ -2,7 +2,6 @@ package me.splines.dominion.Instruction;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import me.splines.dominion.Action.Instruction;
 import me.splines.dominion.Card.MoneyCard;
@@ -17,7 +16,7 @@ import me.splines.dominion.Game.Stock;
  *
  * Cards using this instruction include "Mine".
  */
-public class DisposeHandCardTakeMoneyCardInstruction implements Instruction {
+public class DisposeMoneyCardTakeMoneyCardToHandInstruction implements Instruction {
 
     @Override
     public void execute(PlayerAbstract player, MoveState moveState, Stock stock) {
@@ -35,10 +34,7 @@ public class DisposeHandCardTakeMoneyCardInstruction implements Instruction {
 
         // Choose a money card to take
         int maxCost = cardToDispose.get().getCost() + 3;
-        List<MoneyCard> moneyCardsToChoose = stock.getAvailableMoneyCards()
-                .stream()
-                .filter((card) -> card.getCost() <= maxCost)
-                .collect(Collectors.toList());
+        List<MoneyCard> moneyCardsToChoose = stock.getAvailableMoneyCardsWithMaxCosts(maxCost);
         if (moneyCardsToChoose.isEmpty())
             return;
 
