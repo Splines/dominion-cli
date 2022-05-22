@@ -16,6 +16,9 @@ public final class EarnActionsInstruction implements Instruction {
     private final int earnActionsCount;
 
     public EarnActionsInstruction(int earnActionsCount) {
+        if (earnActionsCount < 0) {
+            throw new IllegalArgumentException("Cannot earn a negative amount of actions");
+        }
         this.earnActionsCount = earnActionsCount;
     }
 
