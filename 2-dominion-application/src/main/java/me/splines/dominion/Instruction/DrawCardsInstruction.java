@@ -16,6 +16,9 @@ public final class DrawCardsInstruction implements Instruction {
     private final int cardsToDrawCount;
 
     public DrawCardsInstruction(int cardsToDrawCount) {
+        if (cardsToDrawCount < 0) {
+            throw new IllegalArgumentException("Cannot draw a negative number of cards");
+        }
         this.cardsToDrawCount = cardsToDrawCount;
     }
 

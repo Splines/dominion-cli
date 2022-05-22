@@ -1,6 +1,7 @@
 package me.splines.dominion.Instruction;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchThrowable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +74,16 @@ public class DrawCardsInstructionTest {
         expectedHand.add(CardPool.copperCard);
         assertThat(player.getHand())
                 .containsExactlyInAnyOrderElementsOf(expectedHand);
+    }
+
+    @Test
+    void drawNoNegativeNumberOfCards() {
+        Throwable thrown = catchThrowable(
+                () -> new DrawCardsInstruction(-42));
+        assertThat(thrown)
+                .isInstanceOf(IllegalArgumentException.class)
+                .hasMessageContaining("draw")
+                .hasMessageContaining("negative");
     }
 
 }
