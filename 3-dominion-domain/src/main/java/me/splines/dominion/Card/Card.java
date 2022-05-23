@@ -1,5 +1,7 @@
 package me.splines.dominion.Card;
 
+import java.util.Objects;
+
 public abstract class Card {
 
     private final String name;
@@ -7,7 +9,10 @@ public abstract class Card {
     private final int cost;
 
     public Card(String name, CardType type, int cost) {
+        Objects.requireNonNull(name);
         this.name = name;
+
+        Objects.requireNonNull(type);
         this.type = type;
 
         // Cost
@@ -33,7 +38,7 @@ public abstract class Card {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((name == null) ? 0 : name.hashCode());
+        result = prime * result + name.hashCode();
         return result;
     }
 
@@ -46,10 +51,7 @@ public abstract class Card {
         if (getClass() != obj.getClass())
             return false;
         Card other = (Card) obj;
-        if (name == null) {
-            if (other.name != null)
-                return false;
-        } else if (!name.equals(other.name))
+        if (!name.equals(other.name))
             return false;
         return true;
     }

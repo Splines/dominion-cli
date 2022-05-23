@@ -14,6 +14,20 @@ public class CardTest {
     }
 
     @Test
+    void nullNameException() {
+        Throwable thrown = catchThrowable(
+                () -> new TestableCard(null, CardType.MONEY, 42));
+        assertThat(thrown).isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
+    void nullTypeException() {
+        Throwable thrown = catchThrowable(
+                () -> new TestableCard("a", null, 42));
+        assertThat(thrown).isInstanceOf(NullPointerException.class);
+    }
+
+    @Test
     void cardInvalidCost() {
         int cost = -1;
         Throwable thrown = catchThrowable(
@@ -43,15 +57,6 @@ public class CardTest {
     void equalsNullComparison() {
         Card x = new TestableCard("card", CardType.MONEY, 42);
         assertThat(!x.equals(null));
-    }
-
-    @Test
-    void hashCodeEqualsForNullName() {
-        Card x = new TestableCard("card", CardType.MONEY, 42);
-        Card y = new TestableCard(null, CardType.MONEY, 42);
-
-        assertThat(x.hashCode() != y.hashCode());
-        assertThat(!x.equals(y) && !y.equals(x));
     }
 
 }
