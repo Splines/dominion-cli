@@ -60,7 +60,11 @@ public abstract class PlayerAbstract {
 
     public abstract List<Card> getHand();
 
+    public abstract void clearHand();
+
     public abstract List<Card> getTable();
+
+    public abstract void clearTable();
 
     public abstract List<ActionCard> getActionCardsOnHand();
 

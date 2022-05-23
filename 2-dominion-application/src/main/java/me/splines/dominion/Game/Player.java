@@ -99,6 +99,11 @@ public class Player extends PlayerAbstract {
     }
 
     @Override
+    public void clearHand() {
+        hand.clear();
+    }
+
+    @Override
     public List<ActionCard> getActionCardsOnHand() {
         return getHand().stream()
                 .filter(ActionCard.class::isInstance)
@@ -127,6 +132,11 @@ public class Player extends PlayerAbstract {
     @Override
     public List<Card> getTable() {
         return table;
+    }
+
+    @Override
+    public void clearTable() {
+        table.clear();
     }
 
 }

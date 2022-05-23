@@ -99,8 +99,10 @@ public class PlayerMove extends Move {
      */
     @Override
     public void doCleanUpPhase() {
-        player.getHand().forEach(h -> player.discardDeck.put(h));
-        player.getHand().clear();
+        player.getHand().forEach(handCard -> player.discardDeck.put(handCard));
+        player.getTable().forEach(tableCard -> player.discardDeck.put(tableCard));
+        player.clearHand();
+        player.clearTable();
         player.drawNewHandCards();
     }
 
