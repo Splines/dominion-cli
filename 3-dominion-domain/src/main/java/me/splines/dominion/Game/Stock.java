@@ -7,10 +7,18 @@ import me.splines.dominion.Card.MoneyCard;
 
 public interface Stock {
 
-    public <T extends Card> List<T> getAvailableCardsWithMaxCosts(int maxCosts);
+    public static class NoCardStockForCardException extends RuntimeException {
+        public NoCardStockForCardException(Card card) {
+            super("No card stock could be found for card: " + card);
+        }
+    }
+
+    public List<Card> getAvailableCardsWithMaxCosts(int maxCosts);
 
     public List<MoneyCard> getAvailableMoneyCards();
 
     public List<MoneyCard> getAvailableMoneyCardsWithMaxCosts(int maxCosts);
+
+    public void takeCard(Card card);
 
 }

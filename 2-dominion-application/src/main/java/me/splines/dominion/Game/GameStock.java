@@ -2,40 +2,40 @@ package me.splines.dominion.Game;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.CardPool;
 import me.splines.dominion.Card.CardStock;
 import me.splines.dominion.Card.MoneyCard;
-import me.splines.dominion.Card.PointCard;
 
 public class GameStock implements Stock {
 
     // Money card stocks
-    private final CardStock<MoneyCard> copperCardStock = new CardStock<>(CardPool.copperCard, 60);
-    private final CardStock<MoneyCard> silverCardStock = new CardStock<>(CardPool.silverCard, 40);
-    private final CardStock<MoneyCard> goldCardStock = new CardStock<>(CardPool.goldCard, 30);
-    private final List<CardStock<MoneyCard>> moneyCardStocks = List.of(copperCardStock, silverCardStock, goldCardStock);
+    private final CardStock<Card> copperCardStock = new CardStock<>(CardPool.copperCard, 60);
+    private final CardStock<Card> silverCardStock = new CardStock<>(CardPool.silverCard, 40);
+    private final CardStock<Card> goldCardStock = new CardStock<>(CardPool.goldCard, 30);
+    private final List<CardStock<Card>> moneyCardStocks = List.of(copperCardStock, silverCardStock, goldCardStock);
 
     // Point card stocks
-    private final CardStock<PointCard> provinceCardStock = new CardStock<>(CardPool.provinceCard, 12);
-    private final CardStock<PointCard> duchyCardStock = new CardStock<>(CardPool.duchyCard, 12);
-    private final CardStock<PointCard> estateCardStock = new CardStock<>(CardPool.estateCard, 24);
-    private final List<CardStock<PointCard>> pointCardStocks = List.of(provinceCardStock, duchyCardStock,
-            estateCardStock);
+    private final CardStock<Card> provinceCardStock = new CardStock<>(CardPool.provinceCard, 12);
+    private final CardStock<Card> duchyCardStock = new CardStock<>(CardPool.duchyCard, 12);
+    private final CardStock<Card> estateCardStock = new CardStock<>(CardPool.estateCard, 24);
+    private final List<CardStock<Card>> pointCardStocks = List.of(provinceCardStock, duchyCardStock, estateCardStock);
 
     // Action card stocks
-    private final List<CardStock<ActionCard>> actionCardStocks = CardPool.actionCards
+    private final List<CardStock<Card>> actionCardStocks = CardPool.actionCards
             .stream()
-            .map(actionCard -> new CardStock<>(actionCard, 10))
-            .collect(Collectors.toList());
+            .map(actionCard -> new CardStock<Card>(actionCard, 10))
+            .toList();
 
-    @Override
-    public List<MoneyCard> getAvailableMoneyCards() {
-        return getCardsFromNonEmptyCardStocks(moneyCardStocks);
-    }
+    private final List<CardStock<Card>> cardStocks = Stream
+            .of(moneyCardStocks.stream(),
+                    pointCardStocks.stream(),
+                    actionCardStocks.stream())
+            .flatMap(c -> c).toList();
+
+    /////////////////////////////// Utility ////////////////////////////////////
 
     /**
      *
@@ -43,26 +43,17 @@ public class GameStock implements Stock {
      * @param cardStocks empty and/or non-empty card stocks
      * @return cards from non-empty card stocks
      */
-    private <T extends Card> List<T> getCardsFromNonEmptyCardStocks(
-            List<CardStock<T>> cardStocks) {
+    private <T extends Card> List<T> getCardsFromNonEmptyCardStocks(List<CardStock<T>> cardStocks) {
         List<T> cards = new ArrayList<>();
         for (CardStock<T> cardStock : cardStocks) {
-            if (!cardStock.isEmpty())
+            if (!cardStock.isEmpty()) {
                 cards.add(cardStock.getCard());
+            }
         }
         return cards;
     }
 
-    @Override
-    public List<Card> getAvailableCardsWithMaxCosts(int maxCost) {
-        List<Card> cards = new ArrayList<>();
-        cards.addAll(getAvailableCardsWithMaxCosts(moneyCardStocks, maxCost));
-        cards.addAll(getAvailableCardsWithMaxCosts(pointCardStocks, maxCost));
-        cards.addAll(getAvailableCardsWithMaxCosts(actionCardStocks, maxCost));
-        return cards;
-    }
-
-    private <T extends Card> List<T> getAvailableCardsWithMaxCosts(
+    private <T extends Card> List<T> getAvailableCardsWithMaxCostsGeneric(
             List<CardStock<T>> cardStocks, int maxCost) {
         List<T> cards = new ArrayList<>();
         for (CardStock<T> cardStock : cardStocks) {
@@ -77,9 +68,37 @@ public class GameStock implements Stock {
         return cards;
     }
 
+    private CardStock<Card> findCardStockFor(Card card) {
+        for (CardStock<Card> cardStock : cardStocks) {
+            if (cardStock.getCard() == card)
+                return cardStock;
+        }
+        throw new NoCardStockForCardException(card);
+    }
+
+    ///////////////////////// Overwritten methods //////////////////////////////
+
+    @Override
+    public List<Card> getAvailableCardsWithMaxCosts(int maxCost) {
+        return getAvailableCardsWithMaxCostsGeneric(cardStocks, maxCost);
+    }
+
     @Override
     public List<MoneyCard> getAvailableMoneyCardsWithMaxCosts(int maxCosts) {
-        return getAvailableCardsWithMaxCosts(moneyCardStocks, maxCosts);
+        return getAvailableCardsWithMaxCostsGeneric(moneyCardStocks, maxCosts)
+                .stream().map(MoneyCard.class::cast).toList();
+    }
+
+    @Override
+    public List<MoneyCard> getAvailableMoneyCards() {
+        return getCardsFromNonEmptyCardStocks(moneyCardStocks)
+                .stream().map(MoneyCard.class::cast).toList();
+    }
+
+    @Override
+    public void takeCard(Card card) {
+        CardStock<Card> cardStock = findCardStockFor(card);
+        cardStock.takeOneCard();
     }
 
 }

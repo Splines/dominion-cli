@@ -77,14 +77,16 @@ public class PlayerMove extends Move {
                 return;
             }
 
-            Optional<Card> boughtCard = player.decision()
+            Optional<Card> boughtCardOptional = player.decision()
                     .chooseOptionalCardToBuy(buyableCards);
-            if (boughtCard.isEmpty())
+            if (boughtCardOptional.isEmpty())
                 return; // player chose not to buy a card
 
-            player.take(boughtCard.get());
+            Card boughtCard = boughtCardOptional.get();
+            stock.takeCard(boughtCard);
+            player.take(boughtCard);
             moveState.looseBuying();
-            moveState.looseMoney(boughtCard.get().getCost());
+            moveState.looseMoney(boughtCard.getCost());
 
             i++;
         }

@@ -5,8 +5,17 @@ package me.splines.dominion.Card;
  */
 public class CardStock<T extends Card> {
 
+    public static class EmptyCardStockException extends RuntimeException {
+
+        public EmptyCardStockException(Card card) {
+            super("CardStock for cards '" + card
+                    + "' is empty, cannot take card from it.");
+        }
+
+    }
+
     private final T card;
-    private final int count;
+    private int count;
 
     public CardStock(T card, int count) {
         this.card = card;
@@ -18,7 +27,13 @@ public class CardStock<T extends Card> {
     }
 
     public boolean isEmpty() {
-        return this.count == 0;
+        return (count == 0);
+    }
+
+    public void takeOneCard() {
+        if (count == 0)
+            throw new EmptyCardStockException(card);
+        count--;
     }
 
 }
