@@ -3,6 +3,7 @@ package me.splines.dominion.Game;
 import java.util.List;
 
 import me.splines.dominion.Card.Card;
+import me.splines.dominion.Card.CardStock;
 import me.splines.dominion.Card.MoneyCard;
 
 public interface Stock {
@@ -20,5 +21,9 @@ public interface Stock {
     public List<MoneyCard> getAvailableMoneyCardsWithMaxCosts(int maxCosts);
 
     public void takeCard(Card card);
+
+    public CardStock<Card> getCardStock(Card card);
+
+    public int getNumberOfEmptyCardStocks();
 
 }

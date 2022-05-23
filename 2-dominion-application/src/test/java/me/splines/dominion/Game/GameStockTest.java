@@ -85,4 +85,11 @@ public class GameStockTest {
                 .hasMessageContaining(CardPool.copperCard.toString());
     }
 
+    @Test
+    void numberOfEmptyCardStocks() {
+        assertThat(stock.getNumberOfEmptyCardStocks()).isEqualTo(0);
+        forceEmptyCopperCardStock();
+        assertThat(stock.getNumberOfEmptyCardStocks()).isEqualTo(1);
+    }
+
 }

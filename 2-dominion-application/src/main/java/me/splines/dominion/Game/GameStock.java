@@ -68,14 +68,6 @@ public class GameStock implements Stock {
         return cards;
     }
 
-    private CardStock<Card> findCardStockFor(Card card) {
-        for (CardStock<Card> cardStock : cardStocks) {
-            if (cardStock.getCard() == card)
-                return cardStock;
-        }
-        throw new NoCardStockForCardException(card);
-    }
-
     ///////////////////////// Overwritten methods //////////////////////////////
 
     @Override
@@ -97,8 +89,28 @@ public class GameStock implements Stock {
 
     @Override
     public void takeCard(Card card) {
-        CardStock<Card> cardStock = findCardStockFor(card);
+        CardStock<Card> cardStock = getCardStock(card);
         cardStock.takeOneCard();
+    }
+
+    @Override
+    public CardStock<Card> getCardStock(Card card) {
+        // TODO: greatly improve performance by using a map
+        for (CardStock<Card> cardStock : cardStocks) {
+            if (cardStock.getCard() == card)
+                return cardStock;
+        }
+        throw new NoCardStockForCardException(card);
+    }
+
+    @Override
+    public int getNumberOfEmptyCardStocks() {
+        int emptyCount = 0;
+        for (CardStock<Card> cardStock : cardStocks) {
+            if (cardStock.isEmpty())
+                emptyCount++;
+        }
+        return emptyCount;
     }
 
 }
