@@ -16,31 +16,55 @@ public class Player extends PlayerAbstract {
         drawNewHandCards();
     }
 
+    /////////////////////////////// Move ///////////////////////////////////////
+
+    @Override
+    public void makeMove() {
+        playerDecision.informYourTurn(this.name);
+        PlayerMove move = new PlayerMove(this, stock);
+        move.doActionPhase();
+        move.doBuyPhase();
+        move.doCleanUpPhase();
+    }
+
+    ////////////////////////////// Draw cards //////////////////////////////////
+
     @Override
     public Card draw() {
         try {
-            Card card = drawDeck.draw();
-            hand.add(card);
-            return card;
+            return drawNormal();
         } catch (EmptyDeckException e) {
             makeDrawDeckFromDiscardDeck();
-            return draw();
+            // this time: don't catch EmptyDeckException
+            return drawNormal();
         }
+    }
+
+    private Card drawNormal() {
+        Card card = drawDeck.draw();
+        hand.add(card);
+        return card;
     }
 
     private void drawMultipleWithCheck(int cardsCount) {
         if (drawDeck.size() < cardsCount) {
             int cardsNeeded = cardsCount - drawDeck.size();
             if (discardDeck.size() < cardsNeeded) {
-                String msg = "Draw deck has " + drawDeck.size() + " cards and discard deck "
-                        + "has only " + discardDeck.size() + "cards. Can't draw "
-                        + cardsCount + " cards in total";
+                String msg = "Draw deck has " + drawDeck.size() +
+                        " cards and discard deck has only " + discardDeck.size()
+                        + "cards. Can't draw " + cardsCount + " cards in total";
                 throw new NotEnoughCardsOnDeckException(msg);
             }
         }
         for (int i = 0; i < cardsCount; i++) {
             this.draw();
         }
+    }
+
+    @Override
+    public List<Card> drawNewHandCards() {
+        drawMultipleWithCheck(5);
+        return getHand();
     }
 
     /**
@@ -58,20 +82,7 @@ public class Player extends PlayerAbstract {
         }
     }
 
-    @Override
-    public void makeMove() {
-        playerDecision.informYourTurn(this.name);
-        PlayerMove move = new PlayerMove(this, stock);
-        move.doActionPhase();
-        move.doBuyPhase();
-        move.doCleanUpPhase();
-    }
-
-    @Override
-    public List<Card> drawNewHandCards() {
-        drawMultipleWithCheck(5);
-        return getHand();
-    }
+    //////////////////////////// Hand & Table //////////////////////////////////
 
     @Override
     public void discard(Card card) {
@@ -84,17 +95,27 @@ public class Player extends PlayerAbstract {
         removeFromHand(card);
     }
 
+    @Override
+    public void play(Card card) {
+        removeFromHand(card);
+        table.add(card);
+    }
+
+    @Override
+    public void take(Card card) {
+        discardDeck.put(card);
+    }
+
+    @Override
+    public void takeToHand(Card card) {
+        hand.add(card);
+    }
+
     private void removeFromHand(Card card) {
         boolean contained = hand.remove(card);
         if (!contained) {
             throw new HandDoesNotHaveCard(card);
         }
-    }
-
-    @Override
-    public void play(Card card) {
-        removeFromHand(card);
-        table.add(card);
     }
 
     @Override
@@ -121,16 +142,6 @@ public class Player extends PlayerAbstract {
                 .filter(MoneyCard.class::isInstance)
                 .map(MoneyCard.class::cast)
                 .collect(Collectors.toList());
-    }
-
-    @Override
-    public void take(Card card) {
-        discardDeck.put(card);
-    }
-
-    @Override
-    public void takeToHand(Card card) {
-        hand.add(card);
     }
 
     @Override
