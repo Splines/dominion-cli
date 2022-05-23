@@ -20,7 +20,8 @@ class DeckTest {
     Card[] mockCards = {
             new PointCard("Point Card", 42, 43),
             new MoneyCard("Money Card", 2, 3),
-            new CurseCard("Curse Card", 5, -50)
+            new CurseCard("Curse Card", 5, -50),
+            new MoneyCard("Money Card2", 3, 4)
             // TODO add more mock cards, e.g. Action cards later
     };
 
@@ -109,6 +110,8 @@ class DeckTest {
             deck.put(this.mockCards[1]);
             deck.put(this.mockCards[2]);
             deck.put(this.mockCards[0]);
+            deck.put(this.mockCards[1]);
+            deck.put(this.mockCards[3]);
 
             deck.shuffle();
 
