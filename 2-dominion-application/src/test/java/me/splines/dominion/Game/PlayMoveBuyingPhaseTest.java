@@ -40,6 +40,10 @@ public class PlayMoveBuyingPhaseTest {
     @Test
     void buyOneCard() {
         Deck drawDeck = new Deck();
+        drawDeck.put(CardPool.copperCard);
+        drawDeck.put(CardPool.copperCard);
+        drawDeck.put(CardPool.copperCard);
+        drawDeck.put(CardPool.copperCard); // ↑ 4 additional cards for next round
         drawDeck.put(CardPool.duchyCard);
         drawDeck.put(CardPool.copperCard);
         drawDeck.put(CardPool.copperCard);
@@ -62,12 +66,16 @@ public class PlayMoveBuyingPhaseTest {
                 .hasSizeGreaterThanOrEqualTo(3) // at least: copper, silver, estate
                 .allSatisfy(card -> assertThat(card.getCost())
                         .isBetween(0, maxCost));
-        assertThat(player.getTable()).contains(cardToBuy);
+
+        assertThat(player.drawNewHandCards()).contains(cardToBuy);
     }
 
     @Test
     void buyMultipleCards() {
         Deck drawDeck = new Deck();
+        drawDeck.put(CardPool.copperCard);
+        drawDeck.put(CardPool.copperCard);
+        drawDeck.put(CardPool.copperCard); // ↑ 3 additional cards for next round
         drawDeck.put(CardPool.duchyCard);
         drawDeck.put(CardPool.silverCard);
         drawDeck.put(CardPool.silverCard);
@@ -107,8 +115,9 @@ public class PlayMoveBuyingPhaseTest {
         assertThat(boughtCardsCaptor.getAllValues().get(1))
                 .allSatisfy(card -> assertThat(card.getCost())
                         .isBetween(0, maxCostSecondBuy));
-        assertThat(player.getTable())
-                .contains(CardPool.duchyCard, CardPool.estateCard);
+
+        assertThat(player.drawNewHandCards())
+                .contains(CardPool.estateCard, CardPool.duchyCard);
     }
 
     @Test

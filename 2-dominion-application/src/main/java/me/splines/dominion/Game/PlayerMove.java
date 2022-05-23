@@ -82,7 +82,7 @@ public class PlayerMove extends Move {
             if (boughtCard.isEmpty())
                 return; // player chose not to buy a card
 
-            player.buy(boughtCard.get());
+            player.take(boughtCard.get());
             moveState.looseBuying();
             moveState.looseMoney(boughtCard.get().getCost());
 

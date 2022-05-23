@@ -50,13 +50,11 @@ public abstract class PlayerAbstract {
 
     public abstract Card draw();
 
-    public abstract void drawNewHandCards();
+    public abstract List<Card> drawNewHandCards();
 
     public abstract void makeMove();
 
     public abstract void play(Card card);
-
-    public abstract void buy(Card card);
 
     public abstract List<Card> getHand();
 

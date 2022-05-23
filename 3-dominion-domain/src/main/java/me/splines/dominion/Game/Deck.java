@@ -7,12 +7,16 @@ import me.splines.dominion.Card.Card;
 
 public class Deck {
 
-    public class EmptyDeckException extends RuntimeException {
-
+    public static class EmptyDeckException extends RuntimeException {
         public EmptyDeckException() {
             super("Deck is empty, cannot draw from it");
         }
+    }
 
+    public static class NotEnoughCardsOnDeckException extends RuntimeException {
+        public NotEnoughCardsOnDeckException(String msg) {
+            super(msg);
+        }
     }
 
     private final Stack<Card> cards = new Stack<>();
@@ -39,6 +43,14 @@ public class Deck {
 
     public void shuffle() {
         Collections.shuffle(cards);
+    }
+
+    public boolean isEmpty() {
+        return cards.empty();
+    }
+
+    public int size() {
+        return cards.size();
     }
 
 }
