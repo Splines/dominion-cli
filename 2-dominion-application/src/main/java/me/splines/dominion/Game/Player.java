@@ -1,5 +1,6 @@
 package me.splines.dominion.Game;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Stream;
 
 import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
+import me.splines.dominion.Card.CurseCard;
 import me.splines.dominion.Card.MoneyCard;
 import me.splines.dominion.Card.PointCard;
 import me.splines.dominion.Game.Deck.EmptyDeckException;
@@ -162,11 +164,15 @@ public class Player extends PlayerAbstract {
     @Override
     public int calculatePoints() {
         AtomicInteger points = new AtomicInteger(0);
-        Stream.of(hand.stream(), discardDeck.asList().stream(), drawDeck.asList().stream())
+        Stream.of(hand, discardDeck.asList(), drawDeck.asList())
+                .flatMap(Collection::stream)
                 .forEach(card -> {
                     if (card instanceof PointCard) {
                         int addPoints = ((PointCard) card).getPoints();
-                        points.addAndGet(addPoints);
+                        points.getAndAdd(addPoints);
+                    } else if (card instanceof CurseCard) {
+                        int curse = ((CurseCard) card).getCurse();
+                        points.getAndAdd(curse);
                     }
                 });
         return points.get();

@@ -2,7 +2,6 @@ package me.splines.dominion.Game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
-import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -52,7 +51,7 @@ public class PlayerTest {
         }
 
         MockitoAnnotations.openMocks(this);
-        player = spy(new Player("draw card player", playerDecision, drawDeck, new GameStock()));
+        player = new Player("draw card player", playerDecision, drawDeck, new GameStock());
     }
 
     ////////////////////////////// Move ////////////////////////////////////////
@@ -208,6 +207,19 @@ public class PlayerTest {
     void clearTable() {
         player.clearTable();
         assertThat(player.getTable()).isEmpty();
+    }
+
+    ///////////////////////////////// Other ////////////////////////////////////
+
+    @Test
+    void calculatePoints() {
+        player.draw();
+        player.discard(CardPool.estateCard);
+        int points = 2 * CardPool.estateCard.getPoints()
+                + CardPool.curseCard.getCurse()
+                + CardPool.provinceCard.getPoints()
+                + CardPool.duchyCard.getPoints();
+        assertThat(player.calculatePoints()).isEqualTo(points);
     }
 
 }
