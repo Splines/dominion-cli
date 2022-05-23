@@ -2,7 +2,7 @@ package me.splines.dominion;
 
 import java.util.List;
 
-import me.splines.dominion.Game.Game;
+import me.splines.dominion.game.Game;
 
 public class Dominion {
 

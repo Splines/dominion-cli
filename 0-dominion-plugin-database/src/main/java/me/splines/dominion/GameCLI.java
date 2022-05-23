@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import me.splines.dominion.Card.ActionCard;
-import me.splines.dominion.Card.Card;
-import me.splines.dominion.Card.MoneyCard;
-import me.splines.dominion.Game.PlayerDecision;
-import me.splines.dominion.Game.PlayerResult;
+import me.splines.dominion.card.ActionCard;
+import me.splines.dominion.card.Card;
+import me.splines.dominion.card.MoneyCard;
+import me.splines.dominion.game.PlayerDecision;
+import me.splines.dominion.game.PlayerResult;
 
 public class GameCLI implements PlayerDecision {
 

@@ -1,0 +1,33 @@
+package me.splines.dominion.instruction;
+
+import me.splines.dominion.action.Instruction;
+import me.splines.dominion.game.MoveState;
+import me.splines.dominion.game.PlayerAbstract;
+import me.splines.dominion.game.Stock;
+
+/**
+ * Instruction:
+ * You MUST draw X cards from the draw deck.
+ *
+ * Cards using this instruction include "Schmiede" and "Markt".
+ */
+public final class DrawCardsInstruction implements Instruction {
+
+    private final int cardsToDrawCount;
+
+    public DrawCardsInstruction(int cardsToDrawCount) {
+        if (cardsToDrawCount < 0) {
+            throw new IllegalArgumentException("Cannot draw a negative number of cards");
+        }
+        this.cardsToDrawCount = cardsToDrawCount;
+    }
+
+    @Override
+    public void execute(PlayerAbstract player, MoveState moveState, Stock stock) {
+        for (int i = 0; i < this.cardsToDrawCount; i++) {
+            player.draw();
+        }
+
+    }
+
+}
