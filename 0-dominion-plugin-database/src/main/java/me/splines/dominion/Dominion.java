@@ -1,3 +1,5 @@
+package me.splines.dominion;
+
 import java.util.List;
 
 import me.splines.dominion.Game.Game;

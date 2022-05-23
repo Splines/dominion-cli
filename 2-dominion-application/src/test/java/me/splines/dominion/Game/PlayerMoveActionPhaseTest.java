@@ -28,7 +28,7 @@ import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.CardPool;
 import me.splines.dominion.Card.CardType;
 
-public class PlayMoveActionPhaseTest {
+public class PlayerMoveActionPhaseTest {
 
     @Mock
     private PlayerDecision playerDecision;
