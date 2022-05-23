@@ -23,4 +23,35 @@ public class CardTest {
                 .hasMessageContaining("cost");
     }
 
+    @Test
+    void sameHashCodeEquals() {
+        Card x = new TestableCard("card", CardType.MONEY, 42);
+        Card y = new TestableCard("card", CardType.MONEY, 42);
+        assertThat(x.hashCode() == y.hashCode());
+        assertThat(x.equals(y) && y.equals(x));
+    }
+
+    @Test
+    void differentHashCodeNotEquals() {
+        Card x = new TestableCard("card", CardType.MONEY, 42);
+        Card y = new TestableCard("card-another", CardType.MONEY, 42);
+        assertThat(x.hashCode() != y.hashCode());
+        assertThat(!x.equals(y) && !y.equals(x));
+    }
+
+    @Test
+    void equalsNullComparison() {
+        Card x = new TestableCard("card", CardType.MONEY, 42);
+        assertThat(!x.equals(null));
+    }
+
+    @Test
+    void hashCodeEqualsForNullName() {
+        Card x = new TestableCard("card", CardType.MONEY, 42);
+        Card y = new TestableCard(null, CardType.MONEY, 42);
+
+        assertThat(x.hashCode() != y.hashCode());
+        assertThat(!x.equals(y) && !y.equals(x));
+    }
+
 }
