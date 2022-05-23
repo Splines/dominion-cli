@@ -8,6 +8,10 @@ import java.util.stream.Collectors;
 
 public class ConsoleUtil {
 
+    private ConsoleUtil() {
+        throw new IllegalStateException("ConsoleUtil is a utility class");
+    }
+
     private static final Scanner sc = new Scanner(System.in);
 
     public static int getIntFromUser() {

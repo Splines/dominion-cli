@@ -17,7 +17,7 @@ public abstract class PlayerAbstract {
     protected final PlayerDecision playerDecision;
     protected final Stock stock;
 
-    public PlayerAbstract(String name, PlayerDecision playerDecision, Deck drawDeck, Stock stock) {
+    protected PlayerAbstract(String name, PlayerDecision playerDecision, Deck drawDeck, Stock stock) {
         this.name = name;
         this.playerDecision = playerDecision;
         this.drawDeck = drawDeck;

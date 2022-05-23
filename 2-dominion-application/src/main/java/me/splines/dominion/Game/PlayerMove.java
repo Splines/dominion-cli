@@ -1,5 +1,6 @@
 package me.splines.dominion.Game;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
@@ -56,7 +57,7 @@ public class PlayerMove extends Move {
     @Override
     public void doBuyPhase() {
         // Earn money from money cards
-        Stream.of(player.getHand().stream(), player.getTable().stream()).flatMap(c -> c)
+        Stream.of(player.getHand(), player.getTable()).flatMap(Collection::stream)
                 .forEach(card -> {
                     if (card instanceof MoneyCard) {
                         int money = ((MoneyCard) card).getMoney();

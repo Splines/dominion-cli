@@ -65,15 +65,18 @@ public class GameCLI implements PlayerDecision {
         printCardsWithNumbers(cards);
 
         List<Integer> cardIndices = new ArrayList<>();
-        outer: while (true) {
+        boolean passed = false;
+        while (!passed) {
+            passed = true;
+
             cardIndices = ConsoleUtil.getIntsFromUser();
             for (Integer cardIndex : cardIndices) {
                 if (cardIndex < 1 || cardIndex > cards.size()) {
                     System.out.println(cardIndex + " is not a valid card number");
-                    continue outer;
+                    passed = false;
+                    break; // aka continue while loop and try again
                 }
             }
-            break;
         }
 
         return cardIndices.stream()

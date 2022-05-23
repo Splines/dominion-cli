@@ -15,6 +15,10 @@ import me.splines.dominion.Instruction.EarnMoneyInstruction;
 
 public final class CardPool {
 
+    private CardPool() {
+        throw new IllegalStateException("CardPool is a utility class serving as a pool");
+    }
+
     public static final List<ActionCard> actionCards = List.of(
 
             new ActionCardBuilder("Jahrmarkt", 5).with(

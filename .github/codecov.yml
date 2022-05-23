@@ -8,10 +8,10 @@ coverage:
   status:
     patch:
       default:
-        if_ci_failed: ignore
+        informational: true
     project:
       default:
-        if_ci_failed: ignore
+        informational: true
 
 parsers:
   gcov:

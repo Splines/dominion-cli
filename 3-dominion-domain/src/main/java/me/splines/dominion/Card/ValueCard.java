@@ -6,7 +6,7 @@ public abstract class ValueCard extends Card {
 
     private final int value;
 
-    public ValueCard(String name, CardType type, int cost, int value) {
+    protected ValueCard(String name, CardType type, int cost, int value) {
         super(name, type, cost);
 
         // CardType

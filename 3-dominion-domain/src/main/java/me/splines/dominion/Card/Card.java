@@ -8,7 +8,7 @@ public abstract class Card {
     private final CardType type;
     private final int cost;
 
-    public Card(String name, CardType type, int cost) {
+    protected Card(String name, CardType type, int cost) {
         Objects.requireNonNull(name);
         this.name = name;
 

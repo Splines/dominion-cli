@@ -6,7 +6,7 @@ public abstract class Move {
     protected Stock stock;
     protected MoveState moveState = new MoveState();
 
-    public Move(PlayerAbstract player, Stock stock) {
+    protected Move(PlayerAbstract player, Stock stock) {
         this.player = player;
         this.stock = stock;
     }

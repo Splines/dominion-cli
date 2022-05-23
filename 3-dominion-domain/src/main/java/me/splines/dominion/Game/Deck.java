@@ -1,8 +1,8 @@
 package me.splines.dominion.Game;
 
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 import me.splines.dominion.Card.Card;
 
@@ -20,13 +20,13 @@ public class Deck {
         }
     }
 
-    private final Stack<Card> cards = new Stack<>();
+    private final LinkedList<Card> cards = new LinkedList<>();
 
     public Deck() {
     }
 
     public Card draw() {
-        if (cards.empty()) {
+        if (cards.isEmpty()) {
             throw new EmptyDeckException();
         }
         return cards.pop();
@@ -47,7 +47,7 @@ public class Deck {
     }
 
     public boolean isEmpty() {
-        return cards.empty();
+        return cards.isEmpty();
     }
 
     public int size() {
