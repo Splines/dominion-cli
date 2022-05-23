@@ -56,4 +56,23 @@ public class ConsoleUtil {
             System.out.println("That's not a valid answer (yes/no), try again...");
         }
     }
+
+    public static String getStringFromUser() {
+        while (true) {
+            String line = sc.nextLine();
+            try {
+                Double.parseDouble(line);
+            } catch (NumberFormatException e) {
+                return line; // string is not a number
+            }
+            System.out.println("You've entered a number instead of text");
+        }
+    }
+
+    public static List<String> getStringListFromUser() {
+        // split around comma and remove whitespaces
+        List<String> strings = Arrays.asList(
+                sc.next().split("\\s*,\\s*"));
+        return strings;
+    }
 }

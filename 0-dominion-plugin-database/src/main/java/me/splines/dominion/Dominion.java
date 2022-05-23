@@ -8,7 +8,7 @@ public class Dominion {
 
     public static void main(String[] args) {
         GameCLI cli = new GameCLI();
-        List<String> names = List.of("Player1", "Player2", "Player3");
+        List<String> names = cli.getPlayerNames();
         Game game = new Game(cli, names);
         game.start();
     }

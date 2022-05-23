@@ -21,6 +21,13 @@ public class GameCLI implements PlayerDecision {
         System.out.println();
     }
 
+    ////////////////////////// Choose players //////////////////////////////////
+
+    public List<String> getPlayerNames() {
+        System.out.println("Enter user names");
+        return ConsoleUtil.getStringListFromUser();
+    }
+
     //////////////////////// Choose cards (general) ////////////////////////////
 
     @Override
