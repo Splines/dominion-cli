@@ -1,16 +1,18 @@
 package me.splines.dominion.Game;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Stream;
 
 import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.MoneyCard;
 
-public class PlayerMove implements Move {
+public class PlayerMove extends Move {
 
-    private MoveState moveState = new MoveState();
+    public PlayerMove(PlayerAbstract player, Stock stock) {
+        super(player, stock);
+    }
 
     /**
      * 1st PHASE - Action phase
@@ -19,7 +21,7 @@ public class PlayerMove implements Move {
      * @param move
      */
     @Override
-    public void doActionPhase(PlayerAbstract player) {
+    public void doActionPhase() {
         List<ActionCard> actionCardsOnHand;
 
         int i = 0;
@@ -36,10 +38,10 @@ public class PlayerMove implements Move {
             if (actionCard.isEmpty())
                 return; // player chose not to play an action card
 
-            player.discard(actionCard.get());
+            player.play(actionCard.get());
             moveState.looseAction();
             actionCard.get().getAction().getInstructions()
-                    .forEach(instr -> instr.execute(player, moveState, GameState.stock));
+                    .forEach(instr -> instr.execute(player, moveState, stock));
 
             i++;
         }
@@ -52,30 +54,39 @@ public class PlayerMove implements Move {
      * @param move
      */
     @Override
-    public void doBuyPhase(PlayerAbstract player) {
+    public void doBuyPhase() {
         // Earn money from money cards
-        for (Card card : player.hand) {
-            if (card instanceof MoneyCard) {
-                int money = ((MoneyCard) card).getMoney();
-                moveState.earnMoney(money);
-            }
-        }
+        Stream.of(player.getHand().stream(), player.getTable().stream()).flatMap(c -> c)
+                .forEach(card -> {
+                    if (card instanceof MoneyCard) {
+                        int money = ((MoneyCard) card).getMoney();
+                        moveState.earnMoney(money);
+                    }
+                    // Money from action cards is automatically earned
+                    // by having executed the instructions
+                });
 
         // Buy cards
-        List<Card> buyableCards = GameState.stock.getAvailableCardsWithMaxCosts(moveState.getMoney());
-        if (!buyableCards.isEmpty()) {
-            while (!buyableCards.isEmpty() && moveState.getMoney() >= 1 &&
-                    player.decision().checkWantToBuy()) {
-                List<Card> boughtCards = new ArrayList<>();
-                player.decision().chooseCardsToBuy(buyableCards);
-                Card boughtCard = player.decision().chooseCard(buyableCards);
-                boughtCards.add(boughtCard);
-
-                moveState.looseBuying();
-                moveState.looseMoney(boughtCard.getCost());
-
-                buyableCards = GameState.stock.getAvailableCardsWithMaxCosts(moveState.getMoney());
+        List<Card> buyableCards;
+        int i = 0;
+        while (moveState.getBuyingsCount() > 0) {
+            buyableCards = stock.getAvailableCardsWithMaxCosts(moveState.getMoney());
+            if (buyableCards.isEmpty()) {
+                if (i == 0)
+                    player.decision().informNoCardsBuyableWithMoney(moveState.getMoney());
+                return;
             }
+
+            Optional<Card> boughtCard = player.decision()
+                    .chooseOptionalCardToBuy(buyableCards);
+            if (boughtCard.isEmpty())
+                return; // player chose not to buy a card
+
+            player.buy(boughtCard.get());
+            moveState.looseBuying();
+            moveState.looseMoney(boughtCard.get().getCost());
+
+            i++;
         }
     }
 
@@ -87,9 +98,9 @@ public class PlayerMove implements Move {
      * @param move
      */
     @Override
-    public void doCleanUpPhase(PlayerAbstract player) {
-        player.hand.forEach(h -> player.discardDeck.put(h));
-        player.hand.clear();
+    public void doCleanUpPhase() {
+        player.getHand().forEach(h -> player.discardDeck.put(h));
+        player.getHand().clear();
         player.drawNewHandCards();
     }
 

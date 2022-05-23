@@ -58,7 +58,7 @@ public class DisposeMoneyCardTakeMoneyCardTest {
 
         MockitoAnnotations.openMocks(this);
 
-        player = new Player("awesome player", playerDecision, drawDeck);
+        player = new Player("awesome player", playerDecision, drawDeck, new GameStock());
     }
 
     private void expectNoChangesToHand(PlayerAbstract player) {

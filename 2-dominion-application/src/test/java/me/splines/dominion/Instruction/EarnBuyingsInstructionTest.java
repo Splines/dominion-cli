@@ -44,7 +44,7 @@ public class EarnBuyingsInstructionTest {
 
         MockitoAnnotations.openMocks(this);
 
-        player = new Player("buying player", playerDecision, drawDeck);
+        player = new Player("buying player", playerDecision, drawDeck, new GameStock());
     }
 
     @Test

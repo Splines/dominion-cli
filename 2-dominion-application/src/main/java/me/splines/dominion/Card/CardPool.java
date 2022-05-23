@@ -24,7 +24,7 @@ public final class CardPool {
                             new EarnMoneyInstruction(2)))
                     .build(),
 
-            new ActionCardBuilder("Markt", 2).with(
+            new ActionCardBuilder("Markt", 5).with(
                     new Action(
                             new DrawCardsInstruction(1),
                             new EarnActionsInstruction(1),

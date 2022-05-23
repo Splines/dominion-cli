@@ -44,7 +44,7 @@ public class EarnMoneyInstructionTest {
 
         MockitoAnnotations.openMocks(this);
 
-        player = new Player("money player", playerDecision, drawDeck);
+        player = new Player("money player", playerDecision, drawDeck, new GameStock());
     }
 
     @Test

@@ -54,8 +54,8 @@ public class PlayMoveActionPhaseTest {
 
     @Test
     void noActionCardsOnHand() {
-        PlayerMove move = new PlayerMove();
-        move.doActionPhase(player);
+        PlayerMove move = new PlayerMove(player, new GameStock());
+        move.doActionPhase();
 
         verify(player).getActionCardsOnHand();
         verify(playerDecision, only()).informNoActionCardsPlayable();
@@ -68,8 +68,8 @@ public class PlayMoveActionPhaseTest {
                 CardPool.actionCards.get(2)));
         when(playerDecision.chooseOptionalActionCard(anyList()))
                 .thenReturn(Optional.empty());
-        PlayerMove move = new PlayerMove();
-        move.doActionPhase(player);
+        PlayerMove move = new PlayerMove(player, new GameStock());
+        move.doActionPhase();
 
         verify(player, atMostOnce()).getActionCardsOnHand();
         verify(playerDecision, never()).informNoActionCardsPlayable();
@@ -86,8 +86,8 @@ public class PlayMoveActionPhaseTest {
                 playCard, CardPool.actionCards.get(2)));
         when(playerDecision.chooseOptionalActionCard(anyList()))
                 .thenReturn(Optional.of(playCard));
-        PlayerMove move = new PlayerMove();
-        move.doActionPhase(player);
+        PlayerMove move = new PlayerMove(player, new GameStock());
+        move.doActionPhase();
 
         verify(player, atMostOnce()).getActionCardsOnHand();
         verify(playerDecision, never()).informNoActionCardsPlayable();
@@ -113,8 +113,8 @@ public class PlayMoveActionPhaseTest {
         when(playerDecision.chooseOptionalActionCard(anyList()))
                 .thenReturn(Optional.of(playCard))
                 .thenReturn(Optional.of(otherPlayCard));
-        PlayerMove move = new PlayerMove();
-        move.doActionPhase(player);
+        PlayerMove move = new PlayerMove(player, new GameStock());
+        move.doActionPhase();
 
         verify(player, times(2)).getActionCardsOnHand();
         verify(playerDecision, times(2)).chooseOptionalActionCard(any());
@@ -138,12 +138,12 @@ public class PlayMoveActionPhaseTest {
         drawDeck.put(CardPool.copperCard);
         drawDeck.put(CardPool.copperCard);
         drawDeck.put(CardPool.copperCard);
-        Player ourPlayer = spy(new Player("player", playerDecision, drawDeck));
+        Player ourPlayer = spy(new Player("our player", playerDecision, drawDeck, new GameStock()));
 
         when(playerDecision.chooseOptionalActionCard(anyList()))
                 .thenReturn(Optional.of(playCard));
-        PlayerMove move = new PlayerMove();
-        move.doActionPhase(ourPlayer);
+        PlayerMove move = new PlayerMove(ourPlayer, new GameStock());
+        move.doActionPhase();
 
         verify(ourPlayer, times(2)).getActionCardsOnHand();
         verify(playerDecision, times(1)).chooseOptionalActionCard(actionCardListCaptor.capture());

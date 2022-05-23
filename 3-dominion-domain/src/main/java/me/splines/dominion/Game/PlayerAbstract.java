@@ -13,12 +13,15 @@ public abstract class PlayerAbstract {
     protected final Deck drawDeck;
     protected final Deck discardDeck = new Deck();
     protected List<Card> hand = new ArrayList<>();
+    protected List<Card> table = new ArrayList<>();
     protected final PlayerDecision playerDecision;
+    protected final Stock stock;
 
-    public PlayerAbstract(String name, PlayerDecision playerDecision, Deck drawDeck) {
+    public PlayerAbstract(String name, PlayerDecision playerDecision, Deck drawDeck, Stock stock) {
         this.name = name;
         this.playerDecision = playerDecision;
         this.drawDeck = drawDeck;
+        this.stock = stock;
     }
 
     public PlayerDecision decision() {
@@ -51,7 +54,13 @@ public abstract class PlayerAbstract {
 
     public abstract void makeMove();
 
+    public abstract void play(Card card);
+
+    public abstract void buy(Card card);
+
     public abstract List<Card> getHand();
+
+    public abstract List<Card> getTable();
 
     public abstract List<ActionCard> getActionCardsOnHand();
 

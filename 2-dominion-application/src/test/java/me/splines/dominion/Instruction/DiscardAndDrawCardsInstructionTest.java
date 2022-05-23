@@ -45,7 +45,7 @@ public class DiscardAndDrawCardsInstructionTest {
 
         MockitoAnnotations.openMocks(this);
 
-        player = new Player("awesome player", playerDecision, drawDeck);
+        player = new Player("awesome player", playerDecision, drawDeck, new GameStock());
     }
 
     @Test

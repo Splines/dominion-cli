@@ -1,11 +1,20 @@
 package me.splines.dominion.Game;
 
-public interface Move {
+public abstract class Move {
 
-    void doActionPhase(PlayerAbstract player);
+    protected PlayerAbstract player;
+    protected Stock stock;
+    protected MoveState moveState = new MoveState();
 
-    void doBuyPhase(PlayerAbstract player);
+    public Move(PlayerAbstract player, Stock stock) {
+        this.player = player;
+        this.stock = stock;
+    }
 
-    void doCleanUpPhase(PlayerAbstract player);
+    abstract void doActionPhase();
+
+    abstract void doBuyPhase();
+
+    abstract void doCleanUpPhase();
 
 }

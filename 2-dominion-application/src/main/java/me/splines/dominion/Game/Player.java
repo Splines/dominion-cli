@@ -11,8 +11,8 @@ import me.splines.dominion.Game.Deck.EmptyDeckException;
 
 public class Player extends PlayerAbstract {
 
-    public Player(String name, PlayerDecision playerDecision, Deck drawDeck) {
-        super(name, playerDecision, drawDeck);
+    public Player(String name, PlayerDecision playerDecision, Deck drawDeck, Stock stock) {
+        super(name, playerDecision, drawDeck, stock);
         drawNewHandCards();
     }
 
@@ -51,10 +51,10 @@ public class Player extends PlayerAbstract {
     @Override
     public void makeMove() {
         playerDecision.informYourTurn(this.name);
-        PlayerMove move = new PlayerMove();
-        move.doActionPhase(this);
-        move.doBuyPhase(this);
-        move.doCleanUpPhase(this);
+        PlayerMove move = new PlayerMove(this, stock);
+        move.doActionPhase();
+        move.doBuyPhase();
+        move.doCleanUpPhase();
     }
 
     @Override
@@ -80,6 +80,17 @@ public class Player extends PlayerAbstract {
         if (!contained) {
             throw new HandDoesNotHaveCard(card);
         }
+    }
+
+    @Override
+    public void play(Card card) {
+        removeFromHand(card);
+        table.add(card);
+    }
+
+    @Override
+    public void buy(Card card) {
+        table.add(card);
     }
 
     @Override
@@ -111,6 +122,11 @@ public class Player extends PlayerAbstract {
     @Override
     public void takeToHand(Card card) {
         hand.add(card);
+    }
+
+    @Override
+    public List<Card> getTable() {
+        return table;
     }
 
 }

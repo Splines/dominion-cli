@@ -13,7 +13,7 @@ public interface PlayerDecision {
 
     void informNoActionCardsPlayable();
 
-    boolean checkWantToBuy();
+    void informNoCardsBuyableWithMoney(int money);
 
     void informYourTurn(String name);
 
@@ -26,6 +26,8 @@ public interface PlayerDecision {
     MoneyCard chooseMoneyCard(List<MoneyCard> cards);
 
     List<Card> chooseCardsToBuy(List<Card> cards);
+
+    Optional<Card> chooseOptionalCardToBuy(List<Card> cards);
 
     Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards);
 

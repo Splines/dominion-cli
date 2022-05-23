@@ -91,6 +91,11 @@ public class GameCLI implements PlayerDecision {
     }
 
     @Override
+    public Optional<Card> chooseOptionalCardToBuy(List<Card> cards) {
+        return this.chooseOptionalCard(cards);
+    }
+
+    @Override
     public MoneyCard chooseMoneyCard(List<MoneyCard> cards) {
         List<Card> cardsGeneric = List.copyOf(cards);
         return (MoneyCard) this.chooseCard(cardsGeneric);
@@ -100,15 +105,6 @@ public class GameCLI implements PlayerDecision {
     public Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards) {
         List<Card> cardsGeneric = List.copyOf(cards);
         return this.chooseOptionalCard(cardsGeneric).map(MoneyCard.class::cast);
-    }
-
-    ///////////////////// Check want to do something ///////////////////////////
-
-    @Override
-    public boolean checkWantToBuy() {
-        System.out.println("Do you want to buy a new card?");
-        boolean wantToBuy = ConsoleUtil.getBooleanFromUser();
-        return wantToBuy;
     }
 
     /////////////////////////////// Other //////////////////////////////////////
@@ -121,6 +117,11 @@ public class GameCLI implements PlayerDecision {
     @Override
     public void informNoActionCardsPlayable() {
         System.out.println("There are no action cards in your hand");
+    }
+
+    @Override
+    public void informNoCardsBuyableWithMoney(int money) {
+        System.out.println("Can't buy any cards with money " + money);
     }
 
 }

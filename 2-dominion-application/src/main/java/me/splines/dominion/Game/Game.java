@@ -10,9 +10,11 @@ public class Game {
     private List<Player> players = new ArrayList<>();
 
     public Game(PlayerDecision playerDecision, List<String> playerNames) {
+        Stock stock = new GameStock();
+
         for (String name : playerNames) {
             Deck initialDrawDeck = getInitialDrawDeck();
-            Player player = new Player(name, playerDecision, initialDrawDeck);
+            Player player = new Player(name, playerDecision, initialDrawDeck, stock);
             players.add(player);
         }
     }
