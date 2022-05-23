@@ -20,7 +20,7 @@ import me.splines.dominion.Game.Player;
 import me.splines.dominion.Game.PlayerAbstract;
 import me.splines.dominion.Game.PlayerDecision;
 
-public class EarnMoneyInstructionTest {
+class EarnMoneyInstructionTest {
 
     private Deck drawDeck;
 

@@ -18,7 +18,7 @@ import org.mockito.MockitoAnnotations;
  * would end in integration instead of unit tests since we can't mock the inner
  * workings of the class and can only interact by mocking the PlayerDecision.
  */
-public class GameTest {
+class GameTest {
 
     @Mock
     private PlayerDecision playerDecision;

@@ -14,7 +14,7 @@ import me.splines.dominion.Card.CardStock.EmptyCardStockException;
 import me.splines.dominion.Card.MoneyCard;
 import me.splines.dominion.Game.Stock.NoCardStockForCardException;
 
-public class GameStockTest {
+class GameStockTest {
 
     private Stock stock;
 
@@ -87,9 +87,9 @@ public class GameStockTest {
 
     @Test
     void numberOfEmptyCardStocks() {
-        assertThat(stock.getNumberOfEmptyCardStocks()).isEqualTo(0);
+        assertThat(stock.getNumberOfEmptyCardStocks()).isZero();
         forceEmptyCopperCardStock();
-        assertThat(stock.getNumberOfEmptyCardStocks()).isEqualTo(1);
+        assertThat(stock.getNumberOfEmptyCardStocks()).isOne();
     }
 
 }

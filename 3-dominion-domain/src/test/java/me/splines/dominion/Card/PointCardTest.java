@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 import org.junit.jupiter.api.Test;
 
-public class PointCardTest {
+class PointCardTest {
 
     @Test
     void pointValue() {

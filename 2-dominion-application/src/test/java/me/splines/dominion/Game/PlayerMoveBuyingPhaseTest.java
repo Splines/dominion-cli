@@ -24,7 +24,7 @@ import org.mockito.MockitoAnnotations;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.CardPool;
 
-public class PlayerMoveBuyingPhaseTest {
+class PlayerMoveBuyingPhaseTest {
 
     @Mock
     private PlayerDecision playerDecision;

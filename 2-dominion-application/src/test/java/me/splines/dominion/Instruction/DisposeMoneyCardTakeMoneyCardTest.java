@@ -30,7 +30,7 @@ import me.splines.dominion.Game.PlayerAbstract;
 import me.splines.dominion.Game.PlayerDecision;
 import me.splines.dominion.Game.Stock;
 
-public class DisposeMoneyCardTakeMoneyCardTest {
+class DisposeMoneyCardTakeMoneyCardTest {
 
     private Instruction instruction;
     private Deck drawDeck;

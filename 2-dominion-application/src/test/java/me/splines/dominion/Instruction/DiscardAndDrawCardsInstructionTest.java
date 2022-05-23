@@ -20,7 +20,7 @@ import me.splines.dominion.Game.Player;
 import me.splines.dominion.Game.PlayerAbstract;
 import me.splines.dominion.Game.PlayerDecision;
 
-public class DiscardAndDrawCardsInstructionTest {
+class DiscardAndDrawCardsInstructionTest {
 
     private Instruction instruction;
     private Deck drawDeck;

@@ -3,7 +3,6 @@ package me.splines.dominion;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
@@ -79,9 +78,7 @@ public class GameCLI implements PlayerDecision {
             }
         }
 
-        return cardIndices.stream()
-                .map(i -> cards.get(i))
-                .collect(Collectors.toList());
+        return cardIndices.stream().map(cards::get).toList();
     }
 
     ////////////////////// Choose cards (specific) /////////////////////////////

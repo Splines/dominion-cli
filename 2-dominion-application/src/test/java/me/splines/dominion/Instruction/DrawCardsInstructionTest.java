@@ -21,7 +21,7 @@ import me.splines.dominion.Game.Player;
 import me.splines.dominion.Game.PlayerAbstract;
 import me.splines.dominion.Game.PlayerDecision;
 
-public class DrawCardsInstructionTest {
+class DrawCardsInstructionTest {
 
     private Deck drawDeck;
 

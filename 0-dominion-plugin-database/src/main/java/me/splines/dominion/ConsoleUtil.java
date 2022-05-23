@@ -4,7 +4,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Scanner;
-import java.util.stream.Collectors;
 
 public class ConsoleUtil {
 
@@ -41,8 +40,8 @@ public class ConsoleUtil {
                 List<String> strings = Arrays.asList(
                         sc.next().split("\\s*,\\s*"));
                 return strings.stream()
-                        .map(s -> Integer.parseInt(s))
-                        .collect(Collectors.toList());
+                        .map(Integer::parseInt)
+                        .toList();
             } catch (NumberFormatException e) {
                 System.out.println("Something is not a whole number, " +
                         "please check your input and try again...");
@@ -75,8 +74,6 @@ public class ConsoleUtil {
 
     public static List<String> getStringListFromUser() {
         // split around comma and remove whitespaces
-        List<String> strings = Arrays.asList(
-                sc.next().split("\\s*,\\s*"));
-        return strings;
+        return Arrays.asList(sc.next().split("\\s*,\\s*"));
     }
 }

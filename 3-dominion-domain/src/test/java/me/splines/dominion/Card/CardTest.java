@@ -5,7 +5,7 @@ import static org.assertj.core.api.Assertions.catchThrowable;
 
 import org.junit.jupiter.api.Test;
 
-public class CardTest {
+class CardTest {
 
     class TestableCard extends Card {
         public TestableCard(String name, CardType type, int cost) {
@@ -41,22 +41,24 @@ public class CardTest {
     void sameHashCodeEquals() {
         Card x = new TestableCard("card", CardType.MONEY, 42);
         Card y = new TestableCard("card", CardType.MONEY, 42);
-        assertThat(x.hashCode() == y.hashCode());
-        assertThat(x.equals(y) && y.equals(x));
+        assertThat(x.hashCode()).isEqualTo(y.hashCode());
+        assertThat(x).isEqualTo(y);
+        assertThat(y).isEqualTo(x);
     }
 
     @Test
     void differentHashCodeNotEquals() {
         Card x = new TestableCard("card", CardType.MONEY, 42);
         Card y = new TestableCard("card-another", CardType.MONEY, 42);
-        assertThat(x.hashCode() != y.hashCode());
-        assertThat(!x.equals(y) && !y.equals(x));
+        assertThat(x.hashCode()).isNotEqualTo(y.hashCode());
+        assertThat(x).isNotEqualTo(y);
+        assertThat(y).isNotEqualTo(x);
     }
 
     @Test
     void equalsNullComparison() {
         Card x = new TestableCard("card", CardType.MONEY, 42);
-        assertThat(!x.equals(null));
+        assertThat(x).isNotEqualTo(null);
     }
 
 }

@@ -19,7 +19,7 @@ import me.splines.dominion.Game.Deck.EmptyDeckException;
 import me.splines.dominion.Game.Deck.NotEnoughCardsOnDeckException;
 import me.splines.dominion.Game.PlayerAbstract.HandDoesNotHaveCard;
 
-public class PlayerTest {
+class PlayerTest {
 
     private Deck drawDeck;
     private List<Card> initialHand;

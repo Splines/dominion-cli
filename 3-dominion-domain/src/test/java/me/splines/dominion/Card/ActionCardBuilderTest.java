@@ -11,7 +11,7 @@ import me.splines.dominion.Game.MoveState;
 import me.splines.dominion.Game.PlayerAbstract;
 import me.splines.dominion.Game.Stock;
 
-public class ActionCardBuilderTest {
+class ActionCardBuilderTest {
 
     class DummyInstruction implements Instruction {
         @Override

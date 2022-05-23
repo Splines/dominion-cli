@@ -19,7 +19,7 @@ public class DiscardAndDrawCardsInstruction implements Instruction {
     @Override
     public void execute(PlayerAbstract player, MoveState moveState, Stock stock) {
         List<Card> cardsToDiscard = player.decision().chooseCards(player.getHand());
-        cardsToDiscard.forEach((card) -> player.discard(card));
+        cardsToDiscard.forEach(card -> player.discard(card));
 
         for (int i = 0; i < cardsToDiscard.size(); i++) {
             player.draw();

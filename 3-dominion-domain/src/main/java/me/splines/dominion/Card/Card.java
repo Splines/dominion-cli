@@ -51,9 +51,7 @@ public abstract class Card {
         if (getClass() != obj.getClass())
             return false;
         Card other = (Card) obj;
-        if (!name.equals(other.name))
-            return false;
-        return true;
+        return name.equals(other.name);
     }
 
     @Override
