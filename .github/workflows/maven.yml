@@ -35,5 +35,5 @@ jobs:
         files: jacoco.xml
         flags: unittests
         name: dominion-codecov
-        fail_ci_if_error: true
+        fail_ci_if_error: false
         verbose: true
