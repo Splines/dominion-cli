@@ -1,11 +1,14 @@
 package me.splines.dominion.Game;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.MoneyCard;
+import me.splines.dominion.Card.PointCard;
 import me.splines.dominion.Game.Deck.EmptyDeckException;
 import me.splines.dominion.Game.Deck.NotEnoughCardsOnDeckException;
 
@@ -152,6 +155,21 @@ public class Player extends PlayerAbstract {
     @Override
     public void clearTable() {
         table.clear();
+    }
+
+    ///////////////////////////////// Other ////////////////////////////////////
+
+    @Override
+    public int calculatePoints() {
+        AtomicInteger points = new AtomicInteger(0);
+        Stream.of(hand.stream(), discardDeck.asList().stream(), drawDeck.asList().stream())
+                .forEach(card -> {
+                    if (card instanceof PointCard) {
+                        int addPoints = ((PointCard) card).getPoints();
+                        points.addAndGet(addPoints);
+                    }
+                });
+        return points.get();
     }
 
 }

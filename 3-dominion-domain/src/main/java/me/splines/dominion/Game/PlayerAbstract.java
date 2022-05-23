@@ -68,4 +68,6 @@ public abstract class PlayerAbstract {
 
     public abstract List<MoneyCard> getMoneyCardsOnHand();
 
+    public abstract int calculatePoints();
+
 }

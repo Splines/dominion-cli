@@ -15,6 +15,10 @@ public interface PlayerDecision {
 
     void informNoCardsBuyableWithMoney(int money);
 
+    void announceResults(List<PlayerResult> results);
+
+    void announceWinners(String... names);
+
     void informYourTurn(String name);
 
     List<Card> chooseCards(List<Card> cards);

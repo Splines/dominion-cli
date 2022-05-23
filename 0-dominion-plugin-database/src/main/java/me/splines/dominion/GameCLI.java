@@ -9,6 +9,7 @@ import me.splines.dominion.Card.ActionCard;
 import me.splines.dominion.Card.Card;
 import me.splines.dominion.Card.MoneyCard;
 import me.splines.dominion.Game.PlayerDecision;
+import me.splines.dominion.Game.PlayerResult;
 
 public class GameCLI implements PlayerDecision {
 
@@ -124,6 +125,23 @@ public class GameCLI implements PlayerDecision {
     @Override
     public void informNoCardsBuyableWithMoney(int money) {
         System.out.println("Can't buy any cards with money " + money);
+    }
+
+    @Override
+    public void announceResults(List<PlayerResult> results) {
+        System.out.println("These are your results");
+        for (PlayerResult playerResult : results) {
+            System.out.println(playerResult.getName() + ": "
+                    + playerResult.getPoints() + " Points");
+        }
+    }
+
+    @Override
+    public void announceWinners(String... names) {
+        if (names.length >= 1) {
+            System.out.println("There are multiple winners:");
+        }
+        System.out.println("Congratulations: " + String.join(",", names));
     }
 
 }

@@ -10,7 +10,7 @@ public class Dominion {
         GameCLI cli = new GameCLI();
         List<String> names = List.of("Player1", "Player2", "Player3");
         Game game = new Game(cli, names);
-        game.startGameLoop();
+        game.start();
     }
 
 }

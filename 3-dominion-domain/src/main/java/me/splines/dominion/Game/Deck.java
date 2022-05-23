@@ -1,6 +1,7 @@
 package me.splines.dominion.Game;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Stack;
 
 import me.splines.dominion.Card.Card;
@@ -51,6 +52,10 @@ public class Deck {
 
     public int size() {
         return cards.size();
+    }
+
+    public List<Card> asList() {
+        return List.copyOf(cards);
     }
 
 }
