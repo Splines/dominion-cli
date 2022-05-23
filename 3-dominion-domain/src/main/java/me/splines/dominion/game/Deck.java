@@ -22,9 +22,6 @@ public class Deck {
 
     private final LinkedList<Card> cards = new LinkedList<>();
 
-    public Deck() {
-    }
-
     public Card draw() {
         if (cards.isEmpty()) {
             throw new EmptyDeckException();

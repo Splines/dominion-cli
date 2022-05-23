@@ -15,10 +15,6 @@ public final class MoveState {
     // Cards that are currently played in this move
     private final List<Card> playingCards = new ArrayList<>();
 
-    public MoveState() {
-
-    }
-
     public int getCardsCount() {
         return this.cardsCount;
     }

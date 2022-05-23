@@ -41,8 +41,9 @@ class CardTest {
     void sameHashCodeEquals() {
         Card x = new TestableCard("card", CardType.MONEY, 42);
         Card y = new TestableCard("card", CardType.MONEY, 42);
-        assertThat(x.hashCode()).isEqualTo(y.hashCode());
-        assertThat(x).isEqualTo(y);
+        assertThat(x)
+                .hasSameHashCodeAs(y)
+                .isEqualTo(y);
         assertThat(y).isEqualTo(x);
     }
 
@@ -50,8 +51,9 @@ class CardTest {
     void differentHashCodeNotEquals() {
         Card x = new TestableCard("card", CardType.MONEY, 42);
         Card y = new TestableCard("card-another", CardType.MONEY, 42);
-        assertThat(x.hashCode()).isNotEqualTo(y.hashCode());
-        assertThat(x).isNotEqualTo(y);
+        assertThat(x)
+                .doesNotHaveSameHashCodeAs(y)
+                .isNotEqualTo(y);
         assertThat(y).isNotEqualTo(x);
     }
 
