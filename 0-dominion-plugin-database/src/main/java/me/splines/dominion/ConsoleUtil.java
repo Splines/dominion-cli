@@ -37,11 +37,10 @@ public class ConsoleUtil {
         while (true) {
             try {
                 // split around comma and remove whitespaces
-                List<String> strings = Arrays.asList(
-                        sc.next().split("\\s*,\\s*"));
-                return strings.stream()
-                        .map(Integer::parseInt)
-                        .toList();
+                String[] userStrings = sc.next().split(",");
+                List<String> strings = Arrays.asList(userStrings);
+                strings.replaceAll(String::trim);
+                return strings.stream().map(Integer::parseInt).toList();
             } catch (NumberFormatException e) {
                 System.out.println("Something is not a whole number, " +
                         "please check your input and try again...");
@@ -74,6 +73,9 @@ public class ConsoleUtil {
 
     public static List<String> getStringListFromUser() {
         // split around comma and remove whitespaces
-        return Arrays.asList(sc.next().split("\\s*,\\s*"));
+        String[] userStrings = sc.next().split(",");
+        List<String> strings = Arrays.asList(userStrings);
+        strings.replaceAll(String::trim);
+        return strings;
     }
 }
