@@ -5,8 +5,8 @@ public enum CardType {
     POINTS("Punkte"),
     CURSE("Fluch"),
     ACTION("Aktion"),
-    ACTION_ATTACK("Aktion - Angriff"),
-    ACTION_REACTION("Aktion - Reaktion");
+    ACTION_ATTACK("Angriff"),
+    ACTION_REACTION("Reaktion");
 
     private final String name;
 
