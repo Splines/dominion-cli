@@ -10,7 +10,8 @@ class CardTypeTest {
     void cardTypeName() {
         // Just a few to see that enum names work correctly
         assertThat(CardType.ACTION.getName()).isEqualTo("Aktion");
-        assertThat(CardType.ACTION_ATTACK.getName()).isEqualTo("Aktion - Angriff");
+        assertThat(CardType.ACTION_ATTACK.getName()).isEqualTo("Angriff");
+        assertThat(CardType.ACTION_REACTION.getName()).isEqualTo("Reaktion");
     }
 
 }

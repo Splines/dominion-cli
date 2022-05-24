@@ -24,24 +24,29 @@ public final class CardPrinter {
     }
 
     private static void printHeader(Card card) {
-        // ### NAME ### (two spaces around name)
+        // Calculate spaces
         int spaceLeft = CARD_WIDTH - card.getName().length() - 2;
         if (spaceLeft <= 2) {
             throw new CardNameTooLongException(card.getName());
         }
+        int spacesLeft = (int) Math.floor(spaceLeft / 2.0);
+        int spacesRight = (int) Math.ceil(spaceLeft / 2.0);
 
-        int numSymbolsLeft = (int) Math.floor(spaceLeft / 2.0);
-        int numSymbolsRight = (int) Math.ceil(spaceLeft / 2.0);
-
+        // Symbols to the left of card name
         System.out.print(SYMBOL_TOP_LEFT_CORNER);
-        for (int i = 0; i < numSymbolsLeft - 1; i++) {
+        for (int i = 0; i < spacesLeft - 1; i++) {
             System.out.print(SYMBOL_HORIZONTAL_BORDER);
         }
+
+        // Card name
         System.out.print(" " + card.getName().toUpperCase() + " ");
-        for (int i = 0; i < numSymbolsRight - 1; i++) {
+
+        // Symbols to the right of card name
+        for (int i = 0; i < spacesRight - 1; i++) {
             System.out.print(SYMBOL_HORIZONTAL_BORDER);
         }
         System.out.print(SYMBOL_TOP_RIGHT_CORNER);
+
         System.out.println();
     }
 
@@ -53,24 +58,33 @@ public final class CardPrinter {
 
     private static void printFooter(Card card) {
         System.out.print(SYMBOL_BOTTOM_LEFT_CORNER);
+
+        // Card costs
         String moneyStr = card.getCost() + "💰";
         System.out.print(" " + moneyStr + " ");
 
-        String typeStr = card.getType().getName();
-        int footerSpacesBothSides = CARD_WIDTH - typeStr.length() - 2;
-        int footerSpacesLeft = (int) Math.floor(footerSpacesBothSides / 2.0);
-        int footerSpacesRight = (int) Math.ceil(footerSpacesBothSides / 2.0);
+        // Calculate spaces
+        String typeName = card.getType().getName();
+        int spacesBothSides = CARD_WIDTH - typeName.length() - 2;
+        int spacesToTheLeft = (int) Math.floor(spacesBothSides / 2.0);
+        int spacesToTheRight = (int) Math.ceil(spacesBothSides / 2.0);
 
-        int symbolsToCome = footerSpacesLeft - (1 + 1 + moneyStr.length() + 1);
-        for (int i = 0; i < symbolsToCome; i++) {
+        // Spaces from symbols so far until card type text
+        int spacesSoFar = 1 + 1 + moneyStr.length() + 1;
+        for (int i = 0; i < spacesToTheLeft - spacesSoFar; i++) {
             System.out.print(SYMBOL_HORIZONTAL_BORDER);
         }
-        System.out.print(" " + typeStr + " ");
 
-        for (int i = 0; i < footerSpacesRight - 1; i++) {
+        // Card type
+        System.out.print(" " + typeName + " ");
+
+        // Symbols to the right of card type
+        for (int i = 0; i < spacesToTheRight - 1; i++) {
             System.out.print(SYMBOL_HORIZONTAL_BORDER);
         }
         System.out.print(SYMBOL_BOTTOM_RIGHT_CORNER);
+
+        System.out.println();
     }
 
     private static void printEmptyLineWithBorder() {
