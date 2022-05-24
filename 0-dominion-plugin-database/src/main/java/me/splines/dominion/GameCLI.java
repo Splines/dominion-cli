@@ -23,8 +23,19 @@ public class GameCLI implements PlayerDecision {
     ////////////////////////// Choose players //////////////////////////////////
 
     public List<String> getPlayerNames() {
-        System.out.println("Enter user names");
-        return ConsoleUtil.getStringListFromUser();
+        System.out.println("▶ Knock knock, who do we have here?");
+        System.out.println("Write down your names in a comma-separated list");
+        System.out.println("(e.g. Sigrid, Thomas, Eleonore, Ella):");
+        List<String> stringListFromUser;
+        while (true) {
+            stringListFromUser = ConsoleUtil.getStringListFromUser();
+            if (stringListFromUser.size() != 1)
+                break;
+            System.out.println("Sorry, but playing Dominion alone is really no fun");
+            System.out.println("Write down your names again (separated by comma)");
+        }
+        System.out.println();
+        return stringListFromUser;
     }
 
     //////////////////////// Choose cards (general) ////////////////////////////
@@ -121,7 +132,7 @@ public class GameCLI implements PlayerDecision {
 
     @Override
     public void informYourTurn(String name) {
-        System.out.println("It's your turn, " + name);
+        System.out.println("🎴🎴 " + name + " 🎴🎴");
     }
 
     @Override

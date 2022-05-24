@@ -73,7 +73,7 @@ public class ConsoleUtil {
 
     public static List<String> getStringListFromUser() {
         // split around comma and remove whitespaces
-        String[] userStrings = sc.next().split(",");
+        String[] userStrings = sc.nextLine().split(",");
         List<String> strings = Arrays.asList(userStrings);
         strings.replaceAll(String::trim);
         return strings;
