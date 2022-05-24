@@ -10,6 +10,7 @@ import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -58,7 +59,9 @@ class PlayerMoveActionPhaseTest {
         move.doActionPhase();
 
         verify(player).getActionCardsOnHand();
-        verify(playerDecision, only()).informNoActionCardsPlayable();
+        verify(playerDecision).informStartActionPhase();
+        verify(playerDecision).informNoActionCardsPlayable();
+        verifyNoMoreInteractions(playerDecision);
     }
 
     @Test

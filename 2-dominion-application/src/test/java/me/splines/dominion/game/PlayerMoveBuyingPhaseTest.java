@@ -8,6 +8,7 @@ import static org.mockito.Mockito.only;
 import static org.mockito.Mockito.spy;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
@@ -59,8 +60,9 @@ class PlayerMoveBuyingPhaseTest {
         PlayerMove move = new PlayerMove(player, stock);
         move.doBuyPhase();
 
-        verify(playerDecision, only())
-                .chooseOptionalCardToBuy(boughtCardsCaptor.capture());
+        verify(playerDecision).informStartBuyingPhase();
+        verify(playerDecision).chooseOptionalCardToBuy(boughtCardsCaptor.capture());
+        verifyNoMoreInteractions(playerDecision);
         int maxCost = CardPool.copperCard.getMoney() * 4;
         assertThat(boughtCardsCaptor.getValue())
                 .hasSizeGreaterThanOrEqualTo(3) // at least: copper, silver, estate
@@ -139,7 +141,9 @@ class PlayerMoveBuyingPhaseTest {
         move.doBuyPhase();
 
         verify(stock, only()).getAvailableCardsWithMaxCosts(anyInt());
-        verify(playerDecision, only()).informNoCardsBuyableWithMoney(1);
+        verify(playerDecision).informStartBuyingPhase();
+        verify(playerDecision).informNoCardsBuyableWithMoney(1);
+        verifyNoMoreInteractions(playerDecision);
     }
 
     @Test
@@ -160,7 +164,9 @@ class PlayerMoveBuyingPhaseTest {
         move.doBuyPhase();
 
         verify(stock, only()).getAvailableCardsWithMaxCosts(anyInt());
-        verify(playerDecision, only()).chooseOptionalCardToBuy(anyList());
+        verify(playerDecision).informStartBuyingPhase();
+        verify(playerDecision).chooseOptionalCardToBuy(anyList());
+        verifyNoMoreInteractions(playerDecision);
     }
 
 }

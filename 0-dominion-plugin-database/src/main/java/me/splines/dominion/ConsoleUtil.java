@@ -23,12 +23,16 @@ public class ConsoleUtil {
         }
     }
 
-    public static Optional<Integer> getOptionalIntFromUser() {
+    public static Optional<Integer> getOptionalIntFromUser(String optionalSymbol) {
         while (true) {
             try {
-                return Optional.of(Integer.parseInt(sc.next()));
+                String next = sc.next();
+                if (next.equals(optionalSymbol)) {
+                    return Optional.empty();
+                }
+                return Optional.of(Integer.parseInt(next));
             } catch (NumberFormatException e) {
-                return Optional.empty();
+                System.out.println("This is not a valid input, try again...");
             }
         }
     }

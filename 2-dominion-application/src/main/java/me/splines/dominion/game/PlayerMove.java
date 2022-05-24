@@ -57,6 +57,8 @@ public class PlayerMove extends Move {
      */
     @Override
     public void doBuyPhase() {
+        player.decision().informStartBuyingPhase();
+
         // Earn money from money cards
         Stream.of(player.getHand(), player.getTable()).flatMap(Collection::stream)
                 .forEach(card -> {

@@ -15,7 +15,10 @@ public class GameCLI implements PlayerDecision {
     private void printCardsWithNumbers(List<Card> cards) {
         for (int i = 0; i < cards.size(); i++) {
             Card card = cards.get(i);
-            System.out.print((i + 1) + ": " + card.getName());
+            System.out.print((i + 1) + ":" + card.getName());
+            if (i != cards.size() - 1) {
+                System.out.print(" | ");
+            }
         }
         System.out.println();
     }
@@ -57,16 +60,18 @@ public class GameCLI implements PlayerDecision {
     }
 
     private Optional<Card> chooseOptionalCard(List<Card> cards) {
-        System.out.println("Choose one of these cards (optional)");
+        System.out.println("Choose one of these cards (or - for no card)");
         printCardsWithNumbers(cards);
 
         Optional<Integer> cardIndex;
-        cardIndex = ConsoleUtil.getOptionalIntFromUser();
-        if (cardIndex.isEmpty())
-            return Optional.empty();
-        if (cardIndex.get() >= 1 && cardIndex.get() <= cards.size())
-            return Optional.of(cards.get(cardIndex.get()));
-        return Optional.empty();
+        while (true) {
+            cardIndex = ConsoleUtil.getOptionalIntFromUser("-");
+            if (cardIndex.isEmpty())
+                return Optional.empty();
+            if (cardIndex.get() >= 1 && cardIndex.get() <= cards.size())
+                return Optional.of(cards.get(cardIndex.get() - 1));
+            System.out.println("This is not a vaid card, try again...");
+        }
     }
 
     @Override
@@ -132,12 +137,16 @@ public class GameCLI implements PlayerDecision {
 
     @Override
     public void informYourTurn(String name) {
-        System.out.println("🎴🎴 " + name + " 🎴🎴");
+        System.out.println();
+        System.out.println("🎴🎴");
+        System.out.println("🎴🎴  " + name);
+        System.out.println("🎴🎴");
     }
 
     @Override
     public void informNoActionCardsPlayable() {
-        System.out.println("You have no action cards in your hand.");
+        System.out.println("No action cards in your hand");
+        System.out.println();
     }
 
     @Override
@@ -165,6 +174,11 @@ public class GameCLI implements PlayerDecision {
     @Override
     public void informStartActionPhase() {
         System.out.println("⚡ Action Phase");
+    }
+
+    @Override
+    public void informStartBuyingPhase() {
+        System.out.println("🤑 Buying Phase");
     }
 
 }

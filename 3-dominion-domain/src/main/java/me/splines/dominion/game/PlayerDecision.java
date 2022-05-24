@@ -13,6 +13,8 @@ public interface PlayerDecision {
 
     void informStartActionPhase();
 
+    void informStartBuyingPhase();
+
     void informNoActionCardsPlayable();
 
     void informNoCardsBuyableWithMoney(int money);
