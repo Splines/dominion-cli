@@ -18,8 +18,12 @@ public final class CardPrinter {
     }
 
     public static void printActionCard(Card card) {
-        // Header
+        printHeader(card);
+        printBody(card);
+        printFooter(card);
+    }
 
+    private static void printHeader(Card card) {
         // ### NAME ### (two spaces around name)
         int spaceLeft = CARD_WIDTH - card.getName().length() - 2;
         if (spaceLeft <= 2) {
@@ -39,21 +43,15 @@ public final class CardPrinter {
         }
         System.out.print(SYMBOL_TOP_RIGHT_CORNER);
         System.out.println();
+    }
 
-        // Body
+    private static void printBody(Card card) {
+        for (int i = 0; i < 10; i++) {
+            printEmptyLineWithBorder();
+        }
+    }
 
-        printEmptyLineWithBorder();
-        printEmptyLineWithBorder();
-        printEmptyLineWithBorder();
-        printEmptyLineWithBorder();
-        printEmptyLineWithBorder();
-        printEmptyLineWithBorder();
-        printEmptyLineWithBorder();
-        printEmptyLineWithBorder();
-        printEmptyLineWithBorder();
-
-        // Footer
-
+    private static void printFooter(Card card) {
         System.out.print(SYMBOL_BOTTOM_LEFT_CORNER);
         String moneyStr = card.getCost() + "💰";
         System.out.print(" " + moneyStr + " ");
