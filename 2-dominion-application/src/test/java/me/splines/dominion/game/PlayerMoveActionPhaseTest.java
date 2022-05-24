@@ -28,11 +28,17 @@ import me.splines.dominion.action.Instruction;
 import me.splines.dominion.card.ActionCard;
 import me.splines.dominion.card.CardPool;
 import me.splines.dominion.card.CardType;
+import me.splines.dominion.interaction.PlayerDecision;
+import me.splines.dominion.interaction.PlayerInformation;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 class PlayerMoveActionPhaseTest {
 
     @Mock
-    private PlayerDecision playerDecision;
+    private PlayerDecision decision;
+
+    @Mock
+    private PlayerInformation information;
 
     @Mock
     private PlayerAbstract player;
@@ -50,7 +56,8 @@ class PlayerMoveActionPhaseTest {
     @BeforeEach
     void prepare() {
         MockitoAnnotations.openMocks(this);
-        when(player.decision()).thenReturn(playerDecision);
+        when(player.decide()).thenReturn(decision);
+        when(player.inform()).thenReturn(information);
     }
 
     @Test
@@ -59,9 +66,10 @@ class PlayerMoveActionPhaseTest {
         move.doActionPhase();
 
         verify(player).getActionCardsOnHand();
-        verify(playerDecision).informStartActionPhase();
-        verify(playerDecision).informNoActionCardsPlayable();
-        verifyNoMoreInteractions(playerDecision);
+        verify(information).startActionPhase();
+        verify(information).noActionCardsPlayable();
+        verifyNoMoreInteractions(information);
+        verifyNoMoreInteractions(decision);
     }
 
     @Test
@@ -69,13 +77,13 @@ class PlayerMoveActionPhaseTest {
         when(player.getActionCardsOnHand()).thenReturn(List.of(
                 CardPool.actionCards.get(0),
                 CardPool.actionCards.get(2)));
-        when(playerDecision.chooseOptionalActionCard(anyList()))
+        when(decision.chooseOptionalActionCard(anyList()))
                 .thenReturn(Optional.empty());
         PlayerMove move = new PlayerMove(player, new GameStock());
         move.doActionPhase();
 
         verify(player, atMostOnce()).getActionCardsOnHand();
-        verify(playerDecision, never()).informNoActionCardsPlayable();
+        verify(information, never()).noActionCardsPlayable();
     }
 
     @Test
@@ -87,13 +95,13 @@ class PlayerMoveActionPhaseTest {
 
         when(player.getActionCardsOnHand()).thenReturn(List.of(
                 playCard, CardPool.actionCards.get(2)));
-        when(playerDecision.chooseOptionalActionCard(anyList()))
+        when(decision.chooseOptionalActionCard(anyList()))
                 .thenReturn(Optional.of(playCard));
         PlayerMove move = new PlayerMove(player, new GameStock());
         move.doActionPhase();
 
         verify(player, atMostOnce()).getActionCardsOnHand();
-        verify(playerDecision, never()).informNoActionCardsPlayable();
+        verify(information, never()).noActionCardsPlayable();
         verify(instr, only()).execute(any(), any(), any());
         verify(instr2, only()).execute(any(), any(), any());
     }
@@ -113,15 +121,15 @@ class PlayerMoveActionPhaseTest {
         when(player.getActionCardsOnHand())
                 .thenReturn(List.of(playCard, otherPlayCard))
                 .thenReturn(List.of(otherPlayCard)); // stub consecutive call
-        when(playerDecision.chooseOptionalActionCard(anyList()))
+        when(decision.chooseOptionalActionCard(anyList()))
                 .thenReturn(Optional.of(playCard))
                 .thenReturn(Optional.of(otherPlayCard));
         PlayerMove move = new PlayerMove(player, new GameStock());
         move.doActionPhase();
 
         verify(player, times(2)).getActionCardsOnHand();
-        verify(playerDecision, times(2)).chooseOptionalActionCard(any());
-        verify(playerDecision, never()).informNoActionCardsPlayable();
+        verify(decision, times(2)).chooseOptionalActionCard(any());
+        verify(information, never()).noActionCardsPlayable();
         verify(instr, only()).execute(any(), any(), any());
         verify(instr2, only()).execute(any(), any(), any());
         verify(instr3, only()).execute(any(), any(), any());
@@ -141,15 +149,17 @@ class PlayerMoveActionPhaseTest {
         drawDeck.put(CardPool.copperCard);
         drawDeck.put(CardPool.copperCard);
         drawDeck.put(CardPool.copperCard);
-        Player ourPlayer = spy(new Player("our player", playerDecision, drawDeck, new GameStock()));
+        PlayerInteraction interaction = new PlayerInteraction(decision, information);
+        Player ourPlayer = spy(new Player("our player", interaction, drawDeck, new GameStock()));
 
-        when(playerDecision.chooseOptionalActionCard(anyList()))
+        when(decision.chooseOptionalActionCard(anyList()))
                 .thenReturn(Optional.of(playCard));
         PlayerMove move = new PlayerMove(ourPlayer, new GameStock());
         move.doActionPhase();
 
         verify(ourPlayer, times(2)).getActionCardsOnHand();
-        verify(playerDecision, times(1)).chooseOptionalActionCard(actionCardListCaptor.capture());
+        verify(decision, times(1))
+                .chooseOptionalActionCard(actionCardListCaptor.capture());
         assertThat(actionCardListCaptor.getValue()).isEqualTo(List.of(playCard));
     }
 

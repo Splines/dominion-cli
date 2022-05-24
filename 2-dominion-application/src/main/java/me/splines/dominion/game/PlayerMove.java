@@ -23,7 +23,7 @@ public class PlayerMove extends Move {
      */
     @Override
     public void doActionPhase() {
-        player.decision().informStartActionPhase();
+        player.inform().startActionPhase();
         List<ActionCard> actionCardsOnHand;
 
         int i = 0;
@@ -31,11 +31,11 @@ public class PlayerMove extends Move {
             actionCardsOnHand = player.getActionCardsOnHand();
             if (actionCardsOnHand.isEmpty()) {
                 if (i == 0)
-                    player.decision().informNoActionCardsPlayable();
+                    player.inform().noActionCardsPlayable();
                 return;
             }
 
-            Optional<ActionCard> actionCard = player.decision()
+            Optional<ActionCard> actionCard = player.decide()
                     .chooseOptionalActionCard(actionCardsOnHand);
             if (actionCard.isEmpty())
                 return; // player chose not to play an action card
@@ -57,7 +57,7 @@ public class PlayerMove extends Move {
      */
     @Override
     public void doBuyPhase() {
-        player.decision().informStartBuyingPhase();
+        player.inform().startBuyingPhase();
 
         // Earn money from money cards
         Stream.of(player.getHand(), player.getTable()).flatMap(Collection::stream)
@@ -77,11 +77,11 @@ public class PlayerMove extends Move {
             buyableCards = stock.getAvailableCardsWithMaxCosts(moveState.getMoney());
             if (buyableCards.isEmpty()) {
                 if (i == 0)
-                    player.decision().informNoCardsBuyableWithMoney(moveState.getMoney());
+                    player.inform().noCardsBuyableWithMoney(moveState.getMoney());
                 return;
             }
 
-            Optional<Card> boughtCardOptional = player.decision()
+            Optional<Card> boughtCardOptional = player.decide()
                     .chooseOptionalCardToBuy(buyableCards);
             if (boughtCardOptional.isEmpty())
                 return; // player chose not to buy a card

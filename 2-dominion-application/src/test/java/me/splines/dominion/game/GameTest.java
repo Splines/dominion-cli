@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import me.splines.dominion.interaction.PlayerDecision;
+import me.splines.dominion.interaction.PlayerInformation;
+import me.splines.dominion.interaction.PlayerInteraction;
+
 /**
  * The Game is really hard to test without Powermock as the list mainly
  * consists of private method calls and private fields. Sadly, Powermock is
@@ -21,7 +25,10 @@ import org.mockito.MockitoAnnotations;
 class GameTest {
 
     @Mock
-    private PlayerDecision playerDecision;
+    private PlayerDecision decision;
+
+    @Mock
+    private PlayerInformation information;
 
     @BeforeEach
     void prepare() {
@@ -31,8 +38,11 @@ class GameTest {
     @Test
     void gameInitializationWithoutError() {
         List<String> playerNames = List.of("Player1", "Player2");
-        new Game(playerDecision, playerNames);
-        verifyNoMoreInteractions(playerDecision);
+        PlayerInteraction interaction = new PlayerInteraction(decision, information);
+
+        new Game(interaction, playerNames);
+        verifyNoMoreInteractions(decision);
+        verifyNoMoreInteractions(information);
     }
 
 }

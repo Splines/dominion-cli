@@ -6,19 +6,20 @@ import java.util.HashMap;
 import java.util.List;
 
 import me.splines.dominion.card.CardPool;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 public class Game {
 
-    private PlayerDecision playerDecision;
+    private PlayerInteraction playerInteraction;
     private List<Player> players = new ArrayList<>();
     private Stock stock = new GameStock();
 
-    public Game(PlayerDecision playerDecision, List<String> playerNames) {
-        this.playerDecision = playerDecision;
+    public Game(PlayerInteraction playerInteraction, List<String> playerNames) {
+        this.playerInteraction = playerInteraction;
 
         for (String name : playerNames) {
             Deck initialDrawDeck = getInitialDrawDeck();
-            Player player = new Player(name, playerDecision, initialDrawDeck, stock);
+            Player player = new Player(name, playerInteraction, initialDrawDeck, stock);
             players.add(player);
         }
     }
@@ -64,10 +65,10 @@ public class Game {
                 winners.add(player.getName());
         });
 
-        playerDecision.announceResults(results);
+        playerInteraction.information().results(results);
 
         String[] winnersArray = new String[playerPoints.size()];
-        playerDecision.announceWinners(winners.toArray(winnersArray));
+        playerInteraction.information().winners(winners.toArray(winnersArray));
     }
 
 }

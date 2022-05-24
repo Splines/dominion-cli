@@ -27,8 +27,10 @@ import me.splines.dominion.game.GameStock;
 import me.splines.dominion.game.MoveState;
 import me.splines.dominion.game.Player;
 import me.splines.dominion.game.PlayerAbstract;
-import me.splines.dominion.game.PlayerDecision;
 import me.splines.dominion.game.Stock;
+import me.splines.dominion.interaction.PlayerDecision;
+import me.splines.dominion.interaction.PlayerInformation;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 class DisposeMoneyCardTakeMoneyCardTest {
 
@@ -36,7 +38,10 @@ class DisposeMoneyCardTakeMoneyCardTest {
     private Deck drawDeck;
 
     @Mock
-    private PlayerDecision playerDecision;
+    private PlayerDecision decision;
+
+    @Mock
+    private PlayerInformation information;
 
     @Captor
     private ArgumentCaptor<List<MoneyCard>> moneyCardListCaptor;
@@ -58,7 +63,8 @@ class DisposeMoneyCardTakeMoneyCardTest {
 
         MockitoAnnotations.openMocks(this);
 
-        player = new Player("awesome player", playerDecision, drawDeck, new GameStock());
+        PlayerInteraction interaction = new PlayerInteraction(decision, information);
+        player = new Player("awesome player", interaction, drawDeck, new GameStock());
     }
 
     private void expectNoChangesToHand(PlayerAbstract player) {
@@ -73,7 +79,7 @@ class DisposeMoneyCardTakeMoneyCardTest {
 
     @Test
     void mayChooseACardToDisposeNoMust() {
-        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+        when(decision.chooseOptionalMoneyCard(any())).thenReturn(
                 Optional.empty()); // dispose no card
 
         instruction.execute(player, new MoveState(), new GameStock());
@@ -85,7 +91,7 @@ class DisposeMoneyCardTakeMoneyCardTest {
     void noMoneyCardsOnHand() {
         PlayerAbstract playerMock = mock(PlayerAbstract.class);
         when(playerMock.getMoneyCardsOnHand()).thenReturn(new ArrayList<>());
-        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+        when(decision.chooseOptionalMoneyCard(any())).thenReturn(
                 Optional.of(CardPool.silverCard)); // dispose this card
 
         instruction.execute(playerMock, new MoveState(), new GameStock());
@@ -95,9 +101,9 @@ class DisposeMoneyCardTakeMoneyCardTest {
 
     @Test
     void newCardOnHandOldCardDisposed() {
-        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+        when(decision.chooseOptionalMoneyCard(any())).thenReturn(
                 Optional.of(CardPool.silverCard)); // dispose this card
-        when(playerDecision.chooseMoneyCard(anyList())).thenReturn(
+        when(decision.chooseMoneyCard(anyList())).thenReturn(
                 CardPool.goldCard); // take this card
 
         instruction.execute(player, new MoveState(), new GameStock());
@@ -109,12 +115,12 @@ class DisposeMoneyCardTakeMoneyCardTest {
 
     @Test
     void canOnlyTakeMoneyCards() {
-        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+        when(decision.chooseOptionalMoneyCard(any())).thenReturn(
                 Optional.of(CardPool.silverCard)); // dispose this card
 
         instruction.execute(player, new MoveState(), new GameStock());
 
-        verify(playerDecision).chooseMoneyCard(moneyCardListCaptor.capture());
+        verify(decision).chooseMoneyCard(moneyCardListCaptor.capture());
         assertThat(moneyCardListCaptor.getValue())
                 .containsExactlyInAnyOrderElementsOf(CardPool.moneyCards);
 
@@ -122,12 +128,12 @@ class DisposeMoneyCardTakeMoneyCardTest {
 
     @Test
     void canOnlyTakeMoneyCardsThatCostMaxThreeMore() {
-        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+        when(decision.chooseOptionalMoneyCard(any())).thenReturn(
                 Optional.of(CardPool.copperCard)); // dispose this card
 
         instruction.execute(player, new MoveState(), new GameStock());
 
-        verify(playerDecision).chooseMoneyCard(moneyCardListCaptor.capture());
+        verify(decision).chooseMoneyCard(moneyCardListCaptor.capture());
         // no gold card here (!)
         assertThat(moneyCardListCaptor.getValue()).containsExactlyInAnyOrderElementsOf(
                 List.of(CardPool.copperCard, CardPool.silverCard));
@@ -138,7 +144,7 @@ class DisposeMoneyCardTakeMoneyCardTest {
         Stock stock = mock(GameStock.class);
         when(stock.getAvailableCardsWithMaxCosts(anyInt())).thenReturn(new ArrayList<>());
 
-        when(playerDecision.chooseOptionalMoneyCard(any())).thenReturn(
+        when(decision.chooseOptionalMoneyCard(any())).thenReturn(
                 Optional.of(CardPool.silverCard)); // dispose this card
 
         instruction.execute(player, new MoveState(), stock);

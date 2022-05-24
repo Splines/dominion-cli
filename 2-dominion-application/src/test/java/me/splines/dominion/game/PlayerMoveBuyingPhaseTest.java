@@ -24,17 +24,26 @@ import org.mockito.MockitoAnnotations;
 
 import me.splines.dominion.card.Card;
 import me.splines.dominion.card.CardPool;
+import me.splines.dominion.interaction.PlayerDecision;
+import me.splines.dominion.interaction.PlayerInformation;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 class PlayerMoveBuyingPhaseTest {
 
+    private PlayerInteraction interaction;
+
     @Mock
-    private PlayerDecision playerDecision;
+    private PlayerDecision decision;
+
+    @Mock
+    private PlayerInformation information;
 
     @Captor
     private ArgumentCaptor<List<Card>> boughtCardsCaptor;
 
     @BeforeEach
     void prepare() {
+        interaction = new PlayerInteraction(decision, information);
         MockitoAnnotations.openMocks(this);
     }
 
@@ -51,18 +60,19 @@ class PlayerMoveBuyingPhaseTest {
         drawDeck.put(CardPool.copperCard);
         drawDeck.put(CardPool.copperCard);
         Stock stock = new GameStock();
-        Player player = spy(new Player("player", playerDecision, drawDeck, stock));
-        when(player.decision()).thenReturn(playerDecision);
+        Player player = spy(new Player("player", interaction, drawDeck, stock));
+        when(player.decide()).thenReturn(decision);
+        when(player.inform()).thenReturn(information);
         Card cardToBuy = CardPool.estateCard;
-        when(playerDecision.chooseOptionalCardToBuy(anyList()))
+        when(decision.chooseOptionalCardToBuy(anyList()))
                 .thenReturn(Optional.of(cardToBuy));
 
         PlayerMove move = new PlayerMove(player, stock);
         move.doBuyPhase();
 
-        verify(playerDecision).informStartBuyingPhase();
-        verify(playerDecision).chooseOptionalCardToBuy(boughtCardsCaptor.capture());
-        verifyNoMoreInteractions(playerDecision);
+        verify(information).startBuyingPhase();
+        verify(decision).chooseOptionalCardToBuy(boughtCardsCaptor.capture());
+        verifyNoMoreInteractions(decision);
         int maxCost = CardPool.copperCard.getMoney() * 4;
         assertThat(boughtCardsCaptor.getValue())
                 .hasSizeGreaterThanOrEqualTo(3) // at least: copper, silver, estate
@@ -84,9 +94,10 @@ class PlayerMoveBuyingPhaseTest {
         drawDeck.put(CardPool.silverCard);
         drawDeck.put(CardPool.copperCard);
         Stock stock = new GameStock();
-        Player player = spy(new Player("player", playerDecision, drawDeck, stock));
-        when(player.decision()).thenReturn(playerDecision);
-        when(playerDecision.chooseOptionalCardToBuy(anyList()))
+        Player player = spy(new Player("player", interaction, drawDeck, stock));
+        when(player.decide()).thenReturn(decision);
+        when(player.inform()).thenReturn(information);
+        when(decision.chooseOptionalCardToBuy(anyList()))
                 .thenReturn(Optional.of(CardPool.duchyCard))
                 .thenReturn(Optional.of(CardPool.estateCard));
 
@@ -106,7 +117,7 @@ class PlayerMoveBuyingPhaseTest {
         move.earnBuying(1); // total now: 2 buyings
         move.doBuyPhase();
 
-        verify(playerDecision, times(2))
+        verify(decision, times(2))
                 .chooseOptionalCardToBuy(boughtCardsCaptor.capture());
         int maxCostFirstBuy = CardPool.silverCard.getMoney() * 3
                 + CardPool.copperCard.getMoney();
@@ -131,8 +142,9 @@ class PlayerMoveBuyingPhaseTest {
         drawDeck.put(CardPool.duchyCard);
         drawDeck.put(CardPool.duchyCard);
         Stock stock = mock(GameStock.class);
-        Player player = spy(new Player("poor player", playerDecision, drawDeck, stock));
-        when(player.decision()).thenReturn(playerDecision);
+        Player player = spy(new Player("poor player", interaction, drawDeck, stock));
+        when(player.decide()).thenReturn(decision);
+        when(player.inform()).thenReturn(information);
 
         when(stock.getAvailableCardsWithMaxCosts(anyInt()))
                 .thenReturn(Collections.emptyList());
@@ -141,9 +153,10 @@ class PlayerMoveBuyingPhaseTest {
         move.doBuyPhase();
 
         verify(stock, only()).getAvailableCardsWithMaxCosts(anyInt());
-        verify(playerDecision).informStartBuyingPhase();
-        verify(playerDecision).informNoCardsBuyableWithMoney(1);
-        verifyNoMoreInteractions(playerDecision);
+        verify(information).startBuyingPhase();
+        verify(information).noCardsBuyableWithMoney(1);
+        verifyNoMoreInteractions(information);
+        verifyNoMoreInteractions(decision);
     }
 
     @Test
@@ -155,18 +168,20 @@ class PlayerMoveBuyingPhaseTest {
         drawDeck.put(CardPool.duchyCard);
         drawDeck.put(CardPool.duchyCard);
         Stock stock = spy(new GameStock());
-        Player player = spy(new Player("poor player", playerDecision, drawDeck, stock));
-        when(player.decision()).thenReturn(playerDecision);
-        when(playerDecision.chooseOptionalCardToBuy(anyList()))
+        Player player = spy(new Player("poor player", interaction, drawDeck, stock));
+        when(player.decide()).thenReturn(decision);
+        when(player.inform()).thenReturn(information);
+        when(decision.chooseOptionalCardToBuy(anyList()))
                 .thenReturn(Optional.empty());
 
         PlayerMove move = new PlayerMove(player, stock);
         move.doBuyPhase();
 
         verify(stock, only()).getAvailableCardsWithMaxCosts(anyInt());
-        verify(playerDecision).informStartBuyingPhase();
-        verify(playerDecision).chooseOptionalCardToBuy(anyList());
-        verifyNoMoreInteractions(playerDecision);
+        verify(information).startBuyingPhase();
+        verify(decision).chooseOptionalCardToBuy(anyList());
+        verifyNoMoreInteractions(information);
+        verifyNoMoreInteractions(decision);
     }
 
 }

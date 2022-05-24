@@ -12,11 +12,17 @@ import org.mockito.MockitoAnnotations;
 
 import me.splines.dominion.card.Card;
 import me.splines.dominion.card.CardPool;
+import me.splines.dominion.interaction.PlayerDecision;
+import me.splines.dominion.interaction.PlayerInformation;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 class PlayerMoveCleanUpPhaseTest {
 
     @Mock
-    private PlayerDecision playerDecision;
+    private PlayerDecision decision;
+
+    @Mock
+    private PlayerInformation information;
 
     @BeforeEach
     void prepare() {
@@ -38,7 +44,8 @@ class PlayerMoveCleanUpPhaseTest {
         drawDeck.put(CardPool.estateCard);
 
         Stock stock = new GameStock();
-        Player player = new Player("player", playerDecision, drawDeck, stock);
+        PlayerInteraction interaction = new PlayerInteraction(decision, information);
+        Player player = new Player("player", interaction, drawDeck, stock);
         player.draw();
         player.draw();
         player.play(CardPool.estateCard);

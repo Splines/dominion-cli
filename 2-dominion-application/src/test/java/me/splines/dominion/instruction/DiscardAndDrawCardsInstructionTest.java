@@ -18,7 +18,9 @@ import me.splines.dominion.game.GameStock;
 import me.splines.dominion.game.MoveState;
 import me.splines.dominion.game.Player;
 import me.splines.dominion.game.PlayerAbstract;
-import me.splines.dominion.game.PlayerDecision;
+import me.splines.dominion.interaction.PlayerDecision;
+import me.splines.dominion.interaction.PlayerInformation;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 class DiscardAndDrawCardsInstructionTest {
 
@@ -26,7 +28,10 @@ class DiscardAndDrawCardsInstructionTest {
     private Deck drawDeck;
 
     @Mock
-    private PlayerDecision playerDecision;
+    private PlayerDecision decision;
+
+    @Mock
+    private PlayerInformation information;
 
     private PlayerAbstract player;
 
@@ -45,12 +50,13 @@ class DiscardAndDrawCardsInstructionTest {
 
         MockitoAnnotations.openMocks(this);
 
-        player = new Player("awesome player", playerDecision, drawDeck, new GameStock());
+        PlayerInteraction interaction = new PlayerInteraction(decision, information);
+        player = new Player("awesome player", interaction, drawDeck, new GameStock());
     }
 
     @Test
     void discardAndDrawCardsInstruction() {
-        when(playerDecision.chooseCards(anyList())).thenReturn(List.of(
+        when(decision.chooseCards(anyList())).thenReturn(List.of(
                 CardPool.copperCard,
                 CardPool.curseCard));
 

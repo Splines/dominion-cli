@@ -18,16 +18,22 @@ import me.splines.dominion.card.MoneyCard;
 import me.splines.dominion.game.Deck.EmptyDeckException;
 import me.splines.dominion.game.Deck.NotEnoughCardsOnDeckException;
 import me.splines.dominion.game.PlayerAbstract.HandDoesNotHaveCard;
+import me.splines.dominion.interaction.PlayerDecision;
+import me.splines.dominion.interaction.PlayerInformation;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 class PlayerTest {
+
+    @Mock
+    private PlayerDecision decision;
+
+    @Mock
+    private PlayerInformation information;
 
     private Deck drawDeck;
     private List<Card> initialHand;
 
     private Card specialCard = new MoneyCard("my", 42, 180);
-
-    @Mock
-    private PlayerDecision playerDecision;
 
     private PlayerAbstract player;
 
@@ -51,7 +57,8 @@ class PlayerTest {
         }
 
         MockitoAnnotations.openMocks(this);
-        player = new Player("draw card player", playerDecision, drawDeck, new GameStock());
+        PlayerInteraction interaction = new PlayerInteraction(decision, information);
+        player = new Player("draw card player", interaction, drawDeck, new GameStock());
     }
 
     ////////////////////////////// Move ////////////////////////////////////////
@@ -60,7 +67,7 @@ class PlayerTest {
     void playerMove() {
         player.makeMove();
 
-        verify(playerDecision).informYourTurn(player.getName());
+        verify(information).yourTurn(player.getName());
         // Would need Powermock with JUnit5 to test order
         // -> see here: https://stackoverflow.com/a/30137217/9655481
         // Sadly, Powermock is still not yet available for JUnit5

@@ -13,11 +13,12 @@ import me.splines.dominion.card.MoneyCard;
 import me.splines.dominion.card.PointCard;
 import me.splines.dominion.game.Deck.EmptyDeckException;
 import me.splines.dominion.game.Deck.NotEnoughCardsOnDeckException;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 public class Player extends PlayerAbstract {
 
-    public Player(String name, PlayerDecision playerDecision, Deck drawDeck, Stock stock) {
-        super(name, playerDecision, drawDeck, stock);
+    public Player(String name, PlayerInteraction playerInteraction, Deck drawDeck, Stock stock) {
+        super(name, playerInteraction, drawDeck, stock);
         drawNewHandCards();
     }
 
@@ -25,7 +26,7 @@ public class Player extends PlayerAbstract {
 
     @Override
     public void makeMove() {
-        playerDecision.informYourTurn(this.name);
+        inform().yourTurn(this.name);
         PlayerMove move = new PlayerMove(this, stock);
         move.doActionPhase();
         move.doBuyPhase();

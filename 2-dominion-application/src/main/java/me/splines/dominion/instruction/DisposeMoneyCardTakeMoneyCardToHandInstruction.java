@@ -26,7 +26,7 @@ public class DisposeMoneyCardTakeMoneyCardToHandInstruction implements Instructi
             return;
 
         // Dispose money cards from hand
-        Optional<MoneyCard> cardToDispose = player.decision()
+        Optional<MoneyCard> cardToDispose = player.decide()
                 .chooseOptionalMoneyCard(moneyCardsOnHand);
         if (!cardToDispose.isPresent())
             return;
@@ -38,7 +38,7 @@ public class DisposeMoneyCardTakeMoneyCardToHandInstruction implements Instructi
             return;
 
         player.dispose(cardToDispose.get());
-        MoneyCard cardToTake = player.decision().chooseMoneyCard(moneyCardsToChoose);
+        MoneyCard cardToTake = player.decide().chooseMoneyCard(moneyCardsToChoose);
         player.takeToHand(cardToTake);
     }
 

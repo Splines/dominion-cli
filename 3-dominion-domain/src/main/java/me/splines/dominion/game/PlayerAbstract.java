@@ -6,6 +6,9 @@ import java.util.List;
 import me.splines.dominion.card.ActionCard;
 import me.splines.dominion.card.Card;
 import me.splines.dominion.card.MoneyCard;
+import me.splines.dominion.interaction.PlayerDecision;
+import me.splines.dominion.interaction.PlayerInformation;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 public abstract class PlayerAbstract {
 
@@ -14,18 +17,22 @@ public abstract class PlayerAbstract {
     protected final Deck discardDeck = new Deck();
     protected List<Card> hand = new ArrayList<>();
     protected List<Card> table = new ArrayList<>();
-    protected final PlayerDecision playerDecision;
+    protected final PlayerInteraction playerInteraction;
     protected final Stock stock;
 
-    protected PlayerAbstract(String name, PlayerDecision playerDecision, Deck drawDeck, Stock stock) {
+    protected PlayerAbstract(String name, PlayerInteraction playerInteraction, Deck drawDeck, Stock stock) {
         this.name = name;
-        this.playerDecision = playerDecision;
+        this.playerInteraction = playerInteraction;
         this.drawDeck = drawDeck;
         this.stock = stock;
     }
 
-    public PlayerDecision decision() {
-        return this.playerDecision;
+    public PlayerDecision decide() {
+        return this.playerInteraction.decision();
+    }
+
+    public PlayerInformation inform() {
+        return this.playerInteraction.information();
     }
 
     public class HandDoesNotHaveCard extends RuntimeException {

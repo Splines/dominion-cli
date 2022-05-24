@@ -3,15 +3,21 @@ package me.splines.dominion;
 import java.util.List;
 
 import me.splines.dominion.game.Game;
+import me.splines.dominion.interaction.PlayerDecisionCLI;
+import me.splines.dominion.interaction.PlayerInformationCLI;
+import me.splines.dominion.interaction.PlayerInteraction;
 
 public class Dominion {
 
     public static void main(String[] args) {
         printStartScreen();
 
-        GameCLI cli = new GameCLI();
-        List<String> names = cli.getPlayerNames();
-        Game game = new Game(cli, names);
+        PlayerDecisionCLI decisionCLI = new PlayerDecisionCLI();
+        PlayerInformationCLI informationCLI = new PlayerInformationCLI();
+        PlayerInteraction interaction = new PlayerInteraction(decisionCLI, informationCLI);
+
+        List<String> names = decisionCLI.getPlayerNames();
+        Game game = new Game(interaction, names);
         game.start();
     }
 

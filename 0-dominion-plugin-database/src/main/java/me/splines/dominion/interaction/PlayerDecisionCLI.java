@@ -1,16 +1,15 @@
-package me.splines.dominion;
+package me.splines.dominion.interaction;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import me.splines.dominion.ConsoleUtil;
 import me.splines.dominion.card.ActionCard;
 import me.splines.dominion.card.Card;
 import me.splines.dominion.card.MoneyCard;
-import me.splines.dominion.game.PlayerDecision;
-import me.splines.dominion.game.PlayerResult;
 
-public class GameCLI implements PlayerDecision {
+public class PlayerDecisionCLI implements PlayerDecision {
 
     private void printCardsWithNumbers(List<Card> cards) {
         for (int i = 0; i < cards.size(); i++) {
@@ -131,54 +130,6 @@ public class GameCLI implements PlayerDecision {
     public Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards) {
         List<Card> cardsGeneric = List.copyOf(cards);
         return this.chooseOptionalCard(cardsGeneric).map(MoneyCard.class::cast);
-    }
-
-    /////////////////////////////// Inform /////////////////////////////////////
-
-    @Override
-    public void informYourTurn(String name) {
-        System.out.println();
-        System.out.println("🎴🎴");
-        System.out.println("🎴🎴  " + name);
-        System.out.println("🎴🎴");
-    }
-
-    @Override
-    public void informNoActionCardsPlayable() {
-        System.out.println("No action cards in your hand");
-        System.out.println();
-    }
-
-    @Override
-    public void informNoCardsBuyableWithMoney(int money) {
-        System.out.println("Can't buy any cards with money " + money);
-    }
-
-    @Override
-    public void announceResults(List<PlayerResult> results) {
-        System.out.println("These are your results");
-        for (PlayerResult playerResult : results) {
-            System.out.println(playerResult.getName() + ": "
-                    + playerResult.getPoints() + " Points");
-        }
-    }
-
-    @Override
-    public void announceWinners(String... names) {
-        if (names.length >= 1) {
-            System.out.println("There are multiple winners:");
-        }
-        System.out.println("Congratulations: " + String.join(",", names));
-    }
-
-    @Override
-    public void informStartActionPhase() {
-        System.out.println("⚡ Action Phase");
-    }
-
-    @Override
-    public void informStartBuyingPhase() {
-        System.out.println("🤑 Buying Phase");
     }
 
 }
