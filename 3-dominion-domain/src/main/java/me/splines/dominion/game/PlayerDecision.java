@@ -11,6 +11,8 @@ public interface PlayerDecision {
 
     Card chooseCard(List<Card> cards);
 
+    void informStartActionPhase();
+
     void informNoActionCardsPlayable();
 
     void informNoCardsBuyableWithMoney(int money);

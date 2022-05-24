@@ -23,6 +23,7 @@ public class PlayerMove extends Move {
      */
     @Override
     public void doActionPhase() {
+        player.decision().informStartActionPhase();
         List<ActionCard> actionCardsOnHand;
 
         int i = 0;

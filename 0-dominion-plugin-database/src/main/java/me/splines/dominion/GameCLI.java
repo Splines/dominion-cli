@@ -128,7 +128,7 @@ public class GameCLI implements PlayerDecision {
         return this.chooseOptionalCard(cardsGeneric).map(MoneyCard.class::cast);
     }
 
-    /////////////////////////////// Other //////////////////////////////////////
+    /////////////////////////////// Inform /////////////////////////////////////
 
     @Override
     public void informYourTurn(String name) {
@@ -137,7 +137,7 @@ public class GameCLI implements PlayerDecision {
 
     @Override
     public void informNoActionCardsPlayable() {
-        System.out.println("There are no action cards in your hand");
+        System.out.println("You have no action cards in your hand.");
     }
 
     @Override
@@ -160,6 +160,11 @@ public class GameCLI implements PlayerDecision {
             System.out.println("There are multiple winners:");
         }
         System.out.println("Congratulations: " + String.join(",", names));
+    }
+
+    @Override
+    public void informStartActionPhase() {
+        System.out.println("⚡ Action Phase");
     }
 
 }
