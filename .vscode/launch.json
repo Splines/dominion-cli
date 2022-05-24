@@ -15,7 +15,8 @@
             "name": "Launch Dominion",
             "request": "launch",
             "mainClass": "me.splines.dominion.Dominion",
-            "projectName": "0-dominion-plugin-database"
+            "projectName": "0-dominion-plugin-database",
+            "console": "integratedTerminal"
         }
     ]
 }
