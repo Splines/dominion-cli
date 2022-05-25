@@ -11,6 +11,14 @@ public final class CardPrinterUtil {
         }
     }
 
+    public static void printToTheRight(String text) {
+        CardPrinter.printLeftBorderWithSpace();
+        CardPrinterUtil.printEmptySpaces(CardPrinter.CARD_WIDTH - 4 - 4 - 2);
+        System.out.print(text);
+        CardPrinter.printRightBorderWithSpace();
+        System.out.println();
+    }
+
     public static String wrapLine(String line, int lineLength, String linebreak) {
         // inspired by https://stackoverflow.com/a/45614206
         if (line.length() == 0)

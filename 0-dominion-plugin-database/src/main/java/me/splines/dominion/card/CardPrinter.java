@@ -28,6 +28,8 @@ public final class CardPrinter {
             ActionCardPrinter.printBody((ActionCard) card);
         } else if (card instanceof MoneyCard) {
             MoneyCardPrinter.printBody((MoneyCard) card);
+        } else if (card instanceof PointCard) {
+            PointCardPrinter.printBody((PointCard) card);
         } else {
             printDefaultCardBody();
         }
