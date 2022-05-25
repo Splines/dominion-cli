@@ -44,12 +44,13 @@
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
+        <!-- Do not add coverage for this code yet -->
+        <!-- <dependency>
             <groupId>me.splines</groupId>
             <artifactId>0-dominion-plugin-database</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
-        </dependency>
+        </dependency> -->
     </dependencies>
 
     <build>
