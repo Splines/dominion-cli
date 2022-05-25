@@ -27,4 +27,10 @@ public final class EarnActionsInstruction implements Instruction {
         moveState.earnActions(this.earnActionsCount);
     }
 
+    @Override
+    public String getName() {
+        String actionSingularPlural = (earnActionsCount == 1) ? "Aktion" : "Aktionen";
+        return "+" + earnActionsCount + " " + actionSingularPlural;
+    }
+
 }

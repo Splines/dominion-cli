@@ -1,8 +1,11 @@
 package me.splines.dominion.card;
 
+import me.splines.dominion.action.Instruction;
+
 public final class CardPrinter {
 
     private static final int CARD_WIDTH = 21;
+    private static final int CARD_BODY_HEIGHT = 10;
 
     private static final String SYMBOL_TOP_LEFT_CORNER = "┏";
     private static final String SYMBOL_TOP_RIGHT_CORNER = "┓";
@@ -17,9 +20,15 @@ public final class CardPrinter {
         }
     }
 
-    public static void printActionCard(Card card) {
+    public static void printCard(Card card) {
         printHeader(card);
-        printBody(card);
+
+        if (card instanceof ActionCard) {
+            printActionCardBody((ActionCard) card);
+        } else {
+            printDefaultCardBody();
+        }
+
         printFooter(card);
     }
 
@@ -50,8 +59,44 @@ public final class CardPrinter {
         System.out.println();
     }
 
-    private static void printBody(Card card) {
-        for (int i = 0; i < 10; i++) {
+    private static void printActionCardBody(ActionCard card) {
+        printEmptyLineWithBorder();
+
+        int lineCounter = 0;
+
+        String linebreak = "\n";
+        for (Instruction instruction : card.getAction().getInstructions()) {
+            String text = wrapLine(instruction.getName(), CARD_WIDTH - 4, linebreak);
+            String[] lines = text.split(linebreak);
+
+            for (String line : lines) {
+                // Left part
+                System.out.print(SYMBOL_VERTICAL_BORDER);
+                System.out.print(" ");
+
+                // Middle part
+                int spacesToTheRight = CARD_WIDTH - 2 - line.length() - 2;
+                System.out.print(line);
+                for (int j = 0; j < spacesToTheRight; j++) {
+                    System.out.print(" ");
+                }
+
+                // Right part
+                System.out.print(" ");
+                System.out.println(SYMBOL_VERTICAL_BORDER);
+
+                lineCounter++;
+            }
+        }
+
+        // Fill with empty lines until card body height reached
+        for (int j = 0; j < CARD_BODY_HEIGHT - lineCounter; j++) {
+            printEmptyLineWithBorder();
+        }
+    }
+
+    private static void printDefaultCardBody() {
+        for (int i = 0; i < CARD_BODY_HEIGHT; i++) {
             printEmptyLineWithBorder();
         }
     }
@@ -94,6 +139,36 @@ public final class CardPrinter {
         }
         System.out.print(SYMBOL_VERTICAL_BORDER);
         System.out.println();
+    }
+
+    private static String wrapLine(String line, int lineLength, String linebreak) {
+        // inspired by https://stackoverflow.com/a/45614206
+        if (line.length() == 0)
+            return "";
+        if (line.length() <= lineLength)
+            return line;
+
+        String[] words = line.split(" ");
+        StringBuilder allLines = new StringBuilder();
+        StringBuilder trimmedLine = new StringBuilder();
+
+        for (String word : words) {
+            if (trimmedLine.length() + 1 + word.length() <= lineLength) {
+                trimmedLine.append(word).append(" ");
+            } else {
+                // remove last whitespace
+                trimmedLine.setLength(trimmedLine.length() - 1);
+                allLines.append(trimmedLine).append(linebreak);
+                trimmedLine = new StringBuilder();
+                trimmedLine.append(word).append(" ");
+            }
+        }
+
+        if (trimmedLine.length() > 0) {
+            allLines.append(trimmedLine);
+        }
+
+        return allLines.toString();
     }
 
 }

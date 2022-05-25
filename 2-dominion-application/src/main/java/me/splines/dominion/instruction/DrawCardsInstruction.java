@@ -27,7 +27,12 @@ public final class DrawCardsInstruction implements Instruction {
         for (int i = 0; i < this.cardsToDrawCount; i++) {
             player.draw();
         }
+    }
 
+    @Override
+    public String getName() {
+        String cardSingularPlural = (cardsToDrawCount == 1) ? "Karte" : "Karten";
+        return "+" + cardsToDrawCount + " " + cardSingularPlural;
     }
 
 }

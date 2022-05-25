@@ -27,4 +27,9 @@ public final class EarnMoneyInstruction implements Instruction {
         moveState.earnMoney(this.earnMoney);
     }
 
+    @Override
+    public String getName() {
+        return "+1💰";
+    }
+
 }

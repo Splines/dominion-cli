@@ -8,4 +8,6 @@ public interface Instruction {
 
     void execute(PlayerAbstract player, MoveState moveState, Stock stock);
 
+    String getName();
+
 }

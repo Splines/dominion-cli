@@ -42,4 +42,10 @@ public class DisposeMoneyCardTakeMoneyCardToHandInstruction implements Instructi
         player.takeToHand(cardToTake);
     }
 
+    @Override
+    public String getName() {
+        return "Du darfst eine Geldkarte aus deiner Hand entsorgen. Nimm eine "
+                + "Geldkarte auf deine Hand, die bis zu 3💰 mehr als sie kostet.";
+    }
+
 }

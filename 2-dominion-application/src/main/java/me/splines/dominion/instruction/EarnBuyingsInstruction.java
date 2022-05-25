@@ -27,4 +27,10 @@ public final class EarnBuyingsInstruction implements Instruction {
         moveState.earnBuyings(this.earnBuyingsCount);
     }
 
+    @Override
+    public String getName() {
+        String buyingSingularPlural = (earnBuyingsCount == 1) ? "Kauf" : "Käufe";
+        return "+" + earnBuyingsCount + " " + buyingSingularPlural;
+    }
+
 }

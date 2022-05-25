@@ -26,4 +26,10 @@ public class DiscardAndDrawCardsInstruction implements Instruction {
         }
     }
 
+    @Override
+    public String getName() {
+        return "Lege beliebig viele deiner Handkarten ab und ziehe dann die "
+                + "gleiche Anzahl Karten.";
+    }
+
 }

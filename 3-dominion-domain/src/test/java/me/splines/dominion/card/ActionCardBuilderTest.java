@@ -18,6 +18,11 @@ class ActionCardBuilderTest {
         public void execute(PlayerAbstract player, MoveState moveState, Stock stock) {
             return;
         }
+
+        @Override
+        public String getName() {
+            return "I'm a dummy";
+        }
     }
 
     private Action dummyAction = new Action(

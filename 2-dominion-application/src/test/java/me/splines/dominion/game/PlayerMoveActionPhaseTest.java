@@ -48,6 +48,10 @@ class PlayerMoveActionPhaseTest {
         public void execute(PlayerAbstract player, MoveState moveState, Stock stock) {
             moveState.earnActions(1);
         }
+
+        public String getName() {
+            return "earn an instruction and give yourself a pat on the back";
+        };
     };
 
     @Captor
