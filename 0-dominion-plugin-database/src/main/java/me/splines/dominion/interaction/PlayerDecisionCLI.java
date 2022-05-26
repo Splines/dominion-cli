@@ -13,10 +13,8 @@ import me.splines.dominion.card.MoneyCard;
 public class PlayerDecisionCLI implements PlayerDecision {
 
     private void printCardsWithNumbers(List<Card> cards) {
-        for (Card card : cards) {
-            String formatter = CardFormatter.getFormatted(card);
-            System.out.println(formatter);
-        }
+        String grid = CardFormatter.getFormattedGrid(cards);
+        System.out.println(grid);
     }
 
     ////////////////////////// Choose players //////////////////////////////////
