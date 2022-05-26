@@ -12,7 +12,7 @@ import me.splines.dominion.card.MoneyCard;
 
 public class PlayerDecisionCLI implements PlayerDecision {
 
-    private void printCardsWithNumbers(List<Card> cards) {
+    private void showCardsGrid(List<Card> cards) {
         String grid = CardFormatter.getFormattedGrid(cards);
         System.out.println(grid);
     }
@@ -40,7 +40,7 @@ public class PlayerDecisionCLI implements PlayerDecision {
     @Override
     public Card chooseCard(List<Card> cards) {
         System.out.println("Choose one of these cards");
-        printCardsWithNumbers(cards);
+        System.out.println(CardFormatter.getFormattedGrid(cards));
 
         int cardIndex = -1;
         while (true) {
@@ -55,7 +55,7 @@ public class PlayerDecisionCLI implements PlayerDecision {
 
     private Optional<Card> chooseOptionalCard(List<Card> cards) {
         System.out.println("Choose one of these cards (or - for no card)");
-        printCardsWithNumbers(cards);
+        showCardsGrid(cards);
 
         Optional<Integer> cardIndex;
         while (true) {
@@ -64,14 +64,14 @@ public class PlayerDecisionCLI implements PlayerDecision {
                 return Optional.empty();
             if (cardIndex.get() >= 1 && cardIndex.get() <= cards.size())
                 return Optional.of(cards.get(cardIndex.get() - 1));
-            System.out.println("This is not a vaid card, try again...");
+            System.out.println("This is not a valid card, try again...");
         }
     }
 
     @Override
     public List<Card> chooseCards(List<Card> cards) {
         System.out.println("Choose any of these cards (separate by comma)");
-        printCardsWithNumbers(cards);
+        showCardsGrid(cards);
 
         List<Integer> cardIndices = new ArrayList<>();
         boolean passed = false;
