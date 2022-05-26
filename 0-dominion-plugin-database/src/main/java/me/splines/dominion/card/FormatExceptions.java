@@ -4,6 +4,9 @@ import java.util.List;
 
 public class FormatExceptions {
 
+    private FormatExceptions() {
+    }
+
     public static class CardNameTooLongException extends RuntimeException {
         public CardNameTooLongException(String name) {
             super("The card name " + name + " is too long");

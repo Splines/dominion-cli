@@ -7,13 +7,13 @@ import java.util.Optional;
 import me.splines.dominion.ConsoleUtil;
 import me.splines.dominion.card.ActionCard;
 import me.splines.dominion.card.Card;
-import me.splines.dominion.card.CardFormatter;
+import me.splines.dominion.card.GridFormatter;
 import me.splines.dominion.card.MoneyCard;
 
 public class PlayerDecisionCLI implements PlayerDecision {
 
     private void showCardsGrid(List<Card> cards) {
-        String grid = CardFormatter.getFormattedGridWithIndex(cards);
+        String grid = GridFormatter.getFormattedGridWithIndex(cards);
         System.out.println(grid);
     }
 

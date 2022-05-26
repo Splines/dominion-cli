@@ -4,7 +4,7 @@ import java.util.List;
 
 import me.splines.dominion.ConsoleUtil;
 import me.splines.dominion.card.Card;
-import me.splines.dominion.card.CardFormatter;
+import me.splines.dominion.card.GridFormatter;
 import me.splines.dominion.game.PlayerResult;
 
 public class PlayerInformationCLI implements PlayerInformation {
@@ -39,7 +39,7 @@ public class PlayerInformationCLI implements PlayerInformation {
         System.out.println("🎴🎴");
         System.out.println();
         System.out.println("🃏 Your hand cards");
-        System.out.println(CardFormatter.getFormattedGrid(handCards));
+        System.out.println(GridFormatter.getFormattedGrid(handCards));
         ConsoleUtil.pressEnterToContinue();
     }
 
