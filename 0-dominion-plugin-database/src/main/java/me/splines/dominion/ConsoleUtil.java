@@ -87,6 +87,8 @@ public class ConsoleUtil {
         System.out.println("Press Enter to continue...");
         try {
             System.in.read();
+            // https://stackoverflow.com/a/19798257
+            System.in.skip(System.in.available());
         } catch (Exception e) {
         }
     }

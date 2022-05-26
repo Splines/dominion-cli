@@ -2,6 +2,8 @@ package me.splines.dominion.game;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchThrowable;
+import static org.mockito.ArgumentMatchers.anyList;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.verify;
 
 import java.util.List;
@@ -67,7 +69,7 @@ class PlayerTest {
     void playerMove() {
         player.makeMove();
 
-        verify(information).yourTurn(player.getName());
+        verify(information).yourTurn(eq(player.getName()), anyList());
         // Would need Powermock with JUnit5 to test order
         // -> see here: https://stackoverflow.com/a/30137217/9655481
         // Sadly, Powermock is still not yet available for JUnit5
