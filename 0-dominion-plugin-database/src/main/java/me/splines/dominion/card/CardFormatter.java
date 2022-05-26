@@ -53,7 +53,7 @@ public final class CardFormatter {
         // Go through all rows
         while (i < cards.size()) {
             Card leftmostCard = cards.get(i);
-            String[] linesLeftmostCard = getFormatted(leftmostCard)
+            String[] linesLeftmostCard = getFormatted(leftmostCard, i + 1)
                     .split("\n");
             String[] cardRowLines = linesLeftmostCard.clone();
 
@@ -64,7 +64,7 @@ public final class CardFormatter {
                     break;
 
                 Card cardToTheRight = cards.get(i);
-                String[] linesCardToTheRight = getFormatted(cardToTheRight)
+                String[] linesCardToTheRight = getFormatted(cardToTheRight, i + 1)
                         .split("\n");
                 if (linesCardToTheRight.length != linesLeftmostCard.length)
                     throw new CardsDifferentHeightsException(List.of(leftmostCard, cardToTheRight));
@@ -87,11 +87,11 @@ public final class CardFormatter {
         return grid.toString();
     }
 
-    public static String getFormatted(Card card) {
+    public static String getFormatted(Card card, int index) {
         StringBuilder str = new StringBuilder();
 
         // Header
-        str.append(getHeader(card));
+        str.append(getHeader(card, index));
 
         // Body
         // will fail if class not in map, which is intended
@@ -104,11 +104,18 @@ public final class CardFormatter {
         return str.toString();
     }
 
-    private static String getHeader(Card card) {
+    private static String getHeader(Card card, int index) {
         StringBuilder header = new StringBuilder();
 
+        // Calculate Card name
+        String name = card.getName().toUpperCase();
+        if (index != -1) {
+            name = index + ":" + name;
+        }
+        String headerText = " " + name + " ";
+
         // Calculate spaces
-        int spaceLeft = CARD_WIDTH - card.getName().length() - 2;
+        int spaceLeft = CARD_WIDTH - headerText.length();
         if (spaceLeft <= 2) {
             throw new CardNameTooLongException(card.getName());
         }
@@ -122,7 +129,7 @@ public final class CardFormatter {
         }
 
         // Card name
-        header.append(" " + card.getName().toUpperCase() + " ");
+        header.append(headerText);
 
         // Symbols to the right of card name
         for (int i = 0; i < spacesRight - 1; i++) {
