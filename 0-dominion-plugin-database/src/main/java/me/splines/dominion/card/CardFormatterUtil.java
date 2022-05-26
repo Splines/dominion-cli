@@ -1,22 +1,8 @@
 package me.splines.dominion.card;
 
-public final class CardPrinterUtil {
+public final class CardFormatterUtil {
 
-    private CardPrinterUtil() {
-    }
-
-    public static void printEmptySpaces(int count) {
-        for (int i = 0; i < count; i++) {
-            System.out.print(" ");
-        }
-    }
-
-    public static void printToTheRight(String text) {
-        CardPrinter.printLeftBorderWithSpace();
-        CardPrinterUtil.printEmptySpaces(CardPrinter.CARD_WIDTH - 4 - 4 - 2);
-        System.out.print(text);
-        CardPrinter.printRightBorderWithSpace();
-        System.out.println();
+    private CardFormatterUtil() {
     }
 
     public static String wrapLine(String line, int lineLength, String linebreak) {

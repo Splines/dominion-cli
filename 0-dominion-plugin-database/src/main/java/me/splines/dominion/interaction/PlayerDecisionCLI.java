@@ -7,19 +7,16 @@ import java.util.Optional;
 import me.splines.dominion.ConsoleUtil;
 import me.splines.dominion.card.ActionCard;
 import me.splines.dominion.card.Card;
+import me.splines.dominion.card.CardFormatter;
 import me.splines.dominion.card.MoneyCard;
 
 public class PlayerDecisionCLI implements PlayerDecision {
 
     private void printCardsWithNumbers(List<Card> cards) {
-        for (int i = 0; i < cards.size(); i++) {
-            Card card = cards.get(i);
-            System.out.print((i + 1) + ":" + card.getName());
-            if (i != cards.size() - 1) {
-                System.out.print(" | ");
-            }
+        for (Card card : cards) {
+            String formatter = CardFormatter.getFormatted(card);
+            System.out.println(formatter);
         }
-        System.out.println();
     }
 
     ////////////////////////// Choose players //////////////////////////////////
