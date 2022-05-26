@@ -38,8 +38,10 @@ public class Game {
     }
 
     private void gameLoop() {
-        while (!hasGameEnded()) {
+        while (true) {
             for (Player player : players) {
+                if (hasGameEnded())
+                    return;
                 player.makeMove();
             }
         }
@@ -67,7 +69,7 @@ public class Game {
 
         playerInteraction.information().results(results);
 
-        String[] winnersArray = new String[playerPoints.size()];
+        String[] winnersArray = new String[winners.size()];
         playerInteraction.information().winners(winners.toArray(winnersArray));
     }
 

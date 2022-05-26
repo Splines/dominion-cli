@@ -45,19 +45,20 @@ public class PlayerInformationCLI implements PlayerInformation {
 
     @Override
     public void results(List<PlayerResult> results) {
-        System.out.println("These are your results");
+        System.out.println();
+        System.out.println("🌟 These are your results 🌟");
         for (PlayerResult playerResult : results) {
-            System.out.println(playerResult.getName() + ": "
+            System.out.println("▶ " + playerResult.getName() + ": "
                     + playerResult.getPoints() + " Points");
         }
     }
 
     @Override
     public void winners(String... names) {
-        if (names.length >= 1) {
+        if (names.length > 1) {
             System.out.println("There are multiple winners:");
         }
-        System.out.println("Congratulations: " + String.join(",", names));
+        System.out.println("✨🎉 Congratulations: " + String.join(",", names) + " 🎉✨");
     }
 
 }
