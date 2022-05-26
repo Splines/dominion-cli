@@ -26,7 +26,7 @@ public class Player extends PlayerAbstract {
 
     @Override
     public void makeMove() {
-        inform().yourTurn(this.name);
+        inform().yourTurn(this.name, getHand());
         PlayerMove move = new PlayerMove(this, stock);
         move.doActionPhase();
         move.doBuyPhase();

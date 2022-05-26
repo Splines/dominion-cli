@@ -4,6 +4,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 
+import me.splines.dominion.card.FormatExceptions.CardNameTooLongException;
+import me.splines.dominion.card.FormatExceptions.CardsDifferentHeightsException;
 import me.splines.dominion.card.body.ActionCardFormatter;
 import me.splines.dominion.card.body.MoneyCardFormatter;
 import me.splines.dominion.card.body.PointCardFormatter;
@@ -32,28 +34,24 @@ public final class CardFormatter {
     private CardFormatter() {
     }
 
-    public static class CardNameTooLongException extends RuntimeException {
-        public CardNameTooLongException(String name) {
-            super("The card name " + name + " is too long");
-        }
-    }
-
-    public static class CardsDifferentHeightsException extends RuntimeException {
-        public CardsDifferentHeightsException(List<Card> cards) {
-            super("The cards have different lengths, cannot print them in a grid: "
-                    + String.join(",",
-                            cards.stream().map(c -> c.getName()).toList()));
-        }
-    }
-
     public static String getFormattedGrid(List<Card> cards) {
+        return getFormattedGridInternal(cards, false);
+    }
+
+    public static String getFormattedGridWithIndex(List<Card> cards) {
+        return getFormattedGridInternal(cards, true);
+    }
+
+    private static String getFormattedGridInternal(List<Card> cards, boolean withIndex) {
         StringBuilder grid = new StringBuilder();
 
         int i = 0;
+        int printIndex;
         // Go through all rows
         while (i < cards.size()) {
             Card leftmostCard = cards.get(i);
-            String[] linesLeftmostCard = getFormatted(leftmostCard, i + 1)
+            printIndex = withIndex ? i + 1 : -1;
+            String[] linesLeftmostCard = getFormattedWithIndex(leftmostCard, printIndex)
                     .split("\n");
             String[] cardRowLines = linesLeftmostCard.clone();
 
@@ -64,7 +62,8 @@ public final class CardFormatter {
                     break;
 
                 Card cardToTheRight = cards.get(i);
-                String[] linesCardToTheRight = getFormatted(cardToTheRight, i + 1)
+                printIndex = withIndex ? i + 1 : -1;
+                String[] linesCardToTheRight = getFormattedWithIndex(cardToTheRight, printIndex)
                         .split("\n");
                 if (linesCardToTheRight.length != linesLeftmostCard.length)
                     throw new CardsDifferentHeightsException(List.of(leftmostCard, cardToTheRight));
@@ -76,18 +75,23 @@ public final class CardFormatter {
                 }
             }
 
+            i++;
+
             // Combine all lines of one card row
             String row = String.join("\n", cardRowLines);
-            row += "\n".repeat(GRID_VGAP + 1);
+            if (i < cards.size())
+                row += "\n".repeat(GRID_VGAP + 1);
             grid.append(row);
-
-            i++;
         }
 
         return grid.toString();
     }
 
-    public static String getFormatted(Card card, int index) {
+    public static String getFormatted(Card card) {
+        return getFormattedWithIndex(card, -1);
+    }
+
+    public static String getFormattedWithIndex(Card card, int index) {
         StringBuilder str = new StringBuilder();
 
         // Header

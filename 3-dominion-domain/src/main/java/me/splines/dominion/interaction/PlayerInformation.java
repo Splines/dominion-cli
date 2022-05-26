@@ -2,6 +2,7 @@ package me.splines.dominion.interaction;
 
 import java.util.List;
 
+import me.splines.dominion.card.Card;
 import me.splines.dominion.game.PlayerResult;
 
 public interface PlayerInformation {
@@ -14,7 +15,7 @@ public interface PlayerInformation {
 
     void noCardsBuyableWithMoney(int money);
 
-    void yourTurn(String name);
+    void yourTurn(String name, List<Card> handCards);
 
     void results(List<PlayerResult> results);
 

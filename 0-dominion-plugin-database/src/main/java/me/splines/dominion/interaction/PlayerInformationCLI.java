@@ -3,6 +3,8 @@ package me.splines.dominion.interaction;
 import java.util.List;
 
 import me.splines.dominion.ConsoleUtil;
+import me.splines.dominion.card.Card;
+import me.splines.dominion.card.CardFormatter;
 import me.splines.dominion.game.PlayerResult;
 
 public class PlayerInformationCLI implements PlayerInformation {
@@ -30,11 +32,15 @@ public class PlayerInformationCLI implements PlayerInformation {
     }
 
     @Override
-    public void yourTurn(String name) {
+    public void yourTurn(String name, List<Card> handCards) {
         System.out.println();
         System.out.println("🎴🎴");
         System.out.println("🎴🎴  " + name);
         System.out.println("🎴🎴");
+        System.out.println();
+        System.out.println("🃏 Your hand cards");
+        System.out.println(CardFormatter.getFormattedGrid(handCards));
+        ConsoleUtil.pressEnterToContinue();
     }
 
     @Override

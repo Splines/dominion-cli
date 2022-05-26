@@ -13,7 +13,7 @@ import me.splines.dominion.card.MoneyCard;
 public class PlayerDecisionCLI implements PlayerDecision {
 
     private void showCardsGrid(List<Card> cards) {
-        String grid = CardFormatter.getFormattedGrid(cards);
+        String grid = CardFormatter.getFormattedGridWithIndex(cards);
         System.out.println(grid);
     }
 
@@ -40,7 +40,7 @@ public class PlayerDecisionCLI implements PlayerDecision {
     @Override
     public Card chooseCard(List<Card> cards) {
         System.out.println("Choose one of these cards");
-        System.out.println(CardFormatter.getFormattedGrid(cards));
+        showCardsGrid(cards);
 
         int cardIndex = -1;
         while (true) {
