@@ -2,6 +2,7 @@ package me.splines.dominion.interaction;
 
 import java.util.List;
 
+import me.splines.dominion.ConsoleUtil;
 import me.splines.dominion.game.PlayerResult;
 
 public class PlayerInformationCLI implements PlayerInformation {
@@ -19,12 +20,13 @@ public class PlayerInformationCLI implements PlayerInformation {
     @Override
     public void noActionCardsPlayable() {
         System.out.println("No action cards in your hand");
-        System.out.println();
+        ConsoleUtil.pressEnterToContinue();
     }
 
     @Override
     public void noCardsBuyableWithMoney(int money) {
         System.out.println("Can't buy any cards with money " + money);
+        ConsoleUtil.pressEnterToContinue();
     }
 
     @Override

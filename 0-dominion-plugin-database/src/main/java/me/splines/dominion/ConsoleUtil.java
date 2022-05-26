@@ -82,4 +82,12 @@ public class ConsoleUtil {
         strings.replaceAll(String::trim);
         return strings;
     }
+
+    public static void pressEnterToContinue() {
+        System.out.println("Press Enter to continue...");
+        try {
+            System.in.read();
+        } catch (Exception e) {
+        }
+    }
 }
