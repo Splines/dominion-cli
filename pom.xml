@@ -13,13 +13,13 @@
         <module>3-dominion-domain</module>
         <module>2-dominion-application</module>
         <module>1-dominion-adapters</module>
-        <module>0-dominion-plugin-database</module>
+        <module>0-dominion-plugin-cli</module>
         <module>dominion-report</module>
     </modules>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
 
         <!-- SonarQube -->

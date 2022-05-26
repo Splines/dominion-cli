@@ -6,12 +6,12 @@
         <artifactId>dominion-cli</artifactId>
         <version>0.0</version>
     </parent>
-    <artifactId>0-dominion-plugin-database</artifactId>
+    <artifactId>0-dominion-plugin-cli</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
         <!-- https://community.sonarsource.com/t/coverage-test-data-importing-jacoco-coverage-report-in-xml-format/12151 -->
         <sonar.coverage.jacoco.xmlReportPaths>${project.basedir}/../dominion-report/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
     </properties>

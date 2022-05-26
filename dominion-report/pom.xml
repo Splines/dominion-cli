@@ -21,8 +21,8 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <maven.compiler.source>1.8</maven.compiler.source>
-        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
     </properties>
 
     <dependencies>
@@ -47,7 +47,7 @@
         <!-- Do not add coverage for this code yet -->
         <!-- <dependency>
             <groupId>me.splines</groupId>
-            <artifactId>0-dominion-plugin-database</artifactId>
+            <artifactId>0-dominion-plugin-cli</artifactId>
             <version>${project.version}</version>
             <scope>compile</scope>
         </dependency> -->
