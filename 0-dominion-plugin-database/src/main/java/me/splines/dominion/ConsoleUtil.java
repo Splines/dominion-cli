@@ -88,8 +88,13 @@ public class ConsoleUtil {
         try {
             System.in.read();
             // https://stackoverflow.com/a/19798257
+            // Usually you would do a while loop since we can't guarantee that
+            // skip() has read all bytes. For us, it is acceptable if not all bytes
+            // are read. We just do this skip() to clean a possible previous
+            // "Enter" input from the user.
             System.in.skip(System.in.available());
         } catch (Exception e) {
+            // don't do anything
         }
     }
 }

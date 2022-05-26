@@ -12,6 +12,9 @@ public class GridFormatter {
     private static final int GRID_HGAP = 4; // number of spacings between cards in one row
     private static final int GRID_VGAP = 2; // number of spacings between cards in one column
 
+    private GridFormatter() {
+    }
+
     public static String getFormattedGrid(List<Card> cards) {
         return constructFormattedGrid(cards, false);
     }
