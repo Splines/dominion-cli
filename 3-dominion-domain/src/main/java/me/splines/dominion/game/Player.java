@@ -10,7 +10,7 @@ import me.splines.dominion.interaction.PlayerDecision;
 import me.splines.dominion.interaction.PlayerInformation;
 import me.splines.dominion.interaction.PlayerInteraction;
 
-public abstract class PlayerAbstract {
+public abstract class Player {
 
     protected final String name;
     protected final Deck drawDeck;
@@ -20,7 +20,7 @@ public abstract class PlayerAbstract {
     protected final PlayerInteraction playerInteraction;
     protected final Stock stock;
 
-    protected PlayerAbstract(String name, PlayerInteraction playerInteraction, Deck drawDeck, Stock stock) {
+    protected Player(String name, PlayerInteraction playerInteraction, Deck drawDeck, Stock stock) {
         this.name = name;
         this.playerInteraction = playerInteraction;
         this.drawDeck = drawDeck;

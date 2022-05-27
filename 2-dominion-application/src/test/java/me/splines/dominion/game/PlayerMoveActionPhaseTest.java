@@ -41,11 +41,11 @@ class PlayerMoveActionPhaseTest {
     private PlayerInformation information;
 
     @Mock
-    private PlayerAbstract player;
+    private Player player;
 
     private final Instruction earnActionInstruction = new Instruction() {
         @Override
-        public void execute(PlayerAbstract player, MoveState moveState, Stock stock) {
+        public void execute(Player player, MoveState moveState, Stock stock) {
             moveState.earnActions(1);
         }
 
@@ -154,7 +154,7 @@ class PlayerMoveActionPhaseTest {
         drawDeck.put(CardPool.copperCard);
         drawDeck.put(CardPool.copperCard);
         PlayerInteraction interaction = new PlayerInteraction(decision, information);
-        Player ourPlayer = spy(new Player("our player", interaction, drawDeck, new GameStock()));
+        GamePlayer ourPlayer = spy(new GamePlayer("our player", interaction, drawDeck, new GameStock()));
 
         when(decision.chooseOptionalActionCard(anyList()))
                 .thenReturn(Optional.of(playCard));

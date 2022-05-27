@@ -15,9 +15,9 @@ import me.splines.dominion.game.Deck.EmptyDeckException;
 import me.splines.dominion.game.Deck.NotEnoughCardsOnDeckException;
 import me.splines.dominion.interaction.PlayerInteraction;
 
-public class Player extends PlayerAbstract {
+public class GamePlayer extends Player {
 
-    public Player(String name, PlayerInteraction playerInteraction, Deck drawDeck, Stock stock) {
+    public GamePlayer(String name, PlayerInteraction playerInteraction, Deck drawDeck, Stock stock) {
         super(name, playerInteraction, drawDeck, stock);
         drawNewHandCards();
     }

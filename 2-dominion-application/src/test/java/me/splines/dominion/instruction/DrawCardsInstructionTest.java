@@ -15,10 +15,10 @@ import me.splines.dominion.action.Instruction;
 import me.splines.dominion.card.Card;
 import me.splines.dominion.card.CardPool;
 import me.splines.dominion.game.Deck;
+import me.splines.dominion.game.GamePlayer;
 import me.splines.dominion.game.GameStock;
 import me.splines.dominion.game.MoveState;
 import me.splines.dominion.game.Player;
-import me.splines.dominion.game.PlayerAbstract;
 import me.splines.dominion.interaction.PlayerDecision;
 import me.splines.dominion.interaction.PlayerInformation;
 import me.splines.dominion.interaction.PlayerInteraction;
@@ -33,7 +33,7 @@ class DrawCardsInstructionTest {
     @Mock
     private PlayerInformation information;
 
-    private PlayerAbstract player;
+    private Player player;
 
     private List<Card> initialHand;
 
@@ -59,7 +59,7 @@ class DrawCardsInstructionTest {
 
         MockitoAnnotations.openMocks(this);
         PlayerInteraction interaction = new PlayerInteraction(decision, information);
-        player = new Player("draw card player", interaction, drawDeck, new GameStock());
+        player = new GamePlayer("draw card player", interaction, drawDeck, new GameStock());
     }
 
     @Test

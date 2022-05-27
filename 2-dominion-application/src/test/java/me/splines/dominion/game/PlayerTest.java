@@ -19,7 +19,7 @@ import me.splines.dominion.card.CardPool;
 import me.splines.dominion.card.MoneyCard;
 import me.splines.dominion.game.Deck.EmptyDeckException;
 import me.splines.dominion.game.Deck.NotEnoughCardsOnDeckException;
-import me.splines.dominion.game.PlayerAbstract.HandDoesNotHaveCard;
+import me.splines.dominion.game.Player.HandDoesNotHaveCard;
 import me.splines.dominion.interaction.PlayerDecision;
 import me.splines.dominion.interaction.PlayerInformation;
 import me.splines.dominion.interaction.PlayerInteraction;
@@ -37,7 +37,7 @@ class PlayerTest {
 
     private Card specialCard = new MoneyCard("my", 42, 180);
 
-    private PlayerAbstract player;
+    private Player player;
 
     @BeforeEach
     void prepare() {
@@ -60,7 +60,7 @@ class PlayerTest {
 
         MockitoAnnotations.openMocks(this);
         PlayerInteraction interaction = new PlayerInteraction(decision, information);
-        player = new Player("draw card player", interaction, drawDeck, new GameStock());
+        player = new GamePlayer("draw card player", interaction, drawDeck, new GameStock());
     }
 
     ////////////////////////////// Move ////////////////////////////////////////

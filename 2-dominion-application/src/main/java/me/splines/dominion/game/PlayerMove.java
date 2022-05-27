@@ -11,7 +11,7 @@ import me.splines.dominion.card.MoneyCard;
 
 public class PlayerMove extends Move {
 
-    public PlayerMove(PlayerAbstract player, Stock stock) {
+    public PlayerMove(Player player, Stock stock) {
         super(player, stock);
     }
 

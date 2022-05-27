@@ -14,10 +14,10 @@ import org.mockito.MockitoAnnotations;
 import me.splines.dominion.action.Instruction;
 import me.splines.dominion.card.CardPool;
 import me.splines.dominion.game.Deck;
+import me.splines.dominion.game.GamePlayer;
 import me.splines.dominion.game.GameStock;
 import me.splines.dominion.game.MoveState;
 import me.splines.dominion.game.Player;
-import me.splines.dominion.game.PlayerAbstract;
 import me.splines.dominion.interaction.PlayerDecision;
 import me.splines.dominion.interaction.PlayerInformation;
 import me.splines.dominion.interaction.PlayerInteraction;
@@ -33,7 +33,7 @@ class DiscardAndDrawCardsInstructionTest {
     @Mock
     private PlayerInformation information;
 
-    private PlayerAbstract player;
+    private Player player;
 
     @BeforeEach
     void prepare() {
@@ -51,7 +51,7 @@ class DiscardAndDrawCardsInstructionTest {
         MockitoAnnotations.openMocks(this);
 
         PlayerInteraction interaction = new PlayerInteraction(decision, information);
-        player = new Player("awesome player", interaction, drawDeck, new GameStock());
+        player = new GamePlayer("awesome player", interaction, drawDeck, new GameStock());
     }
 
     @Test

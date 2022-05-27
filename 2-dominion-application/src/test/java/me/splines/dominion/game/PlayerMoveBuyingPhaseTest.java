@@ -60,7 +60,7 @@ class PlayerMoveBuyingPhaseTest {
         drawDeck.put(CardPool.copperCard);
         drawDeck.put(CardPool.copperCard);
         Stock stock = new GameStock();
-        Player player = spy(new Player("player", interaction, drawDeck, stock));
+        GamePlayer player = spy(new GamePlayer("player", interaction, drawDeck, stock));
         when(player.decide()).thenReturn(decision);
         when(player.inform()).thenReturn(information);
         Card cardToBuy = CardPool.estateCard;
@@ -94,7 +94,7 @@ class PlayerMoveBuyingPhaseTest {
         drawDeck.put(CardPool.silverCard);
         drawDeck.put(CardPool.copperCard);
         Stock stock = new GameStock();
-        Player player = spy(new Player("player", interaction, drawDeck, stock));
+        GamePlayer player = spy(new GamePlayer("player", interaction, drawDeck, stock));
         when(player.decide()).thenReturn(decision);
         when(player.inform()).thenReturn(information);
         when(decision.chooseOptionalCardToBuy(anyList()))
@@ -103,7 +103,7 @@ class PlayerMoveBuyingPhaseTest {
 
         class MyPlayerMove extends PlayerMove {
 
-            public MyPlayerMove(PlayerAbstract player, Stock stock) {
+            public MyPlayerMove(Player player, Stock stock) {
                 super(player, stock);
             }
 
@@ -142,7 +142,7 @@ class PlayerMoveBuyingPhaseTest {
         drawDeck.put(CardPool.duchyCard);
         drawDeck.put(CardPool.duchyCard);
         Stock stock = mock(GameStock.class);
-        Player player = spy(new Player("poor player", interaction, drawDeck, stock));
+        GamePlayer player = spy(new GamePlayer("poor player", interaction, drawDeck, stock));
         when(player.decide()).thenReturn(decision);
         when(player.inform()).thenReturn(information);
 
@@ -168,7 +168,7 @@ class PlayerMoveBuyingPhaseTest {
         drawDeck.put(CardPool.duchyCard);
         drawDeck.put(CardPool.duchyCard);
         Stock stock = spy(new GameStock());
-        Player player = spy(new Player("poor player", interaction, drawDeck, stock));
+        GamePlayer player = spy(new GamePlayer("poor player", interaction, drawDeck, stock));
         when(player.decide()).thenReturn(decision);
         when(player.inform()).thenReturn(information);
         when(decision.chooseOptionalCardToBuy(anyList()))

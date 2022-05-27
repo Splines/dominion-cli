@@ -45,7 +45,7 @@ class PlayerMoveCleanUpPhaseTest {
 
         Stock stock = new GameStock();
         PlayerInteraction interaction = new PlayerInteraction(decision, information);
-        Player player = new Player("player", interaction, drawDeck, stock);
+        GamePlayer player = new GamePlayer("player", interaction, drawDeck, stock);
         player.draw();
         player.draw();
         player.play(CardPool.estateCard);

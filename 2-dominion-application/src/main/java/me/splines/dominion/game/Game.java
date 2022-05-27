@@ -11,7 +11,7 @@ import me.splines.dominion.interaction.PlayerInteraction;
 public class Game {
 
     private PlayerInteraction playerInteraction;
-    private List<Player> players = new ArrayList<>();
+    private List<GamePlayer> players = new ArrayList<>();
     private Stock stock = new GameStock();
 
     public Game(PlayerInteraction playerInteraction, List<String> playerNames) {
@@ -19,7 +19,7 @@ public class Game {
 
         for (String name : playerNames) {
             Deck initialDrawDeck = getInitialDrawDeck();
-            Player player = new Player(name, playerInteraction, initialDrawDeck, stock);
+            GamePlayer player = new GamePlayer(name, playerInteraction, initialDrawDeck, stock);
             players.add(player);
         }
     }
@@ -39,7 +39,7 @@ public class Game {
 
     private void gameLoop() {
         while (true) {
-            for (Player player : players) {
+            for (GamePlayer player : players) {
                 if (hasGameEnded())
                     return;
                 player.makeMove();
@@ -54,7 +54,7 @@ public class Game {
     }
 
     private void announceResultsAndWinners() {
-        HashMap<Player, Integer> playerPoints = new HashMap<>();
+        HashMap<GamePlayer, Integer> playerPoints = new HashMap<>();
         players.forEach(p -> playerPoints.put(p, p.calculatePoints()));
         int maxPoints = Collections.max(playerPoints.values());
 

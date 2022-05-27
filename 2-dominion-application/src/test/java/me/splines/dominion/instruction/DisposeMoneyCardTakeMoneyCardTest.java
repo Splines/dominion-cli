@@ -23,10 +23,10 @@ import me.splines.dominion.action.Instruction;
 import me.splines.dominion.card.CardPool;
 import me.splines.dominion.card.MoneyCard;
 import me.splines.dominion.game.Deck;
+import me.splines.dominion.game.GamePlayer;
 import me.splines.dominion.game.GameStock;
 import me.splines.dominion.game.MoveState;
 import me.splines.dominion.game.Player;
-import me.splines.dominion.game.PlayerAbstract;
 import me.splines.dominion.game.Stock;
 import me.splines.dominion.interaction.PlayerDecision;
 import me.splines.dominion.interaction.PlayerInformation;
@@ -46,7 +46,7 @@ class DisposeMoneyCardTakeMoneyCardTest {
     @Captor
     private ArgumentCaptor<List<MoneyCard>> moneyCardListCaptor;
 
-    private PlayerAbstract player;
+    private Player player;
 
     @BeforeEach
     void prepare() {
@@ -64,10 +64,10 @@ class DisposeMoneyCardTakeMoneyCardTest {
         MockitoAnnotations.openMocks(this);
 
         PlayerInteraction interaction = new PlayerInteraction(decision, information);
-        player = new Player("awesome player", interaction, drawDeck, new GameStock());
+        player = new GamePlayer("awesome player", interaction, drawDeck, new GameStock());
     }
 
-    private void expectNoChangesToHand(PlayerAbstract player) {
+    private void expectNoChangesToHand(Player player) {
         assertThat(player.getHand()).containsExactlyInAnyOrderElementsOf(
                 List.of( // no changes to hand
                         CardPool.estateCard,
@@ -89,7 +89,7 @@ class DisposeMoneyCardTakeMoneyCardTest {
 
     @Test
     void noMoneyCardsOnHand() {
-        PlayerAbstract playerMock = mock(PlayerAbstract.class);
+        Player playerMock = mock(Player.class);
         when(playerMock.getMoneyCardsOnHand()).thenReturn(new ArrayList<>());
         when(decision.chooseOptionalMoneyCard(any())).thenReturn(
                 Optional.of(CardPool.silverCard)); // dispose this card
