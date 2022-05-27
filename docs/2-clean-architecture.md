@@ -1,10 +1,10 @@
 ---
 layout: default
-title: II Clean Architecture
+title: 2 Clean Architecture
 permalink: clean-architecture
 ---
 
-# II Clean Architecture
+# 2 Clean Architecture
 {: .no_toc }
 
 <details open markdown="block">

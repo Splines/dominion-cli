@@ -1,10 +1,10 @@
 ---
 layout: default
-title: III SOLID
+title: 3 SOLID
 permalink: solid
 ---
 
-# III SOLID
+# 3 SOLID
 {: .no_toc }
 
 <details open markdown="block">
