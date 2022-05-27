@@ -17,7 +17,7 @@ Dominion-CLI setzt das Kartenspiel "Dominion" als Command Line Interface um, das
 
 **Die Spielanleitung der zweiten Edition kann [hier](https://www.spielkarten.com/spielregeln/dominion-basisspiel-2-edition/) eingesehen werden. Besonders interessant ist hier wahrscheinlich [Seite 6 des ersten Teils](https://www.spielkarten.com/wp-content/uploads/2019/07/22501413_Dominion-2nd-Edition_SR1.pdf#page=6).** *(Bitte erstelle ein [GitHub Issue](https://github.com/Splines/dominion-cli/issues), falls dieser Link nicht mehr funktioniert.)*
 
-Durch das CLI wird dem Spieler / der Spielerin der gesamte Spielspaß im Kreise von Freunden und Familie genommen. Stattdessen kann man nun auch alleine an der Konsole sitzen und einfach für alle Personen spielen. Außerdem entfallen lästige Handgriffe wie das Ziehen und Ablegen von Karten. Karten selbst werden mit Unicode-Zeichen ausgegeben und sind auf das Wesentliche reduziert, z.B. sind Bilder Fehleranzeige. Statt eines lebendigen und bunten Spiels beschränkt sich die Interaktion mit den Spielern auf Zahlen-Eingaben im Terminal. So geht Spielen heute.
+Durch das CLI wird dem Spieler / der Spielerin der gesamte Spielspaß im Kreise von Freunden und Familie genommen. Stattdessen kann man nun auch alleine an der Konsole sitzen und einfach für alle Personen spielen. Außerdem entfallen lästige Handgriffe wie das Ziehen und Ablegen von Karten. Karten selbst werden mit Unicode-Zeichen ausgegeben und sind auf das Wesentliche reduziert, z.B. sind Bilder Fehlanzeige. Statt eines lebendigen und bunten Spiels beschränkt sich die Interaktion mit den Spielern auf Zahlen-Eingaben im Terminal. So geht Spielen heute.
 
 Der eigentliche Grund für das CLI liegt in meinem Bestreben, eine künstliche Intelligenz (KI) für das Spiel zu programmieren. Für das Training muss das komplette Spiel simuliert werden, das CLI ist hier der erste Meilenstein auf dem Weg zur KI. Nichtsdestotrotz wurde für dieses Projekt im CLI-Layer (äußerste Schicht) auch auf ein ansprechendes Design Wert gelegt, obwohl dieses für das Training einer KI natürlich nicht notwendig gewesen wäre.
 
@@ -30,7 +30,7 @@ Dieses Projekt fokussiert sich auf die Implementierung der wesentlichen Spielabl
 **Voraussetzungen**
 
 - [Java SE Development Kit 17 (LTS)](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html) — Objektorientierte Programmiersprache
-- [Maven](https://maven.apache.org/) — Build and package management tool
+- [Maven](https://maven.apache.org/) — Build und package management tool
 
 **Projekt herunterladen**
 
@@ -53,6 +53,7 @@ java -jar dominion-cli.jar
 ```
 
 **Unicode Code Page (Optional)**
+
 ⚠ Falls Unicode-Zeichen nicht richtig angezeigt werden ("?" anstatt von Symbolen), kann mit folgendem Command versucht werden, die Code Page auf Unicode umzustellen (chcp steht für "Change Codepage"). Getestet wurde der Befehl in Windows PowerShell, wo per default die Code Page 850 aktiv war.
 
 ```
