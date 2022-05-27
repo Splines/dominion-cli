@@ -55,7 +55,7 @@ Eine schöne Übersicht zu Clean Architecture von Robert C. Martin ist [hier](ht
 
 
 
-# Analyse der Dependency Rule
+## Analyse der Dependency Rule
 *Eine Klasse, die die Dependency Rule einhält und eine Klasse, die die Dependency Rule verletzt;   jeweils UML der Klasse und Analyse der Abhängigkeiten in beide Richtungen (d.h., von wem hängt die Klasse ab und wer hängt von der Klasse ab) in Bezug auf die Dependency Rule*
 
 *In den folgenden UML-Diagrammen werden zur besseren Übersichtlichkeit die für die Analyse der Dependency Rule unnötigen Details ausgelassen, beispielsweise Methoden von anderen Klassen. Abhängigkeiten werden ausschließlich ausgehend von der zentralen Klasse eingezeichnet, die gerade diskutiert wird.*
@@ -77,8 +77,43 @@ Die von den Dozenten vorgegeben Projektstruktur mit vorpopulierten `pom.xml`-Dat
 Die abstrakte Klasse `Move` aus dem Domänen-Kern ist ausschließlich von Klassen innerhalb ihrer eigenen Schicht abhängig (z.B. von der abstrakten Klasse `Player`). `PlayerMove` im Application-Layer erbt von `Move` und überschreibt die mit `protected` versehenen Methoden. Abhängigkeitspfeile zeigen auch in diesem Beispiel stets von außen nach innen, niemals von innen nach außen.
 
 
-# Analyse der Schichten
-*Jeweils 1 Klasse zu 2 unterschiedlichen Schichten der Clean-Architecture: jeweils UML der Klasse (ggf. auch zusammenspielenden Klassen), Beschreibung der Aufgabe, Einordnung in die Clean-Architecture (mit Begründung).*
+## Analyse der Schichten
+*Jeweils eine Klasse zu zwei unterschiedlichen Schichten der Clean-Architecture: jeweils UML der Klasse (ggf. auch zusammenspielenden Klassen), Beschreibung der Aufgabe, Einordnung in die Clean-Architecture (mit Begründung).*
 
-- Schicht: Name
-- Schicht: Name
+
+**`Action` in der Domain-Schicht**
+
+![Domain-Schicht Action](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/clean-architecture-layers/action-domain.puml&fmt=svg)
+
+Die Klasse `Action` innerhalb der Domain stellt eine Art "Container" für mehrere Anweisungen einer Karte zur Verfügung. Diese Anweisungen werden von dem Interface `Instruction` modelliert, wobei dieses im Wesentlichen nur eine `execute(...)`-Methode umfasst. Beim Spielen einer Karte führt der/die Spieler:in während der Aktionsphase die Anweisungen "von oben nach unten" (wie auf der Karte aufgeschrieben) aus. Diese Reihenfolge wird durch eine einfache Liste von `Instruction`s innerhalb der Klasse `Action` modelliert.
+
+Die Klasse `Action` befindet sich in der Domänen-Schicht, da sie zur Domäne des Spiels Dominion zählt: der Begriff "Anweisung" (Instruction) wird durchgehend in der Spielanleitung verwendet, außerdem wird von "Aktionskarten" geredet. Dementsprechend liegt es nahe, eine Klasse `Action` einzuführen, die die `Instruction`s einer Karte zu einer Aktion bündelt, die dann ausgeführt werden kann. Dass eine Aktion aus Anweisungen besteht ist eine Invariante, die für jede Aktion berücksichtigt werden muss, auch dies begründet die Position von `Action` im Domain-Code. Dass die Anweisungen "von oben nach unten" ausgeführt werden, ist durch die Reihenfolge der Anweisungen in der Liste implizit gegeben. Die Klasse ´Action` wird vom `CardPool` verwendet, um die Karten im Spiel aufzubauen.
+
+
+**`CardFormatter` in der Plugin-CLI-Schicht**
+
+![Plugin-CLI-Schicht CardFormatter](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/clean-architecture-layers/card-formatter-plugin-cli.puml&fmt=svg)
+
+Der `CardFormatter` befindet sich in der Plugin-CLI-Schicht und ist dafür zuständig Karten für den/die Benutzer:in ansprechend in der Konsole mithilfe von Unicode-Zeichen darzustellen, zum Beispiel so:
+
+```
+┏━━━━━━ KUPFER ━━━━━━┓
+┃                    ┃
+┃             💰💰💰 ┃
+┃             💰1 💰 ┃
+┃             💰💰💰 ┃
+┃                    ┃
+┃                    ┃
+┃                    ┃
+┃                    ┃
+┃                    ┃
+┃                    ┃
+┃                    ┃
+┗ 0💰 ━━ Geld ━━━━━━━┛
+```
+
+Um den Body der Karte zu "rendern" (im Fall der Geldkarte die "1" umgeben von Geldsäcken), nutzt der `CardFormatter` eine konkrete Implementierung der abstrakten Klasse `CardBodyFormatter`, je nachdem von welchem Typ die Karte bei `getFormatted(Card card)` ist. In diesem Beispiel wird demnach der `MoneyCardFormatter` zum Einsatz kommen.
+
+Die Plugin-CLI-Schicht wurde als Ort für den `CardFormatter` gewählt, da dieser lediglich für die Anzeige von Karten, jedoch für keinerlei Anwendungslogik zuständig ist. Normalerweise greift diese Schicht nur auf den Adapter zu. Im Rahmen dieses Projekts wurde jedoch auf einen Adapter verzichtet, da dieser zur jetzigen Zeit keinen großen Mehrwert liefern und den Code nur unnötig aufblähen würde. Stattdessen ruft der `CardFormatter` für die Ausgabe direkt Methoden der Karte auf, zum Beispiel `card.getName()` oder `card.getMoney()`.
+
+Trotz des herausfordernden Codes, Karten mit Unicode in einem Grid anzuordnen und auszugeben, ist die emotionale Bindung an diesen Code sehr gering: der `CardFormatter` könnte jederzeit ausgetauscht werden, beispielsweise mit einem "richtigen" UI für eine Web-Applikation. Die Business Logik und der Kern unserer Anwendung wäre dadurch nicht betroffen; die innersten Schichten bekämen von diesen Änderungen in der Tat überhaupt nichts mit.

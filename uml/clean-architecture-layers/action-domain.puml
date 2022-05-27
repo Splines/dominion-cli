@@ -1,0 +1,33 @@
+@startuml actoin-domain
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+package Domain <<Rectangle>> {
+
+    class Action {
+        - List<Instruction> instructions
+        + Action(Instruction... instructions)
+        + List<Instruction> getInstructions()
+    }
+
+    interface Instruction {
+        + void execute(Player player, MoveState state, Stock stock)
+        + String getName()
+    }
+
+}
+
+package Application <<Rectangle>> {
+
+    class CardPool {
+    }
+
+}
+
+Action<<Important>>
+Action "1" o-- "n" Instruction
+CardPool ..> Action
+
+@enduml
