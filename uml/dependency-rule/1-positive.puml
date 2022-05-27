@@ -1,0 +1,61 @@
+@startuml dependency-rule-positive-1
+
+package Domain <<Rectangle>> {
+
+    class PlayerInteraction {
+    }
+
+    class Deck {
+    }
+
+    interface Stock {
+    }
+
+}
+
+package Application <<Rectangle>> {
+
+    class Game {
+        -PlayerInteraction PlayerInteraction
+        -List<GamePlayer> players
+        -Stock stock
+
+        +Game(PlayerInteraction playerInteraction, List<String> playerNames)
+        +void start()
+        -Deck getInitialDrawDeck()
+        -void gameLoop()
+        -boolean hasGameEnded()
+        -void announceResultsAndWinners()
+    }
+
+    class GamePlayer {
+    }
+
+    class GameStock {
+    }
+
+    class CardPool {
+    }
+
+}
+
+package Plugin-CLI <<Rectangle>> {
+
+    class Dominion {
+        +main(String[] args)
+    }
+
+}
+
+Game "1" o-- "n" GamePlayer
+Game "1" o-- "1" GameStock
+Game ..> CardPool
+
+Game .d.> Deck
+Game "1" o-d- "1" PlayerInteraction
+
+GameStock --|> Stock
+
+Dominion ..> Game : Game game = new Game(...) wird in main() aufgerufen
+
+@enduml

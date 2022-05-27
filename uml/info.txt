@@ -1,0 +1,5 @@
+PlantUML helpful links
+
+- https://plantuml.com/de/starting
+- Proxy Service: https://plantuml.com/de/server
+- Online: https://www.plantuml.com/plantuml/uml/

@@ -44,10 +44,14 @@ Eine schöne Übersicht zu Clean Architecture von Robert C. Martin ist [hier](ht
 
 
 # Analyse der Dependency Rule
-*1 Klasse, die die Dependency Rule einhält und eine Klasse, die die Dependency Rule verletzt);   jeweils UML der Klasse und Analyse der Abhängigkeiten in beide Richtungen (d.h., von wem hängt die Klasse ab und wer hängt von der Klasse ab) in Bezug auf die Dependency Rule*
+*1 Klasse, die die Dependency Rule einhält und eine Klasse, die die Dependency Rule verletzt;   jeweils UML der Klasse und Analyse der Abhängigkeiten in beide Richtungen (d.h., von wem hängt die Klasse ab und wer hängt von der Klasse ab) in Bezug auf die Dependency Rule*
 
-- Positiv-Beispiel: Dependency Rule
-- Negativ-Beispiel: Dependency Rule
+## 1. Positiv-Beispiel
+
+![Dependency Rule 1. Positiv-Beispiel](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/dependency-rule/1-positive.puml&fmt=svg)
+
+## 2. Positiv-Beispiel
+
 
 
 
