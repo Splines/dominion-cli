@@ -1,0 +1,44 @@
+@startuml dependency-rule-positive-2
+
+package Domain <<Rectangle>> {
+
+    abstract class Player {
+    }
+
+    interface Stock {
+    }
+
+    class MoveState {
+    }
+
+    abstract class Move {
+        # Player player;
+        # Stock stock;
+        # MoveState moveState
+
+        # {abstract} void doActionPhase()
+        # {abstract} void doBuyPhase()
+        # {abstract} void doCleanUpPhase()
+    }
+
+}
+
+package Application <<Rectangle>> {
+
+    class PlayerMove {
+        + PlayerMove(Player player, Stock stock)
+
+        + void doActionPhase()
+        + void doBuyPhase()
+        + void doCleanUpPhase()
+    }
+
+}
+
+PlayerMove --|> Move
+
+Move o-- Player
+Move o-- Stock
+Move o-- MoveState
+
+@enduml

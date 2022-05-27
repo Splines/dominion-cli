@@ -44,19 +44,29 @@ Eine schöne Übersicht zu Clean Architecture von Robert C. Martin ist [hier](ht
 
 
 # Analyse der Dependency Rule
-*1 Klasse, die die Dependency Rule einhält und eine Klasse, die die Dependency Rule verletzt;   jeweils UML der Klasse und Analyse der Abhängigkeiten in beide Richtungen (d.h., von wem hängt die Klasse ab und wer hängt von der Klasse ab) in Bezug auf die Dependency Rule*
+*Eine Klasse, die die Dependency Rule einhält und eine Klasse, die die Dependency Rule verletzt;   jeweils UML der Klasse und Analyse der Abhängigkeiten in beide Richtungen (d.h., von wem hängt die Klasse ab und wer hängt von der Klasse ab) in Bezug auf die Dependency Rule*
 
-## 1. Positiv-Beispiel
+*In den folgenden UML-Diagrammen werden zur besseren Übersichtlichkeit die für die Analyse der Dependency Rule unnötigen Details ausgelassen, beispielsweise Methoden von anderen Klassen. Abhängigkeiten werden ausschließlich ausgehend von der zentralen Klasse eingezeichnet, die gerade diskutiert wird.*
+
+
+**1. Positiv-Beispiel**
 
 ![Dependency Rule 1. Positiv-Beispiel](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/dependency-rule/1-positive.puml&fmt=svg)
 
-## 2. Positiv-Beispiel
+Die Klasse `Game` befindet sich im Application-Layer. Gemäß der Dependency Rule darf sie also nur Abhängigkeiten zu inneren Schichten (Domain) haben. Wie im UML-Diagramm zu sehen, hängt die Klasse von anderen Klassen in ihrer eigenen Schicht (z.B. von `GamePlayer`) als auch von Klassen aus der Domain-Schicht (z.B. von `Deck`) ab. Es gibt jedoch keinen Abhängigkeitspfeil, der von `Game` in eine Klasse aus der Plugin-CLI-Schicht zeigt. Stattdessen wird `Game` von der Klasse `Dominion` in ihrer `main()`-Methode verwendet.
 
 
+**2. Positiv-Beispiel**
+
+Die von den Dozenten vorgegeben Projektstruktur mit vorpopulierten `pom.xml`-Dateien für einzelne Maven-Module schließt ein Verletzen der Dependency Rule aus. Es ist schlichtweg nicht möglich, in einer inneren Schicht eine Klasse einer äußeren Schicht zu verwenden, da innere Schichten in dieser Projektstruktur nichts von äußeren wissen und dadurch auch Symbole, d.h. zum Beispiel Klassennamen, nicht aufgelöst werden können. Es kommt dann bereits beim Kompilieren zu Fehlern. Statt eines Negativ-Beispiels soll hier deshalb ein weiteres Positiv-Beispiel vorgestellt werden.
+
+![Dependency Rule 2. Positiv-Beispiel](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/dependency-rule/2-positive.puml&fmt=svg)
+
+Die abstrakte Klasse `Move` aus dem Domänen-Kern ist ausschließlich von Klassen innerhalb ihrer eigenen Schicht abhängig (z.B. von der abstrakten Klasse `Player`). `Move` wird von der Klasse `PlayerMove` im Application-Layer implementiert. `PlayerMove` überschreibt dabei die mit `protected` versehenen Methoden von `Move`. Abhängigkeitspfeile zeigen auch in diesem Beispiel stets von außen nach innen, niemals von innen nach außen.
 
 
 # Analyse der Schichten
-*jeweils 1 Klasse zu 2 unterschiedlichen Schichten der Clean-Architecture: jeweils UML der Klasse (ggf. auch zusammenspielenden Klassen), Beschreibung der Aufgabe, Einordnung mit Begründung in die Clean-Architecture*
+*Jeweils 1 Klasse zu 2 unterschiedlichen Schichten der Clean-Architecture: jeweils UML der Klasse (ggf. auch zusammenspielenden Klassen), Beschreibung der Aufgabe, Einordnung in die Clean-Architecture (mit Begründung).*
 
 - Schicht: Name
 - Schicht: Name

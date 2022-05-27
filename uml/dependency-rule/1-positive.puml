@@ -16,16 +16,16 @@ package Domain <<Rectangle>> {
 package Application <<Rectangle>> {
 
     class Game {
-        -PlayerInteraction PlayerInteraction
-        -List<GamePlayer> players
-        -Stock stock
+        - PlayerInteraction PlayerInteraction
+        - List<GamePlayer> players
+        - Stock stock
 
-        +Game(PlayerInteraction playerInteraction, List<String> playerNames)
-        +void start()
-        -Deck getInitialDrawDeck()
-        -void gameLoop()
-        -boolean hasGameEnded()
-        -void announceResultsAndWinners()
+        + Game(PlayerInteraction playerInteraction, List<String> playerNames)
+        + void start()
+        - Deck getInitialDrawDeck()
+        - void gameLoop()
+        - boolean hasGameEnded()
+        - void announceResultsAndWinners()
     }
 
     class GamePlayer {
@@ -42,7 +42,7 @@ package Application <<Rectangle>> {
 package Plugin-CLI <<Rectangle>> {
 
     class Dominion {
-        +main(String[] args)
+        + main(String[] args)
     }
 
 }
