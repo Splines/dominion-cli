@@ -155,6 +155,69 @@ Das Design der Klasse `Game` könnte sicherlich angepasst werden, sodass beispie
 ## ATRIP: Professional
 *Jeweils ein positives und negatives Beispiel zu ‘Professional’; jeweils Code-Beispiel, Analyse und Begründung, was professionell/nicht professionell ist*
 
+Tests sollten den gleichen Qualitätsstandards wie "Produktivcode" unterliegen, da auch hier Fehler teuer sind.
+
+
+**Positiv-Beispiel**
+
+Als Positiv-Beispiel soll erneut der [`DisposeMoneyCardTakeMoneyCardTest`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/instruction/DisposeMoneyCardTakeMoneyCardTest.java) dienen. Insbesondere zeugen [diese Zeilen](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/instruction/DisposeMoneyCardTakeMoneyCardTest.java#L51-L78) von "professionellem" Code:
+
+```java
+@BeforeEach
+void prepare() {
+    instruction = new DisposeMoneyCardTakeMoneyCardToHandInstruction();
+
+    drawDeck = new Deck();
+    drawDeck.put(CardPool.provinceCard);
+    drawDeck.put(CardPool.duchyCard); // ↑ other cards on bottom of draw deck
+    drawDeck.put(CardPool.goldCard); // 5 cards until here
+    drawDeck.put(CardPool.silverCard);
+    drawDeck.put(CardPool.copperCard);
+    drawDeck.put(CardPool.curseCard);
+    drawDeck.put(CardPool.estateCard);
+
+    MockitoAnnotations.openMocks(this);
+
+    PlayerInteraction interaction = new PlayerInteraction(decision, information);
+    player = new GamePlayer("awesome player", interaction, drawDeck, new GameStock());
+}
+
+private void expectNoChangesToHand(Player player) {
+    assertThat(player.getHand()).containsExactlyInAnyOrderElementsOf(
+            List.of( // no changes to hand
+                    CardPool.estateCard,
+                    CardPool.curseCard,
+                    CardPool.copperCard,
+                    CardPool.silverCard,
+                    CardPool.goldCard));
+}
+```
+
+Hier fällt zunächst positiv auf, dass die von JUnit bereitgestellte Annotation `@BeforeEach` Verwendung bei der Methode `void prepare()` findet. Hier werden Vorbereitungen getroffen, die ansonsten in jedem Test eigenständig notwendig gewesen wären und zu viel dupliziertem Code geführt hätten. Beispielsweise wird hier das `drawDeck` (Nachziehstapel) des Spielers mit Karten populiert sowie die Mock-Objekte initialisiert. Ferner fällt positiv auf, dass eine sehr häufig benutzte Assertion in eine eigene Methode `private void expectNoChangesToHand(Player player)` ausgelagert wurde, um erneut Code-Duplikationen zu vermeiden.
+
+
+**Negativ-Beispiel**
+
+Im Test [`buyOneCard()`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/game/PlayerMoveBuyingPhaseTest.java#L50-L83) in [`PlayerMoveBuyingPhaseTest`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/game/PlayerMoveBuyingPhaseTest.java) sind diese Zeilen anzutreffen:
+
+```java
+Deck drawDeck = new Deck();
+drawDeck.put(CardPool.copperCard);
+drawDeck.put(CardPool.copperCard);
+drawDeck.put(CardPool.copperCard);
+drawDeck.put(CardPool.copperCard); // ↑ 4 additional cards for next round
+drawDeck.put(CardPool.duchyCard);
+drawDeck.put(CardPool.copperCard);
+drawDeck.put(CardPool.copperCard);
+drawDeck.put(CardPool.copperCard);
+drawDeck.put(CardPool.copperCard);
+```
+
+Hier hätte man gleiche Statements durch eine For-Schleife vereinfachen können und dadurch Line Duplications vermeiden können. Für die Tests habe ich mir hier jedoch bewusst dagegen entschieden, um deutlicher zu machen, welche Karten nun auf dem Nachziehstapel liegen.
+
+Darüber hinaus hätte man den Test [`playTwoActionCards()`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/game/PlayerMoveActionPhaseTest.java#L113-L141) sicherlich etwas vereinfachen oder in einzelne, kleinere Methoden auslagern können, da bei dieser Größe teilweise schon die Übersichtlichkeit verloren geht.
+
+
 
 ## Code Coverage
 *Code Coverage im Projekt analysieren und begründen*
