@@ -1,0 +1,47 @@
+@startuml
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+package Domain <<Rectangle>> {
+
+    interface Instruction {
+        + void execute(Player player, MoveState moveState, Stock stock)
+        + String getName()
+    }
+
+}
+
+package Application <<Rectangle>> {
+
+    class DiscardAndDrawCardsInstruction {
+    }
+
+    class DisposeMoneyCardTakeMoneyCardToHandInstruction {
+    }
+
+    class DrawCardsInstruction {
+    }
+
+    class EarnActionsInstruction {
+    }
+
+    class EarnBuyingsInstruction {
+    }
+
+    class EarnMoneyInstruction {
+    }
+
+}
+
+Instruction<<Important>>
+
+DiscardAndDrawCardsInstruction --|> Instruction
+DisposeMoneyCardTakeMoneyCardToHandInstruction --|> Instruction
+DrawCardsInstruction --|> Instruction
+EarnActionsInstruction --|> Instruction
+EarnBuyingsInstruction --|> Instruction
+EarnMoneyInstruction --|> Instruction
+
+@enduml

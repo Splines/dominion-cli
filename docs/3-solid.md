@@ -80,12 +80,23 @@ Eventuell könnte auch die Methode `int calculatePoints()` ausgelagert werden. S
 ## Analyse Open-Closed-Principle (OCP)
 *Jeweils eine Klasse als positives und negatives Beispiel für OCP;  jeweils UML der Klasse und Analyse mit Begründung, warum das OCP erfüllt/nicht erfüllt wurde – falls erfüllt: warum hier sinnvoll/welches Problem gab es? Falls nicht erfüllt: wie könnte man es lösen (inkl. UML)?*
 
+Das Open-Closed-Principle in Kürze lautet: “Software entities (classes, modules, functions, etc.) should be open for extension, but closed for modification” ([Bertrand Meyer, 1988](https://en.wikipedia.org/wiki/Object-Oriented_Software_Construction)), d.h. offen für Erweiterungen, aber geschlossen für Veränderungen. Code soll so geschrieben werden, dass wir einfach neue Funktionalitäten hinzufügen können, ohne bestehenden Code verändern zu müssen. Die polymorphe Variante dieses Prinzips wird mittels Interfaces umgesetzt, die geschlossen sind für Veränderungen, jedoch von von anderen Klassen implementiert werden können. Diese Klassen können dann später einfach ausgetauscht werden, sodass der bestehende Code erweitert werden kann.
+
 **Positiv-Beispiel**
+
+![Open-Closed-Principle Positiv-Beispiel](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/open-closed-principle/open-closed-positive.puml&fmt=svg)
+
+<!-- https://stackoverflow.com/a/69549641 -->
+{% capture link_with_anchor %}{{ site.baseurl }}{% link docs/2-clean-architecture.md %}#analyse-der-schichten{% endcapture %}
+
+Die Aufgabe des Interface `Instruction` wurde bereits bei der [Analyse der Schichten]({{link_with_anchor}}) behandelt. Im Rahmen des Open-Closed-Principles ist nun hervorzuheben, dass das Interface die einfache Erweiterung des Codes um neue Instruktionen ermöglicht, während das Interface selbst geschlossen für Veränderungen ist. Außerdem ist hier im Sinne des "Information Experts" die konkrete Logik der Instruktionen an die Klassen delegiert, da diese am besten wissen, wie ihre Instruktion auszuführen ist. Dafür implementieren sie die Methoden `void execute(...)` und `String getName()`. Letztere soll eine Repräsentation der Instruction als String zurückgeben, z.B. "+1 Karten" oder "+2💰". Die `execute(...)`-Methode arbeitet dann beispielsweise mit dem MoveState-Objekt und fügt dort zwei "Geld" hinzu oder instruiert die Spielerin, eine neue Karte zu ziehen.
+
+
 
 **Negativ-Beispiel**
 
 
-## Analyse Liskov-Substitution-Principle (LSP), Interface-Segreggation-Principle (ISP) Dependency-Inversion-Principle (DIP)
+## Analyse Liskov-Substitution-Principle (LSP), Interface-Segreggation-Principle (ISP), Dependency-Inversion-Principle (DIP)
 *Jeweils eine Klasse als positives und negatives Beispiel für entweder LSP oder ISP oder DIP);  jeweils UML der Klasse und Begründung, warum man hier das Prinzip erfüllt/nicht erfüllt wird*
 
 *Anm.: es darf nur ein Prinzip ausgewählt werden; es darf NICHT z.B. ein positives Beispiel für LSP und ein negatives Beispiel für ISP genommen werden*
