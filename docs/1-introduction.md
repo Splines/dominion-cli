@@ -5,8 +5,18 @@ permalink: einfuehrung
 ---
 
 # I Einführung
+{: .no_toc }
 
+<details open markdown="block">
+  <summary>
+    Inhalt
+  </summary>
+  {: .text-delta }
+
+- TOC
 {:toc}
+
+</details>
 
 ## Übersicht über die Applikation
 *Was macht die Applikation? Wie funktioniert sie? Welches Problem löst sie/welchen Zweck hat sie?*

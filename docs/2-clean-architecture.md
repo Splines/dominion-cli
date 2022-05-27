@@ -5,6 +5,18 @@ permalink: clean-architecture
 ---
 
 # II Clean Architecture
+{: .no_toc }
+
+<details open markdown="block">
+  <summary>
+    Inhalt
+  </summary>
+  {: .text-delta }
+
+- TOC
+{:toc}
+
+</details>
 
 
 ## Was ist Clean Architecture?
@@ -62,7 +74,7 @@ Die von den Dozenten vorgegeben Projektstruktur mit vorpopulierten `pom.xml`-Dat
 
 ![Dependency Rule 2. Positiv-Beispiel](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/dependency-rule/2-positive.puml&fmt=svg)
 
-Die abstrakte Klasse `Move` aus dem Domänen-Kern ist ausschließlich von Klassen innerhalb ihrer eigenen Schicht abhängig (z.B. von der abstrakten Klasse `Player`). `Move` wird von der Klasse `PlayerMove` im Application-Layer implementiert. `PlayerMove` überschreibt dabei die mit `protected` versehenen Methoden von `Move`. Abhängigkeitspfeile zeigen auch in diesem Beispiel stets von außen nach innen, niemals von innen nach außen.
+Die abstrakte Klasse `Move` aus dem Domänen-Kern ist ausschließlich von Klassen innerhalb ihrer eigenen Schicht abhängig (z.B. von der abstrakten Klasse `Player`). `PlayerMove` im Application-Layer erbt von `Move` und überschreibt die mit `protected` versehenen Methoden. Abhängigkeitspfeile zeigen auch in diesem Beispiel stets von außen nach innen, niemals von innen nach außen.
 
 
 # Analyse der Schichten
