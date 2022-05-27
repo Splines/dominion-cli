@@ -1,0 +1,45 @@
+@startuml
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+package Plugin-CLI <<Rectangle>> {
+
+    class CardFormatter<<Important>> {
+        - {static} Map<Class<? extends Card>, Function<Card, String>> formatterMap
+        - CardFormatter()
+        + {static} getFormatted(Card card)
+        + {static} getFormattedWithIndex(Card card, int index)
+        - {static} String getHeader(Card card, int index)
+        - {static} String getFooter(Card card)
+    }
+
+    abstract class CardBodyFormatter<T extends Card> {
+        + {abstract} String getBody(T card)
+        # String getEmptySpaces(int count)
+        # String getEmptyLineWithBorder()
+        # String getEmptyLinesWithBorder(int count)
+        # String getLeftBorderWithSpace()
+        # String getRightBorderWithSpace()
+        # String getTextToTheRight(String text)
+    }
+
+    class ActionCardFormatter extends CardBodyFormatter {
+        + String getBody(ActionCard card)
+        - String getLine(String line)
+    }
+
+    class MoneyCardFormatter extends CardBodyFormatter {
+        + String getBody(MoneyCard card)
+    }
+
+    class PointCardFormatter extends CardBodyFormatter {
+        + String getBody(PointCard card)
+    }
+
+}
+
+CardFormatter "1" o-l- "n" CardBodyFormatter
+
+@enduml

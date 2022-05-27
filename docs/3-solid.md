@@ -92,8 +92,23 @@ Das Open-Closed-Principle in Kürze lautet: “Software entities (classes, modul
 Die Aufgabe des Interface `Instruction` wurde bereits bei der [Analyse der Schichten]({{link_with_anchor}}) behandelt. Im Rahmen des Open-Closed-Principles ist nun hervorzuheben, dass das Interface die einfache Erweiterung des Codes um neue Instruktionen ermöglicht, während das Interface selbst geschlossen für Veränderungen ist. Außerdem ist hier im Sinne des "Information Experts" die konkrete Logik der Instruktionen an die Klassen delegiert, da diese am besten wissen, wie ihre Instruktion auszuführen ist. Dafür implementieren sie die Methoden `void execute(...)` und `String getName()`. Letztere soll eine Repräsentation der Instruction als String zurückgeben, z.B. "+1 Karten" oder "+2💰". Die `execute(...)`-Methode arbeitet dann beispielsweise mit dem MoveState-Objekt und fügt dort zwei "Geld" hinzu oder instruiert die Spielerin, eine neue Karte zu ziehen.
 
 
-
 **Negativ-Beispiel**
+
+![Open-Closed-Principle Negativ-Beispiel](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/open-closed-principle/open-closed-negative.puml&fmt=svg)
+
+Im Beispiel des `CardFormatter`s ist positiv im Sinne des Open-Closed-Principles anzuführen, dass die abstrakte Klasse `CardBodyFormatter` mit der abstrakten Methode `String getBody(T card)` einfach von Unterklassen erweitert werden kann — in unserem Fall von `ActionCardFormatter`, `MoneyCardFormatter` sowie `PointCardFormatter`, die jeweils `getBody()` überschreiben.
+
+Um einen neuen Kartentyp einzuführen, erstellen wir einen neuen Kartentyp, indem wir von der abstrakten Klasse `Card` erben und anschließend mit diesem Typ einen neuen `CardBodyFormatter` erstellen. Problematisch ist nun zunächst, dass der `CardFormatter` auf Grundlage einer statischen Map für eine konkrete `Card` einen entsprechenden `CardFormatter` auswählt. Dementsprechend müssten wir die Map nun anpassen und verletzen damit das "Open" Prinzip. Hier könnte man jedoch noch argumentieren, dass zumindest der `CardBodyFormatter` weiterhin "closed" bleibt; diesen mussten wir für die Erweiterung nicht antasten.
+
+Ein weiteres Problem könnte sich ergeben, wenn der neue Formatter für die neue Karte ein weiteres Argument in `getBody()` benötigt, z.B. ein Config-Objekt, das jedoch nur für diesen neuen Kartentyp zum Einsatz kommen soll. Hier müsste der Value-Typ der Map (bisher: `Function<Card, String>`) angepasst werden, wodurch wir jedoch auch die Signatur von `getBody()` in jedem Formatter entsprechend ändern müssten ("Closed"-Prinzip verletzt). Dies könnte man umgehen, indem ein eigener Konstruktor für den neuen Formatter definiert und in diesen das zusätzliche Argument mit übergeben wird.
+
+Des Weiteren ist der `CardFormatter` als `final` deklariert und besteht aus statischen Methoden, damit er beispielsweise so aufgerufen werden kann:
+
+```java
+CardFormatter.getFormatted(card);
+```
+
+Dies bedingt natürlich, dass der Formatter selbst nicht einfach erweitert werden kann, zum Beispiel wenn die Kopf- oder die Fußzeile anders ausgegeben werden sollten. Diese Einschränkung wurde jedoch hingenommen. Auch die bisher erwähnten Verletzungen des Prinzips sind nicht weiter relevant angesichts der konstanten Spielregeln, die sich selbst über mehrere Editionen hinweg nicht ändern, das heißt es werden mit großer Wahrscheinlichkeit keine neuen grundsätzlichen Kartentypen neben `ActionCard`, `MoneyCard` und `PointCard` hinzukommen. Selbst in zahlreichen Erweiterungen des Spiels sind diese Typen bislang konstant geblieben.
 
 
 ## Analyse Liskov-Substitution-Principle (LSP), Interface-Segreggation-Principle (ISP), Dependency-Inversion-Principle (DIP)
