@@ -1,5 +1,9 @@
 @startuml dependency-rule-positive-2
 
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
 package Domain <<Rectangle>> {
 
     abstract class Player {
@@ -34,6 +38,8 @@ package Application <<Rectangle>> {
     }
 
 }
+
+Move<<Important>>
 
 PlayerMove --|> Move
 

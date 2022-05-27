@@ -1,5 +1,9 @@
 @startuml dependency-rule-positive-1
 
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
 package Domain <<Rectangle>> {
 
     class PlayerInteraction {
@@ -46,6 +50,8 @@ package Plugin-CLI <<Rectangle>> {
     }
 
 }
+
+Game<<Important>>
 
 Game "1" o-- "n" GamePlayer
 Game "1" o-- "1" GameStock
