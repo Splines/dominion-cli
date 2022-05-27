@@ -1,0 +1,49 @@
+@startuml
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+class GamePlayer {
+
+    - String name
+    - Deck drawDeck
+    - Deck discardDeck
+    - List<Card> hand
+    - List<Card> table
+    - PlayerInteraction playerInteraction
+    - Stock stock
+
+    + GamePlayer(String name, PlayerInteraction playerInteraction, Deck drawDeck, Stock stock)
+    + String getName()
+    + PlayerDecision decide()
+    + PlayerInformation inform()
+
+    + void makeMove()
+    + int calculatePoints()
+
+    + Card draw()
+    - Card drawNormal()
+    - void drawMultipleWithCheck(int cardsCount)
+    + List<Card> drawNewHandCards()
+    - void makeDrawDeckFromDiscardDeck()
+
+    + void discard(Card card)
+    + void dispose(Card card)
+    + void play(Card card)
+    + void take (Card card)
+    + void takeToHand(Card card)
+    - void removeFromHand(Card card)
+
+    + List<Card> getHand()
+    + void clearHand()
+    + List<ActionCard> getActionCardsOnHand()
+    + List<MoneyCard> getMoneyCardsOnHand()
+
+    + List<Card> getTable()
+    + void clearTable()
+}
+
+GamePlayer<<Important>>
+
+@enduml

@@ -1,0 +1,21 @@
+@startuml
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+class Deck {
+    - LinkedList<Card> cards
+    + Deck()
+    + Card draw()
+    + void put(Card card)
+    + void putCardSeveralTimes(Card card, int count)
+    + void shuffle()
+    + boolean isEmpty()
+    + int size()
+    + List<Card> asList()
+}
+
+Deck<<Important>>
+
+@enduml
