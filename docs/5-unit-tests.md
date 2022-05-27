@@ -52,6 +52,8 @@ Damit Tests auch genutzt werden, sollten sie während der Entwicklung auf Knopfd
 
 Darüber hinaus wurden die Tests in den [GitHub Actions Workflow](https://github.com/Splines/dominion-cli/blob/main/.github/workflows/build.yml#L47-L67) eingebunden. Zunächst werden die Tests auch bei `mvn verify` ausgeführt. Schlägt hier ein Test fehl, dann stoppt der gesamte Build und in GitHub wird ein entsprechender Hinweis angezeigt. Anschließend wird der von Jacoco generierte XML-Coverage-Report auf Codecov hochgeladen. Dieses Tool erlaubt es, die Test und insbesondere die Test Coverage detaillierter zu untersuchen. Die Code Coverage wird anschließend auch auf SonarQube (SonarCloud) hochgeladen.
 
+[![Java CI with Maven](https://github.com/Splines/dominion-cli/actions/workflows/build.yml/badge.svg)](https://github.com/Splines/dominion-cli/actions/workflows/build.yml)
+
 Am Beispiel des Commits [`29459`](https://github.com/Splines/dominion-cli/commit/294593c76cbf1dec7e16e653dbf6ee87b3fd16f4) sieht man hier das Modal, das sich bei Klick auf den Haken im GitHub UI öffnet:
 
 ![Java Test Runner in VSCode](https://raw.githubusercontent.com/splines/dominion-cli/docs/media/tests/github-workflow-test-checks.jpg)
@@ -213,15 +215,39 @@ drawDeck.put(CardPool.copperCard);
 drawDeck.put(CardPool.copperCard);
 ```
 
-Hier hätte man gleiche Statements durch eine For-Schleife vereinfachen können und dadurch Line Duplications vermeiden können. Für die Tests habe ich mir hier jedoch bewusst dagegen entschieden, um deutlicher zu machen, welche Karten nun auf dem Nachziehstapel liegen.
+Hier hätte man gleiche Statements durch eine For-Schleife vereinfachen können und dadurch Line Duplications vermeiden können. Dazu habe ich mich hier jedoch bewusst dagegen entschieden, um deutlicher zu machen, welche Karten nun auf dem Nachziehstapel liegen.
 
 Darüber hinaus hätte man den Test [`playTwoActionCards()`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/game/PlayerMoveActionPhaseTest.java#L113-L141) sicherlich etwas vereinfachen oder in einzelne, kleinere Methoden auslagern können, da bei dieser Größe teilweise schon die Übersichtlichkeit verloren geht.
-
 
 
 ## Code Coverage
 *Code Coverage im Projekt analysieren und begründen*
 
+Für die Analyse der Code Coverage wurde [JaCoCo (Java Code Coverage Library)](https://www.eclemma.org/jacoco/) eingesetzt, indem ein eigenes Modul [`dominion-report`](https://github.com/Splines/dominion-cli/tree/main/dominion-report) erstellt und darin das Ziel [`report-aggregate`](https://github.com/Splines/dominion-cli/blob/main/dominion-report/pom.xml#L66) ausgeführt wurde. Der auf diese Weise entstandene Report wurde — wie bereits bei ["ATRIP: Automatic"](#atrip-automatic) erwähnt — mittels [GitHub Actions](https://github.com/features/actions) zu [Codecov](https://app.codecov.io/gh/Splines/dominion-cli) gepushed. Dadurch können wir mit jedem Commit nachvollziehen, wie viel Prozent unseres gesamten Codes sowie des Diffs (neuer Code) abgedeckt wird.
+
+[![codecov](https://codecov.io/gh/Splines/dominion-cli/branch/main/graph/badge.svg?token=kG7xahROjx)](https://codecov.io/gh/Splines/dominion-cli)
+
+
+**Grid-Graph**
+
+Anhand des Grid-Graphen ist bereits ersichtlich, dass große Teile des Codes von Tests abgedeckt sind. Der große rote Block steht für die schwer zu testende Klasse [`Game`](https://app.codecov.io/gh/Splines/dominion-cli/blob/main/2-dominion-application/src/main/java/me/splines/dominion/game/Game.java). Andere orangene oder rote Blöcke bezeichnen häufig Value Objects, die nur aus einfachen Gettern/Settern bestehen und daher keiner Tests bedürfen.
+
+[![Codecov Grid Coverage Graph](https://codecov.io/gh/Splines/dominion-cli/branch/main/graphs/tree.svg)](https://app.codecov.io/gh/Splines/dominion-cli)
+
+
+**Code-Coverage pro Modul**
+
+Explizit aus der Code-Coverage herausgenommen wurde (auch im obigen Grid-Graph) die äußerste Schicht "Plugin-CLI". Diese beinhaltet den kurzlebigsten Code, sodass es im Rahmen dieses Projekts keinen Sinn ergab, die Schicht mit zu testen.
+
+| Modul | Coverage |
+|-------|----------|
+| ~~0-dominion-plugin-cli~~ | ~~0% (von der<br/>Gesamtcoverage ausgeschlossen)~~ |
+| ~~1-dominion-adapters~~ | ~~kein Code vorhanden~~ |
+| 2-dominion-application | ca. 87% |
+| 3-dominion-domain | ca. 93% |
+| Total | ca. 89% |
+
+Besonders in der innersten Schicht, dem Domänen-Code, wurde mit 93% eine hohe Testabdeckung erreicht, die wichtig ist, um Kernfunktionalitäten und grundlegende Bausteine des Spiels wie Karten und Kartenstapel umfassend zu testen. In der Applikationsschicht wurden beispielsweise die Anweisungen (`Instruction`s) auf ihre Korrektheit getestet oder auch die verschiedenen Phasen eines Zuges (`PlayerMove`: Action Phase, Buying Phase und Clean Up Phase).
 
 ## Fakes und Mocks
 *Analyse und Begründung des Einsatzes von 2 Fake/Mock-Objekten; zusätzlich jeweils UML Diagramm der Klasse*
