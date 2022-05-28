@@ -111,10 +111,40 @@ CardFormatter.getFormatted(card);
 Dies bedingt natürlich, dass der Formatter selbst nicht einfach erweitert werden kann, zum Beispiel wenn die Kopf- oder die Fußzeile anders ausgegeben werden sollten. Diese Einschränkung wurde jedoch hingenommen. Auch die bisher erwähnten Verletzungen des Prinzips sind nicht weiter relevant angesichts der konstanten Spielregeln, die sich selbst über mehrere Editionen hinweg nicht ändern, das heißt es werden mit großer Wahrscheinlichkeit keine neuen grundsätzlichen Kartentypen neben `ActionCard`, `MoneyCard` und `PointCard` hinzukommen. Selbst in zahlreichen Erweiterungen des Spiels sind diese Typen bislang konstant geblieben.
 
 
-## Analyse Liskov-Substitution-Principle (LSP), Interface-Segreggation-Principle (ISP), Dependency-Inversion-Principle (DIP)
-*Jeweils eine Klasse als positives und negatives Beispiel für entweder LSP oder ISP oder DIP);  jeweils UML der Klasse und Begründung, warum man hier das Prinzip erfüllt/nicht erfüllt wird*
+## Analyse Liskov-Substitution-Principle (LSP), Interface-Segregation-Principle (ISP), Dependency-Inversion-Principle (DIP)
+*Jeweils eine Klasse als positives und negatives Beispiel für entweder LSP oder ISP oder DIP); jeweils UML der Klasse und Begründung, warum man hier das Prinzip erfüllt/nicht erfüllt wird*
 
 *Anm.: es darf nur ein Prinzip ausgewählt werden; es darf NICHT z.B. ein positives Beispiel für LSP und ein negatives Beispiel für ISP genommen werden*
 
+Das Liskov-Substitution-Principle — [hier](https://www.alpharithms.com/liskov-substitution-principle-lsp-solid-114908/#:~:text=The%20Liskov%20Substitution%20Principle%20states,%2C%20extendable%2C%20and%20reusable%20software.) kurz und kanpp erklärt — ist leider nicht auf dieses Projekt anwendbar, da die Supertypen, wenn sie abstrakt sind, nie eine eigene Implementierung beinhalten bzw. nur Methoden, die dann aber nicht in den Untertypen überschrieben werden. Dementsprechend ergibt dann auch das Konzept der Ersatzbarkeit ("Substitutability") eines Supertypen durch einen Subtypen keinen Sinn. Auch das Interface Segre*g*ation Principle ergibt für das Projekt eher wenig Sinn, da nirgendwo von zwei Interfaces gleichzeitig implementiert wird. Daher widmen wir uns dem Dependency-Inversion-Principle.
+
+**Das Dependency Inversion Prinzip (DIP)** sagt aus, dass high-level Module nicht von low-level Modulen abhängen sollen (siehe [Wikipedia](https://en.wikipedia.org/wiki/Dependency_inversion_principle)). Beide sollten stattdessen von Abstraktionen (z.B. von Interfaces) abhängen. Dies bedeutet auch, dass Abstraktionen nicht von Details abhängen sollen, sondern andersherum Details (konkrete Implementierungen) von Abstraktionen. Diese Abstraktionen können dann höheren Leveln zur Verfügung gestellt werden, sodass es die höheren Module nicht stört, wenn sich in den tief gelegenen Schichten Implementierungsdetails verändern. Damit ist der Code modularer und auch leichter wiederverwendbar und einfacher zu erweitern. Wer sich so wie ich die Frage stellt, was bei diesem Prinzip eigentlich "invertiert" wird, dem rate ich zu [diesem Post](https://www.blinkingcaret.com/2016/01/27/inverts-dependency-inversion-principle/).
 
 
+**Positiv-Beispiel: [`Instruction`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/action/Instruction.java)**
+
+![Instruction Interface mit Action](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/dependency-inversion/positive-instruction.puml&fmt=svg)
+
+Das Interface [`Instruktion`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/action/Instruction.java) modelliert wie bereits gesehen eine Anweisung auf einer Aktionskarte. Mehrere Anweisungen werden dann zu einer [`Action`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/action/Action.java) "aggregiert". In diesem Beispiel ist die Dependency Inversion erfüllt, weil `Action` nicht von konkreten Ausprägungen des Interface `Instruction` abhängt (siehe Application-Layer: "Many different Instructions"), sondern nur vom Interface selbst. Dem Konstruktor von `Action` wird dann eine konkrete Ausprägung (z.B. die [`EarnMoneyInstruction`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/main/java/me/splines/dominion/instruction/EarnMoneyInstruction.java)) übergeben. Damit ist auch ersichtlich, dass der `Action` die konkrete Implementierung der Instruktion  egal ist, diese können nach Belieben ausgetauscht werden.
+
+
+**Negativ-Beispiel: [`Game`](https://github.com/Splines/dominion-cli/blob/3ba15bc09b8be403c3dc49bfd0e72ca22ac77073/2-dominion-application/src/main/java/me/splines/dominion/game/Game.java#L14)**
+
+Vor Commit [`d3c8c`](https://github.com/Splines/dominion-cli/commit/d3c8c7f344e504751d0ddca9354dd5b31a38874d) war die Klasse [`Game`](https://github.com/Splines/dominion-cli/blob/3ba15bc09b8be403c3dc49bfd0e72ca22ac77073/2-dominion-application/src/main/java/me/splines/dominion/game/Game.java#L14) unbeabsichtigt von `GamePlayer` und nicht von der abstrakten Klasse `Game` abhängig:
+
+```java
+public class Game {
+   private List<GamePlayer> players = new ArrayList<>();
+   ...
+}
+```
+
+Dies ist beim Durchforsten des Codes nach einem negativen Beispiel ins Auge gestochen und wurde direkt in Commit [`d3c8c`](https://github.com/Splines/dominion-cli/commit/d3c8c7f344e504751d0ddca9354dd5b31a38874d) [behoben](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/main/java/me/splines/dominion/game/Game.java#L14). Vorher ergab sich also folgendes UML-Diagramm:
+
+![GamePlayer statt Game UML](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/dependency-inversion/negative-game.puml&fmt=svg)
+
+Nach dem Fix sieht das Diagramm nun wie folgt aus:
+
+![Game Player statt GamePlayer fixed UML](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/dependency-inversion/negative-game-fixed.puml&fmt=svg)
+
+Die Dependency Rule wurde vorher verletzt, weil das Detail (`Game`) von einem Detail (`GamePlayer`) und nicht von der entsprechenden Abstraktion (`Player`) abhing. In der verbesserten Version könnten nun theoretisch auch andere Implementierungen der abstrakten Klasse `Player` in `Game` verwendet; `Game` hängt nun nicht mehr von konkreten Subklassen und deren Implementierung ab.

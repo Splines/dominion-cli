@@ -1,0 +1,29 @@
+@startuml actoin-domain
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+package Domain <<Rectangle>> {
+
+    abstract class Player {
+    }
+
+}
+
+package Application <<Rectangle>> {
+
+    class Game <<Important>> {
+        - List<GamePlayer> players
+    }
+
+    class GamePlayer{
+    }
+
+}
+
+GamePlayer -d-|>Player
+Game "1" o-l- "n" GamePlayer
+
+
+@enduml
