@@ -65,7 +65,7 @@ ActionCard "1" o-r- "1" Action
 
 PlayerMove ..> ActionCard
 
-"Many different Instructions" --|> Instruction
+"Many different Instructions" ..|> Instruction
 ' DiscardAndDrawCardsInstruction --|> Instruction
 ' DisposeMoneyCardTakeMoneyCardToHandInstruction --|> Instruction
 ' DrawCardsInstruction --|> Instruction

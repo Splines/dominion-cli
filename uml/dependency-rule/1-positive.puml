@@ -60,7 +60,7 @@ Game ..> CardPool
 Game .d.> Deck
 Game "1" o-d- "1" PlayerInteraction
 
-GameStock --|> Stock
+GameStock ..|> Stock
 
 Dominion ..> Game : Game game = new Game(...) wird in main() aufgerufen
 

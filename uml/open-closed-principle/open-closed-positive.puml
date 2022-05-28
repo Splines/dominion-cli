@@ -37,11 +37,11 @@ package Application <<Rectangle>> {
 
 Instruction<<Important>>
 
-DiscardAndDrawCardsInstruction --|> Instruction
-DisposeMoneyCardTakeMoneyCardToHandInstruction --|> Instruction
-DrawCardsInstruction --|> Instruction
-EarnActionsInstruction --|> Instruction
-EarnBuyingsInstruction --|> Instruction
-EarnMoneyInstruction --|> Instruction
+DiscardAndDrawCardsInstruction ..|> Instruction
+DisposeMoneyCardTakeMoneyCardToHandInstruction ..|> Instruction
+DrawCardsInstruction ..|> Instruction
+EarnActionsInstruction ..|> Instruction
+EarnBuyingsInstruction ..|> Instruction
+EarnMoneyInstruction ..|> Instruction
 
 @enduml

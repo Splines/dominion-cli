@@ -29,7 +29,7 @@ package Application <<Rectangle>> {
 
 }
 
-"Many different Instructions" -d-|> Instruction
+"Many different Instructions" .d.|> Instruction
 "Many different Instructions" - Action : per Konstruktur übergeben >
 Action "1" o-r- "n" Instruction
 

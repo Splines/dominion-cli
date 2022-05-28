@@ -30,7 +30,7 @@ package Application <<Rectangle>> {
 
 }
 
-PlayerDecisionCLI -d-|> PlayerDecision
+PlayerDecisionCLI .d.|> PlayerDecision
 
 
 @enduml

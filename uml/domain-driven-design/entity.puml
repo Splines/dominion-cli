@@ -1,9 +1,0 @@
-@startuml entity
-
-skinparam classFontColor automatic
-skinparam classHeaderBackgroundColor<<Important>> #EA3652
-hide stereotype
-
-
-
-@enduml
