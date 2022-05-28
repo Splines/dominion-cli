@@ -59,7 +59,44 @@ In der Klasse [`Card`](https://github.com/Splines/dominion-cli/blob/main/3-domin
 ## Repositories
 *UML, Beschreibung und Begründung des Einsatzes eines Repositories; falls kein Repository vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinnvoll ist*
 
+Repositories bieten eine Schnittstelle, um von der Domäne aus Daten aus dem Persistenzspeicher, z.B. einer Datenbank zu lesen, ohne die technischen Details einer Datenbankverbindung kennen zu müssen. Damit vermitteln Repositories zwischen der Domäne und dem Datenmodell. Im Kern wird dazu ein Interface mit Methoden wie `findById(...)` definiert, das dann in äußeren Schichten (z.B. der Plugin-Schicht) implementiert werden kann. Auf diese Weise wird der Kern nicht mit unnötiger "accidental complexity" belastet.
 
+In diesem Projekt kamen keine Repositories zum Einsatz, da bislang noch kein Zugriff auf Persistenzspeicher benötigt wurde. Das Programm agiert mit dem Benutzer über die Konsole, wobei alle Daten im Hauptspeicher vorgehalten sind und nicht von persistentem Speicher gelesen werden müssen. Daher wurde auch kein expliziter Zugriff auf ein Datenmodell benötigt.
+
+Allerdings hat sich bereits ein zukünftiger Einsatzbereich für Repositories aufgetan: der [`CardPool`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/main/java/me/splines/dominion/card/CardPool.java) definiert zurzeit alle sich im Spiel befindlichen Karten als `public static final` Member der Klasse:
+
+```java
+// Action cards
+public static final List<ActionCard> actionCards = List.of(
+
+    new ActionCardBuilder("Jahrmarkt", 5).with(
+            new Action(
+                    new EarnActionsInstruction(2),
+                    new EarnBuyingsInstruction(1),
+                    new EarnMoneyInstruction(2)))
+            .build(),
+
+    new ActionCardBuilder("Markt", 5).with(
+            new Action(
+                    new DrawCardsInstruction(1),
+                    new EarnActionsInstruction(1),
+                    new EarnBuyingsInstruction(1),
+                    new EarnMoneyInstruction(1)))
+            .build(),
+
+    ...
+);
+
+// Money cards
+public static final MoneyCard copperCard = new MoneyCard("Kupfer", 0, 1);
+public static final MoneyCard silverCard = new MoneyCard("Silber", 3, 2);
+public static final MoneyCard goldCard = new MoneyCard("Gold", 6, 3);
+public static final List<MoneyCard> moneyCards = List.of(copperCard, silverCard, goldCard);
+
+...
+```
+
+Da das Spiel Dominion von zahlreichen Erweiterungen lebt und individuell Aktionskarten für ein Spiel kombiniert werden können (bei Kombination aller Schachteln können [über 10 Trillionen Kombinationen gezogen werden](https://de.wikipedia.org/wiki/Dominion_(Spiel)#Erweiterungen)), wäre eine Erweiterung des Programms sinnvoll, damit Spieler selbst die Spielkarten zu Beginn auswählen können. Dies könnte beispielsweise über eine Textdatei geschehen, in denen die Namen der zu verwendenden Karten aufgelistet werden. Aber auch ohne eine solche persistente Datei könnte dann ein Repository sinnvoll sein, um die Definition der Karten besser vom Rest des Codes auszulagern. Negativ sticht zum Beispiel der [`GameStock`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/main/java/me/splines/dominion/game/GameStock.java) heraus, der sowohl Methoden zur Verwaltung des Kartenvorrats implementiert, als auch die Karten auf diesem Vorrat selbst. Mit einem Repository könnte dies verbessert werden.
 
 
 ## Aggregates
