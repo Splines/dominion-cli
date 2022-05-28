@@ -15,6 +15,8 @@ Herzlich willkommen zur Doku von `dominon-cli`, einem Command Line Interface (CL
 
 ---
 
+![Konsolenausgabe des CLIs](https://raw.githubusercontent.com/splines/dominion-cli/docs/media/console-output.jpg)
+
 ## Über das Projekt
 
 Dieses Studentenprojekt ist im Rahmen der Vorlesung *Advanced Software Engineering* an der Dualen Hochschule Baden-Württemberg (DHBW) entstanden. **Die Dokumentation ist keine Benutzerdokumentation, sondern dokumentiert technische Details der Implementierung und der getroffenen architektonischen Design-Entscheidungen.** In der Vorlesung haben wir das Konzept von Clean Architecture und Domain-Driven Design kennengelernt und konnten dieses anhand eines praktischen Projekts praktisch erproben. Zahlreiche weitere Prinzipien, wie z.B. SOLID und GRASP, sowie erprobte Entwurfsmuster waren ebenfalls Teil des Vorlesungsstoffes.
