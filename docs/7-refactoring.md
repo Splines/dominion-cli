@@ -164,33 +164,19 @@ Das Interface `PlayerDecision` hat mit der Zeit immer mehr Methoden bekommen, di
 public interface PlayerDecision {
 
     Card chooseCard(List<Card> cards);
-
     void informStartActionPhase();
-
     void informStartBuyingPhase();
-
     void informNoActionCardsPlayable();
-
     void informNoCardsBuyableWithMoney(int money);
-
     void announceResults(List<PlayerResult> results);
-
     void announceWinners(String... names);
-
     void informYourTurn(String name);
-
     List<Card> chooseCards(List<Card> cards);
-
     ActionCard chooseActionCard(List<ActionCard> cards);
-
     Optional<ActionCard> chooseOptionalActionCard(List<ActionCard> cards);
-
     MoneyCard chooseMoneyCard(List<MoneyCard> cards);
-
     List<Card> chooseCardsToBuy(List<Card> cards);
-
     Optional<Card> chooseOptionalCardToBuy(List<Card> cards);
-
     Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards);
 
 }
@@ -209,17 +195,11 @@ Um den Code Smell zu beheben wurde das Interface aufgeteilt auf zwei neue Interf
 public interface PlayerInformation {
 
     void startActionPhase();
-
     void startBuyingPhase();
-
     void noActionCardsPlayable();
-
     void noCardsBuyableWithMoney(int money);
-
     void yourTurn(String name);
-
     void results(List<PlayerResult> results);
-
     void winners(String... names);
 
 }
@@ -227,19 +207,12 @@ public interface PlayerInformation {
 public interface PlayerDecision {
 
     Card chooseCard(List<Card> cards);
-
     List<Card> chooseCards(List<Card> cards);
-
     ActionCard chooseActionCard(List<ActionCard> cards);
-
     Optional<ActionCard> chooseOptionalActionCard(List<ActionCard> cards);
-
     MoneyCard chooseMoneyCard(List<MoneyCard> cards);
-
     List<Card> chooseCardsToBuy(List<Card> cards);
-
     Optional<Card> chooseOptionalCardToBuy(List<Card> cards);
-
     Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards);
 
 }
