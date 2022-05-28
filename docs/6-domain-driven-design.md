@@ -40,6 +40,12 @@ Hier fünf Beispiele:
 ## Entities
 *UML, Beschreibung und Begründung des Einsatzes einer Entity; falls keine Entity vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinnvoll ist*
 
+![Entity Player (reused from mock section)](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/mock/2-mock.puml&fmt=svg)
+
+Die Klasse [`Player`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/game/Player.java) bzw. [`GamePlayer`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/main/java/me/splines/dominion/game/GamePlayer.java) kann als Entity angesehen werden und modelliert die tatsächlichen Mitspieler von Dominion. Dabei werden die geltenden Domänenregeln forciert, indem nach außen Methoden zum Verändern des Zustands (Lebenszyklus) einer Spielerin bereitgestellt werden, mit denen es nicht möglich ist, die Entity nach der Konstruktion in einen ungültigen Zustand zu versetzen. Beispiele für solche Methoden sind `void takeToHand(Card card)`, `void discard(Card card)` oder `void dispose(Card card)`. Hier ist auch zu erkennen, dass das Value Object `Card` bzw. konkrete Ausprägungen davon (wie z.B. bei `List<ActionCard> getActionCardsOnHand()`) eingesetzt werden, um so viel Verhalten wie möglich auszulagern und die Entity (trotz ihres Umfangs) möglichst schlank zu halten.
+
+Die Klasse `Player` hat zudem eine eigene Identität in der Domäne: der Name eines Spielers ist eindeutig. Wir forcieren diese Regel im Code allerdings nicht und überlassen es über das CLI dem Nutzer, die Namen frei zu wählen. Da zwei `Player` in der Domäne nie auf Gleichheit überprüft werden müssen, ist es aus Sicht des Codes unproblematisch, wenn zwei Spielerinnen denselben Namen haben. Nur für die Nutzer unseres Programms könnte es dann verwirrend werden, weil man eventuell nicht mehr weiß, wer nun an der Reihe ist. Dies ist jedoch für uns nicht weiter relevant und kann einfach behoben werden, indem die Benutzer eindeutige Namen vergeben. Sollten sich Benutzer über dieses "Feature" beschweren, ist die Anpassung in wenigen Handgriffen erledigt (überschreiben der `equals()`-Methode und beim Anlegen der `Player` überprüfen, dass es keine zwei gleiche Spieler gibt).
+
 
 ## Value Objects
 *UML, Beschreibung und Begründung des Einsatzes eines Value Objects; falls kein Value Object vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinnvoll ist*
