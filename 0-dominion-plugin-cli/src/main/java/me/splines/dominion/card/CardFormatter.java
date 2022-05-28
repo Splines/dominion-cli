@@ -60,16 +60,15 @@ public final class CardFormatter {
         String headerText = " " + name + " ";
 
         // Calculate spaces
-        int spaceLeft = CARD_WIDTH - headerText.length();
-        if (spaceLeft <= 2) {
+        int spacesBothSides = CARD_WIDTH - headerText.length();
+        if (spacesBothSides <= 2) {
             throw new CardNameTooLongException(card.getName());
         }
-        int spacesLeft = (int) Math.floor(spaceLeft / 2.0);
-        int spacesRight = (int) Math.ceil(spaceLeft / 2.0);
+        Spaces spaces = getRemainingSpaces(spacesBothSides);
 
         // Symbols to the left of card name
         header.append(SYMBOL_TOP_LEFT_CORNER);
-        for (int i = 0; i < spacesLeft - 1; i++) {
+        for (int i = 0; i < spaces.spacesToTheLeft - 1; i++) {
             header.append(SYMBOL_HORIZONTAL_BORDER);
         }
 
@@ -77,7 +76,7 @@ public final class CardFormatter {
         header.append(headerText);
 
         // Symbols to the right of card name
-        for (int i = 0; i < spacesRight - 1; i++) {
+        for (int i = 0; i < spaces.spacesToTheRight - 1; i++) {
             header.append(SYMBOL_HORIZONTAL_BORDER);
         }
         header.append(SYMBOL_TOP_RIGHT_CORNER);
@@ -98,12 +97,11 @@ public final class CardFormatter {
         // Calculate spaces
         String typeName = card.getType().getName();
         int spacesBothSides = CARD_WIDTH - typeName.length() - 2;
-        int spacesToTheLeft = (int) Math.floor(spacesBothSides / 2.0);
-        int spacesToTheRight = (int) Math.ceil(spacesBothSides / 2.0);
+        Spaces spaces = getRemainingSpaces(spacesBothSides);
 
         // Spaces from symbols so far until card type text
         int spacesSoFar = 1 + 1 + moneyStr.length() + 1;
-        for (int i = 0; i < spacesToTheLeft - spacesSoFar; i++) {
+        for (int i = 0; i < spaces.spacesToTheLeft - spacesSoFar; i++) {
             footer.append(SYMBOL_HORIZONTAL_BORDER);
         }
 
@@ -111,13 +109,23 @@ public final class CardFormatter {
         footer.append(" " + typeName + " ");
 
         // Symbols to the right of card type
-        for (int i = 0; i < spacesToTheRight - 1; i++) {
+        for (int i = 0; i < spaces.spacesToTheRight - 1; i++) {
             footer.append(SYMBOL_HORIZONTAL_BORDER);
         }
         footer.append(SYMBOL_BOTTOM_RIGHT_CORNER);
         footer.append("\n");
 
         return footer.toString();
+    }
+
+    private static record Spaces(int spacesToTheLeft, int spacesToTheRight) {
+
+    };
+
+    private static Spaces getRemainingSpaces(int spacesRemainingOnBothSides) {
+        int spacesToTheLeft = (int) Math.floor(spacesRemainingOnBothSides / 2.0);
+        int spacesToTheRight = (int) Math.ceil(spacesRemainingOnBothSides / 2.0);
+        return new Spaces(spacesToTheLeft, spacesToTheRight);
     }
 
 }

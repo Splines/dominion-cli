@@ -27,7 +27,7 @@ public class GamePlayer extends Player {
     @Override
     public void makeMove() {
         inform().yourTurn(this.name, getHand());
-        PlayerMove move = new PlayerMove(this, stock);
+        Move move = new PlayerMove(this, stock);
         move.doActionPhase();
         move.doBuyPhase();
         move.doCleanUpPhase();
@@ -74,11 +74,11 @@ public class GamePlayer extends Player {
     }
 
     /**
-     * Make a new draw deck from the discard deck
+     * Makes a new draw deck from the discard deck
      * by shuffling the cards and putting them on the draw deck.
      *
      * Afterwards the discardDeck is empty and the drawDeck has all the cards
-     * from the drawDeck.
+     * from the discardDeck.
      */
     private void makeDrawDeckFromDiscardDeck() {
         discardDeck.shuffle();
