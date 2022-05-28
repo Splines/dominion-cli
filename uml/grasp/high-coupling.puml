@@ -1,0 +1,54 @@
+@startuml high-coupling
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+package Domain <<Rectangle>> {
+
+    abstract class Player <<Important>> {
+        # PlayerInteraction playerInteraction
+
+        # Player(String name, PlayerInteraction playerInteraction, ...)
+        + PlayerDecision decide()
+        + PlayerInformation inform()
+    }
+
+    class PlayerInteraction {
+        + PlayerInteraction(PlayerDecision decision, PlayerInformation information)
+        + PlayerDecision decision()
+        + PlayerInformation information()
+    }
+
+    interface PlayerDecision {
+    }
+
+    interface PlayerInformation
+
+}
+
+package Application <<Rectangle>> {
+
+    class PlayerMove {
+        + PlayerMove(Player player, Stock stock)
+    }
+
+}
+
+Player o-d- PlayerInteraction
+
+PlayerInteraction o-d- PlayerInformation
+PlayerInteraction o-d- PlayerDecision
+
+PlayerMove .d.> Player
+Player o-u- PlayerMove
+
+note left of Player::decide
+    return this.playerInteraction.decision();
+end note
+
+note left of Player::inform
+    return this.playerInteraction.information();
+end note
+
+@enduml

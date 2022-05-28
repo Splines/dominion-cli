@@ -1,0 +1,53 @@
+@startuml low-coupling
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+package Domain <<Rectangle>> {
+
+    abstract class Move {
+        # Player player
+        # Stock stock
+        # MoveState moveState
+
+        + {abstract} void doActionPhase()
+        + {abstract} void doBuyPhase()
+        + {abstract} void doCleanUpPhase()
+    }
+
+    interface Stock {
+        + List<Card> getAvailableCardsWithMaxCosts(int maxCosts)
+        + List<MoneyCard> getAvailableMoneyCards()
+        + List<MoneyCard> getAvailableMoneyCardsWithMaxCosts(int maxCosts)
+        + void takeCard(Card card)
+        + CardStock<Card> getCardStock(Card card)
+        + int getNumberOfEmptyCardStocks()
+    }
+
+}
+
+package Application <<Rectangle>> {
+
+    class PlayerMove <<Important>> {
+        + PlayerMove(Player player, Stock stock)
+        + void doActionPhase()
+        + void doBuyPhase()
+        + void doCleanUpPhase()
+    }
+
+    class GameStock {
+        --
+        + GameStock()
+        - <T extends Card> List<T> getCardsFromNonEmptyCardStocks(List<CardStock<T>> cardStocks)
+        - <T extends Card> List<T> getAvailableCardsWithMaxCostsGeneric(List<CardStock<T>> cardStocks, int maxCost)
+        Und alle Methoden des Interface
+    }
+
+}
+
+GameStock .d.|> Stock
+PlayerMove -d-|> Move
+PlayerMove o-- Stock
+
+@enduml

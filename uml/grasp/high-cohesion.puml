@@ -1,0 +1,36 @@
+@startuml high-cohesion
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+package Domain <<Rectangle>> {
+
+    interface PlayerDecision {
+        + Card chooseCard(List<Card> cards)
+        + List<Card> chooseCards(List<Card> cards)
+        + ActionCard chooseActionCard(List<ActionCard> cards)
+        + Optional<ActionCard> chooseOptionalActionCard(List<ActionCard> cards)
+        + MoneyCard chooseMoneyCard(List<MoneyCard> cards)
+        + List<Card> chooseCardsToBuy(List<Card> cards)
+        + Optional<Card> chooseOptionalCardToBuy(List<Card> cards)
+        + Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards)
+    }
+
+}
+
+package Application <<Rectangle>> {
+
+    class PlayerDecisionCLI {
+        --
+        - showCardsGrid(List<Card> cards)
+        + List<String> getPlayerNames()
+        Und alle Methoden des Interface
+    }
+
+}
+
+PlayerDecisionCLI -d-|> PlayerDecision
+
+
+@enduml
