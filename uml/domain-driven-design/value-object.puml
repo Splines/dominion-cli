@@ -1,0 +1,23 @@
+@startuml card-value-object
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+abstract class Card <<Important>> {
+
+    - String name
+    - CardType type
+    - int cost
+
+    # Card(String name, CardType type, int cost)
+    + String getName()
+    + CardType getType()
+    + int getCost()
+    + int hashCode()
+    + boolean equals(Object obj)
+    + String toString()
+
+}
+
+@enduml

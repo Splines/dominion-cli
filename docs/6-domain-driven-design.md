@@ -26,7 +26,7 @@ Die Ubiquitous Language ist die allgegenwärtige Fachsprache, die in der Domäne
 
 Auch für Dominion wird eine eigene Sprache mit besonderem, spiel-spezifischem Vokabular gesprochen. Dies wird besonders in der Spielanleitung deutlich, wo man beispielsweise in der Sektion [Häufige Anweisungen auf den Aktionskarten](https://www.spielkarten.com/wp-content/uploads/2019/07/22501413_Dominion-2nd-Edition_SR1.pdf#page=6) fast schon eine Art Glossar angelegt findet.
 
-Hier fünft Beispiele:
+Hier fünf Beispiele:
 
 | Bezeichnung | Bedeutung | Begründung |
 |-------------|-----------|------------|
@@ -43,6 +43,12 @@ Hier fünft Beispiele:
 
 ## Value Objects
 *UML, Beschreibung und Begründung des Einsatzes eines Value Objects; falls kein Value Object vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinnvoll ist*
+
+![Value Object Card](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/domain-driven-design/value-object.puml&fmt=svg)
+
+Die abstrakte Klasse [`Card`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/card/Card.java) modelliert eine beliebige Karte im Spiel. Alle Karten von Dominion haben gemeinsam, dass sie einen Namen (z.B. "Jahrmarkt"), einen Kartentyp (z.B. "AKTION") und Kartenkosten (z.B. Karte kostet 5 "Geld") haben. Die Karte ist unveränderlich, das heißt es gibt beispielsweise keine Setter in der Klasse und alle Felder sind als "blank final" markiert. Jedoch ist die Klasse selbst nicht final, sondern abstract, sodass genau genommen die Unterklassen (wie [`MoneyCard`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/card/MoneyCard.java), [`PointCard`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/card/PointCard.java) und [`ActionCard`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/card/ActionCard.java)) als eigentliche Value Objects bezeichnet werden müssten.
+
+In der Klasse [`Card`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/card/Card.java#L37-L55) wurde zudem die `hashCode()` und `equals()`-Methode überschrieben, denn da das Value Object ein Wertkonzept kapselt, sollten zwei Value Objects gleich sein, wenn sie die selben Werte haben. Diese Forderung wurde jedoch gelockert, da es keine zwei Karten in Dominion gibt, die denselben Namen haben. Dementsprechend wurde nur auf Namensgleichheit überprüft, obwohl streng genommen eigentlich neben Name, auch Typ und Kosten sowie bei Subklassen auch auf deren zusätzliche Attribute mit einfließen müssten. In diesem Zusammenhang könnte man die `Card` also auch als Entity bezeichnen, weil sie mit dem Namen eine eindeutige ID innerhalb der Domäne hat. Nichtsdestotrotz hat eine Karten *keinen* eigenen Lebenszyklus und verändert sich nie während ihrer Lebenszeit (immutable), weshalb wir sie trotzdem als Value Object klassifizieren.
 
 ## Repositories
 *UML, Beschreibung und Begründung des Einsatzes eines Repositories; falls kein Repository vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinnvoll ist*
