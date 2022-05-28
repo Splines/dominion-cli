@@ -1,0 +1,14 @@
+@startuml
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+interface Instruction <<Important>> {
+
+    + void execute(Player player, MoveState moveState, Stock stock) 
+    + String getName()
+
+}
+
+@enduml

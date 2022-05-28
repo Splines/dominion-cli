@@ -1,0 +1,16 @@
+@startuml
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+class ActionCard {
+
+    - Action action
+
+    + ActionCard(String name, CardType type, int cost, Action action)
+    + Action getAction()
+
+}
+
+@enduml

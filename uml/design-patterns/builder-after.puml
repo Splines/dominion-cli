@@ -1,0 +1,35 @@
+@startuml
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+class ActionCard {
+
+    - Action action
+
+    + ActionCard(String name, CardType type, int cost, Action action)
+    + Action getAction()
+
+}
+
+class ActionCardBuilder <<Important>> {
+    - String name
+    - CardType cardType
+    - int cost
+    - Action action
+
+    + ActionCardBuilder(String name, int cost)
+    + ActionCardBuilder asAttack()
+    + ActionCardBuilder asReaction()
+    + ActionCardBuilder with(Action action)
+    + ActionCard build()
+}
+
+note right of ActionCardBuilder::build
+    return new ActionCard(this.name, this.cardType, this.cost, this.action);
+end note
+
+ActionCardBuilder ..> ActionCard
+
+@enduml
