@@ -1,0 +1,20 @@
+@startuml mock-player-decision
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+interface PlayerDecision <<Important>> {
+
+    + Card chooseCard(List<Card> cards)
+    + List<Card> chooseCards(List<Card> cards)
+    + ActionCard chooseActionCard(List<ActionCard> cards)
+    + Optional<ActionCard> chooseOptionalActionCard(List<ActionCard> cards)
+    + MoneyCard choo    seMoneyCard(List<MoneyCard> cards)
+    + List<Card> chooseCardsToBuy(List<Card> cards)
+    + Optional<Card> chooseOptionalCardToBuy(List<Card> cards)
+    + Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards)
+
+}
+
+@enduml

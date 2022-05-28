@@ -1,0 +1,36 @@
+@startuml mock-player
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+abstract class Player <<Important>> {
+
+    # String name
+    # Deck drawDeck
+    # Deck discardDeck
+    # List<Card> hand
+    # List<Card> table
+    #  PlayerInteraction playerInteraction
+    #  Stock stock
+
+    + String getName()
+    + {abstract} void take(Card card)
+    + {abstract} void takeToHand(Card card)
+    + {abstract} void discard(Card card)
+    + {abstract} void dispose(Card card)
+    + {abstract} Card draw()
+    + {abstract} List<Card> drawNewHandCards()
+    + {abstract} void makeMove()
+    + {abstract} void play(Card card)
+    + {abstract} List<Card> getHand()
+    + {abstract} void clearHand()
+    + {abstract} List<Card> getTable()
+    + {abstract} void clearTable()
+    + {abstract} List<ActionCard> getActionCardsOnHand()
+    + {abstract} List<MoneyCard> getMoneyCardsOnHand()
+    + {abstract} int calculatePoints()
+
+}
+
+@enduml

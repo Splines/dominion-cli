@@ -251,3 +251,114 @@ Besonders in der innersten Schicht, dem Domänen-Code, wurde mit 93% eine hohe T
 
 ## Fakes und Mocks
 *Analyse und Begründung des Einsatzes von 2 Fake/Mock-Objekten; zusätzlich jeweils UML Diagramm der Klasse*
+
+[Mockito](https://site.mockito.org/) ist eine Mock-Library für Java, mit der  Stellvertreter für Objekte definiert werden können. Dadurch ist es möglich, bei Unit-Test tatsächlich nur die "Unit" zu testen ohne Abhängigkeiten zu anderen Komponenten. Mock-Objekte ersetzen komplexe Objekte durch gleichartige Objekte mit minimaler Funktion, die jedoch für die Tests ausreichend sind.
+
+
+**1. Mock**
+
+![1. Mock PlayerDecision](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/mock/1-mock.puml&fmt=svg)
+
+Das Interface `PlayerDecision` wurde in den Unit Tests sehr häufig "gemockt", so zum Beispiel auch im [`PlayerMoveActionPhaseTest`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/game/PlayerMoveActionPhaseTest.java#L37-L38).
+
+```java
+@Test
+void cantPlaySameActionCardMultipleTimes() {
+    Instruction instr = mock(Instruction.class);
+    Instruction instr2 = spy(earnActionInstruction);
+    ActionCard playCard = new ActionCard("a",
+            CardType.ACTION, 1, new Action(instr, instr2));
+
+    Deck drawDeck = new Deck();
+    drawDeck.put(playCard);
+    drawDeck.put(CardPool.copperCard);
+    drawDeck.put(CardPool.copperCard);
+    drawDeck.put(CardPool.copperCard);
+    drawDeck.put(CardPool.copperCard);
+    PlayerInteraction interaction = new PlayerInteraction(decision, information);
+    GamePlayer ourPlayer = spy(new GamePlayer("our player", interaction, drawDeck, new GameStock()));
+
+    when(decision.chooseOptionalActionCard(anyList()))
+            .thenReturn(Optional.of(playCard));
+    PlayerMove move = new PlayerMove(ourPlayer, new GameStock());
+    move.doActionPhase();
+
+    verify(ourPlayer, times(2)).getActionCardsOnHand();
+    verify(decision, times(1))
+            .chooseOptionalActionCard(actionCardListCaptor.capture());
+    assertThat(actionCardListCaptor.getValue()).isEqualTo(List.of(playCard));
+}
+```
+
+Im Test [`cantPlaySameActionCardMultipleTimes()`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/game/PlayerMoveActionPhaseTest.java#L143-L168) wird dann der Return-Wert bei Aufruf der Funktion `chooseOptionalActionCard(...)` festgelegt:
+
+```java
+when(decision.chooseOptionalActionCard(anyList()))
+        .thenReturn(Optional.of(playCard));
+```
+
+Anschließend wird überprüft, ob diese Methode genau einmal aufgerufen wurde. Dabei wird gleichzeitig mithilfe eines [Argument Captors](https://site.mockito.org/javadoc/current/org/mockito/ArgumentCaptor.html) der an die Funktion übergebene Parameter abgefangen und einem Test unterzogen:
+
+```java
+verify(ourPlayer, times(2)).getActionCardsOnHand();
+verify(decision, times(1))
+        .chooseOptionalActionCard(actionCardListCaptor.capture());
+assertThat(actionCardListCaptor.getValue()).isEqualTo(List.of(playCard));
+```
+
+Der Vorteil von "Mocking" mittels Mockito wird hier sehr deutlich. Andernfalls hätten wir eine `DummyPlayerDecision` manuell implementieren, das heißt alle Methoden des Interface `PlayerDecision` überschreiben müssen. Mockito nimmt uns diesen Schritt ab, sodass wir mit `when(functionCall).thenReturn(...)` unkompliziert nur die eine Methode explizit näher spezifizieren, die wir auch tatsächlich im Test benötigen.
+
+
+**2. Mock**
+
+![2. Mock Player](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/mock/2-mock.puml&fmt=svg)
+
+In derselben Klasse [`PlayerMoveActionPhaseTest`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/game/PlayerMoveActionPhaseTest.java#L43-L44) wurde auch der `Player` gemockt, um dann beispielsweise im Test [`playTwoActionCards()`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/test/java/me/splines/dominion/game/PlayerMoveActionPhaseTest.java#L113-L141) Verwendung zu finden:
+
+```java
+@Test
+void playTwoActionCards() {
+    Instruction instr = mock(Instruction.class);
+    Instruction instr2 = spy(earnActionInstruction);
+    ActionCard playCard = new ActionCard("action card 1",
+            CardType.ACTION, 1, new Action(instr, instr2));
+
+    Instruction instr3 = mock(Instruction.class);
+    Instruction instr4 = mock(Instruction.class);
+    ActionCard otherPlayCard = new ActionCard("action card 2",
+            CardType.ACTION, 2, new Action(instr3, instr4));
+
+    when(player.getActionCardsOnHand())
+            .thenReturn(List.of(playCard, otherPlayCard))
+            .thenReturn(List.of(otherPlayCard)); // stub consecutive call
+    when(decision.chooseOptionalActionCard(anyList()))
+            .thenReturn(Optional.of(playCard))
+            .thenReturn(Optional.of(otherPlayCard));
+    PlayerMove move = new PlayerMove(player, new GameStock());
+    move.doActionPhase();
+
+    verify(player, times(2)).getActionCardsOnHand();
+    verify(decision, times(2)).chooseOptionalActionCard(any());
+    verify(information, never()).noActionCardsPlayable();
+    verify(instr, only()).execute(any(), any(), any());
+    verify(instr2, only()).execute(any(), any(), any());
+    verify(instr3, only()).execute(any(), any(), any());
+    verify(instr4, only()).execute(any(), any(), any());
+}
+```
+
+Hier wurde der Aufruf von `player.getActionCardsOnHand()` gemockt, und zwar so, dass zwei nacheinander stattfindende Methodenaufrufe unterschiedliche Werte (hier Listen) zurückgeben.
+
+```java
+when(player.getActionCardsOnHand())
+        .thenReturn(List.of(playCard, otherPlayCard))
+        .thenReturn(List.of(otherPlayCard)); // stub consecutive call
+```
+
+Das entsprechende Verhalten wird dann mit `verify()` unter Verwendung des Verification Modes `times()` überprüft:
+
+```java
+verify(player, times(2)).getActionCardsOnHand();
+```
+
+Der `Player` wurde hier gemockt, damit wir überprüfen konnten, ob eine seiner Methoden (`getActionCardsOnHand`) tatsächlich so oft aufgerufen wurde wie erwartet (hier: zwei mal). Das Mock-Objekt hat (wie vorhin auch) nur das aktuell notwendige Verhalten des Interfaces / der abstrakten Klasse (hier: `Player`) abgebildet. Mockito hat uns hierbei geholfen: wir mussten lediglich die Methode `when(...)` aufrufen.
