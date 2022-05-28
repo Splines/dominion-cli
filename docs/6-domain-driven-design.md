@@ -60,5 +60,30 @@ In der Klasse [`Card`](https://github.com/Splines/dominion-cli/blob/main/3-domin
 *UML, Beschreibung und Begründung des Einsatzes eines Repositories; falls kein Repository vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinnvoll ist*
 
 
+
+
 ## Aggregates
 *UML, Beschreibung und Begründung des Einsatzes eines Aggregates; falls kein Aggregate vorhanden: ausführliche Begründung, warum es keines geben kann/hier nicht sinnvoll ist*
+
+Aggregate gruppieren die Entities und Value Objects zu gemeinsam verwalteten Einheiten. Dadurch können die Objektbeziehungen untereinander gekapselt werden, von außerhalb wird dann nur mit dem Aggregate gearbeitet, indem ausschließlich auf das Aggregate Root zugegriffen wird. Dadurch kann besser die Einhaltung von Domänenregeln kontrolliert werden.
+
+Im Code findet sich in diesem Projekt kein klassisches Aggregate, das Entities oder Value Objects kapselt. Am ehesten könnte man noch die Klasse [`PlayerInteraction`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/interaction/PlayerInteraction.java) als Aggregate bezeichnen.
+
+![Aggregate PlayerInteraction](http://www.plantuml.com/plantuml/proxy?cache=no&src=https://raw.githubusercontent.com/splines/dominion-cli/docs/uml/domain-driven-design/aggregate.puml&fmt=svg)
+
+Wie im UML-Diagramm zu erkennen, hat die `PlayerInteraction` jeweils eine Member-Variable für ein Objekt vom Typ `PlacerDecision` bzw. `PlayerInformation`. Die Klasse `PlayerInteraction` wurde jedoch nur aus Bequemlichkeitsgründen angelegt und nicht, um Domänenregeln zu forcieren. `PlayerDecision` und `PlayerInformation` wurden häufig zusammen in Parametern übergeben, sodass es Sinn ergab, sie mithilfe der `PlayerInteraction` zu kapseln. Der [Konstruktur von `Player`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/game/Player.java#L23) erwartet beispielsweise eine `PlayerInteraction`:
+
+```java
+protected Player(String name, PlayerInteraction playerInteraction, Deck drawDeck, Stock stock) {
+    ...
+}
+```
+
+Die Klasse [`Player`](https://github.com/Splines/dominion-cli/blob/main/3-dominion-domain/src/main/java/me/splines/dominion/game/Player.java#L23) wiederum stellt dann ähnlich zu `PlayerInteraction` die Methoden `PlayerDecision decide()` sowie `PlayerDecision inform()` zur Verfügung. Dadurch sind [Aufrufe der folgenden Art] möglich (siehe [`PlayerMove`](https://github.com/Splines/dominion-cli/blob/main/2-dominion-application/src/main/java/me/splines/dominion/game/PlayerMove.java)):
+
+```java
+player.inform().startActionPhase();
+player.decide().chooseOptionalActionCard(...);
+```
+
+Nicht zuletzt ist die `PlayerInteraction` auch deshalb kein klassisches Aggregate, weil gar keine Entities oder Value Objects zusammengefasst werden, sondern konkrete Implementierungen der Interfaces `PlayerDecision` und `PlayerInformation`. Im allgemeinen Sprachgebrauch könnte man aber trotzdem von einem "Aggregat" sprechen. Abseits davon ist der Einsatz von Aggregates für dieses Projekt nicht erforderlich, wahrscheinlich auch deshalb, weil die Beziehungen zwischen Entities und Value Objects nicht komplex genug sind, um eine Gruppierung als Aggregate zu rechtfertigen bzw. diese Komplexität bereits durch geeignete Abstraktion reduziert wurde.

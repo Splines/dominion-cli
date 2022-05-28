@@ -1,0 +1,42 @@
+@startuml aggregate
+
+skinparam classFontColor automatic
+skinparam classHeaderBackgroundColor<<Important>> #EA3652
+hide stereotype
+
+package Domain <<Rectangle>> {
+    class PlayerInteraction<<Important>> {
+        - PlayerDecision decision
+        - PlayerInformation information
+
+        + PlayerInteraction(PlayerDecision decision, PlayerInformation information)
+        + PlayerDecision decision()
+        + PlayerInformation information()
+    }
+
+    interface PlayerDecision {
+        + Card chooseCard(List<Card> cards)
+        + List<Card> chooseCards(List<Card> cards)
+        + ActionCard chooseActionCard(List<ActionCard> cards)
+        + Optional<ActionCard> chooseOptionalActionCard(List<ActionCard> cards)
+        + MoneyCard chooseMoneyCard(List<MoneyCard> cards)
+        + List<Card> chooseCardsToBuy(List<Card> cards)
+        + Optional<Card> chooseOptionalCardToBuy(List<Card> cards)
+        + Optional<MoneyCard> chooseOptionalMoneyCard(List<MoneyCard> cards)
+    }
+
+    interface PlayerInformation {
+        + void startActionPhase()
+        + void startBuyingPhase()
+        + void noActionCardsPlayable()
+        + void noCardsBuyableWithMoney(int money)
+        + void yourTurn(String name, List<Card> handCards)
+        + void results(List<PlayerResult> results)
+        + void winners(String... names)
+    }
+}
+
+PlayerInteraction o-u- PlayerDecision
+PlayerInteraction o-u- PlayerInformation
+
+@enduml
