@@ -8,4 +8,6 @@ Play the dominion card game via a CLI
 | :page_with_curl: | **Visit the documentation [here](https://splines.github.io/dominion-cli/)** |
 | ---------------- | :-------------------------------------------------------------------------- |
 
+> [!caution]
+> This project is not maintained anymore. Still feel free to browse through the code and read through the documentation website to find out about clean architecture and domain-driven design.
 
