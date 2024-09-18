@@ -9,5 +9,5 @@ Play the dominion card game via a CLI
 | ---------------- | :-------------------------------------------------------------------------- |
 
 > [!caution]
-> This project is not maintained anymore. Still feel free to browse through the code and read through the documentation website to find out about clean architecture and domain-driven design.
+> **This project is not maintained anymore.** Still feel free to browse through the code and read through the documentation website to find out about clean architecture and domain-driven design. You may also want to continue this project somewhere else, the code is MIT-licensed.
 
